@@ -12,21 +12,13 @@ colour scheme
 
 */
 
-/* reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-
-html {
-  font-size: 16px;
-}
-
-body {
-  font-family: 'Helvetica Neue', Helvetica, arial, sans-serif;
-  color: #59596E;
+.container {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 .app-header {
@@ -35,6 +27,7 @@ body {
   margin: 0;
   padding: 24px;
   border-bottom: 2px solid #638BBF;
+  flex: 0 0 auto;
 }
 
 
@@ -122,4 +115,9 @@ body {
 
 .tap.no-service .beer {
   flex: 7 0 0;
+}
+
+.on-tap-list {
+  overflow-y: auto;
+  flex: 1 1 auto;
 }
