@@ -8,3 +8,10 @@
 - When developing, use [Git Flow](http://nvie.com/posts/a-successful-git-branching-model/) and open a PR.
 - There's a #beer channel in Flowdock
 .
+
+### get it running
+- npm install
+- npm start
+
+### build
+- npm run build
