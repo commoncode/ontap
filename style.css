@@ -1,0 +1,125 @@
+/*
+
+colour scheme
+
+#638BBF   dark blue
+#89BAD9   light blue
+#EEEEEE   off grey
+#F2F2F2   off white
+#59596E   brown
+#6D7340   khaki
+#FC531F   highlight
+
+*/
+
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, arial, sans-serif;
+  color: #59596E;
+}
+
+.app-header {
+  background: #BDD4DE;
+  color: #F2F2F2;
+  margin: 0;
+  padding: 24px;
+  border-bottom: 2px solid #638BBF;
+}
+
+
+.app-header h1 {
+  font-weight: 800;
+  color: white;
+  font-size: 2rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3)
+}
+
+.app-header h1 span {
+  color: #EEEEEE;
+}
+
+.tap {
+  padding: 24px 12px;
+  border-bottom: 1px solid #BDD4DE;
+  background: #F2F2F2;
+}
+
+.tap .tap-name {
+  font-size: 1rem;
+  font-weight: 200;
+  text-transform: uppercase;
+  color: #6D7340;
+}
+
+.tap .beer-name, .tap .no-service {
+  color: #638BBF;
+  font-size: 1.5rem;
+}
+
+.tap .brewery-name {
+  color: #89BAD9;
+  font-size: 1.2rem;
+  margin: 0 0 0.5em;
+  font-weight: 400;
+}
+
+.tap .abv {
+  font-weight: 400;
+  font-size: 1.8rem;
+  color: #FC531F;
+}
+
+.tap .notes {
+  margin: 1em 0 0;
+}
+
+.tap .no-service {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.tap.no-service {
+  opacity: 0.5;
+}
+
+.tap:nth-child(even){
+  background: #FAFAFA;
+}
+
+/* layout */
+
+.tap {
+  display: flex;
+}
+
+.tap .tap-name {
+  flex: 1 0 0;
+  align-self: center;
+  padding: 0 24px;
+}
+
+.tap .beer {
+  flex: 5 0 0;
+}
+
+.tap .meta {
+  flex: 1 0 0;
+  align-self: center;
+  padding: 0 24px;
+  text-align: right;
+}
+
+.tap.no-service .beer {
+  flex: 7 0 0;
+}
