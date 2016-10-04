@@ -35,7 +35,8 @@ colour scheme
   font-weight: 800;
   color: white;
   font-size: 2rem;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3)
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  margin: 0;
 }
 
 .app-header h1 span {
@@ -55,9 +56,10 @@ colour scheme
   color: #6D7340;
 }
 
-.tap .beer-name, .tap .no-service {
+.tap .beer-name {
   color: #638BBF;
   font-size: 1.5rem;
+  margin: 0;
 }
 
 .tap .brewery-name {
@@ -71,19 +73,13 @@ colour scheme
   font-weight: 400;
   font-size: 1.8rem;
   color: #FC531F;
+  margin: 0;
 }
 
 .tap .notes {
   margin: 1em 0 0;
-}
-
-.tap .no-service {
-  font-style: italic;
-  font-weight: 400;
-}
-
-.tap.no-service {
-  opacity: 0.5;
+  font-size: 0.8em;
+  font-weight: 200;
 }
 
 .tap:nth-child(even){
@@ -106,6 +102,14 @@ colour scheme
   flex: 5 0 0;
 }
 
+.tap .beer header {
+  display: flex;
+}
+
+.tap .beer header .title {
+  flex: 1;
+}
+
 .tap .meta {
   flex: 1 0 0;
   align-self: center;
@@ -113,11 +117,35 @@ colour scheme
   text-align: right;
 }
 
-.tap.no-service .beer {
-  flex: 7 0 0;
-}
-
 .on-tap-list {
   overflow-y: auto;
   flex: 1 1 auto;
+}
+
+.footer {
+  text-align: center;
+  font-size: 14px;
+  padding: 1em;
+  margin: 0;
+}
+
+.footer a {
+  color: #89BAD9;
+}
+
+@media (max-width: 600px) {
+  .tap {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .tap .tap-name {
+    text-align: center;
+    flex: 1;
+    margin: 0 0 1em;
+  }
+
+  .tap .beer {
+    flex: 1;
+  }
 }
