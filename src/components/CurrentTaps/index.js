@@ -1,7 +1,20 @@
 import React from 'react';
 import classnames from 'classnames/bind';
+
+import Tap from './Tap';
 import styles from './current-taps.css';
+
 const classes = classnames.bind(styles);
+const taps = [{
+    tap: 'Right tap',
+  }, {
+    tap: 'Left tap',
+    beerName: 'Saison',
+    breweryName: 'Hawkers',
+    abv: 5.6,
+    notes: 'Refreshing, effervescent, cloudy-golden and complex, this is our take on the traditional Wallonian Saison.',
+  },
+];
 
 const CurrentTapsComponent = props => (
   <div className={classes(['container'])}>
@@ -9,38 +22,13 @@ const CurrentTapsComponent = props => (
       <h1><span>Comm</span>On Tap</h1>
     </header>
     <section className={classes(['on-tap-list'])}>
-      <article className={classes(['tap'])}>
-        <div className={classes(['tap-name'])}>Left Tap
-        </div>
-        <div className={classes(['beer'])}>
-          <header>
-            <div className={classes(['title'])}>
-              <h2 className={classes(['beer-name'])}>Saison</h2>
-              <h3 className={classes(['brewery-name'])}>Hawkers</h3>
-            </div>
-            <p className={classes(['abv'])}>5.6%</p>
-          </header>
-          <p className={classes(['notes'])}>
-            Refreshing, effervescent, cloudy-golden and complex, this is our take on the traditional Wallonian Saison.
-          </p>
-        </div>
-      </article>
-
-      <article className={classes(['tap', 'no-service'])}>
-        <h2 className={classes(['tap-name'])}>Right Tap</h2>
-        <div className={classes(['beer'])}>
-          <header>
-            <h2 className={classes(['beer-name'])}>No Service</h2>
-          </header>
-        </div>
-      </article>
-
+      {
+        taps.map(tap => <Tap key={tap.tap} { ...tap } />)
+      }
     </section>
-
     <footer className={classes(['footer'])}>
       <a href="https://github.com/commoncode/ontap">github.com/commoncode/ontap</a>
     </footer>
   </div>
 )
-
 export default CurrentTapsComponent;
