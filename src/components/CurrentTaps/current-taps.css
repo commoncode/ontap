@@ -49,6 +49,15 @@ colour scheme
   background: #F2F2F2;
 }
 
+.tap .no-service {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.tap.no-service {
+  opacity: 0.5;
+}
+
 .tap .tap-name {
   font-size: 1rem;
   font-weight: 200;
