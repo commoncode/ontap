@@ -34,14 +34,8 @@ const Dry = ({ tap }) =>
     </div>
   </article>
 
-const dryable = compose(
-  withProps(({ beerName }) => ({
-    dry: !!beerName,
-  })),
-  branch(
-    props => !props.dry,
-    renderComponent(Dry),
-    Component => Component
-  ),
-);
-export default dryable(Tap);
+export default branch(
+  props => !props.beerName,
+  renderComponent(Dry),
+  Component => Component
+)(Tap);
