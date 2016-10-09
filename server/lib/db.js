@@ -13,11 +13,8 @@ const Sequelize = require('sequelize');
 const logger = require('lib/logger');
 
 const sequelize = new Sequelize(null, null, null, {
-  host: process.env.DB_HOST,
-  database: 'ontap',
-  username: null,
-  password: null,
-  dialect: 'sqlite',
+  dialect: process.env.DB_DIALECT,
+  storage: process.env.DB_STORAGE,
   logging: logger.debug,
 });
 
