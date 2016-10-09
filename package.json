@@ -4,8 +4,8 @@
   "description": "beer at cc",
   "main": "src/main.js",
   "scripts": {
-    "start": "pack -r -m -w",
-    "build": "pack -r -m"
+    "build": "pack -r -m --src client/src --main main.js -o client/dist",
+    "watch": "pack -r -m -w --src client/src --main main.js -o client/dist"
   },
   "repository": {
     "type": "git",
