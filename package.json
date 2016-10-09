@@ -8,7 +8,9 @@
   "main": "src/main.js",
   "scripts": {
     "build": "pack -r -m --src client/src --main main.js -o client/dist",
+    "dev": "nodemon server/index",
     "lint": "eslint client/src",
+    "start": "node server/index",
     "watch": "pack -r -m -w --src client/src --main main.js -o client/dist"
   },
   "repository": {
@@ -22,11 +24,16 @@
   },
   "homepage": "https://github.com/commoncode/ontap#readme",
   "dependencies": {
+    "app-module-path": "^2.1.0",
     "classnames": "^2.2.5",
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
     "normalize.css": "^4.2.0",
     "pack-cli": "^0.2.2",
     "react": "^15.3.2",
-    "recompose": "^0.20.2"
+    "recompose": "^0.20.2",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "eslint": "^3.6.1",
