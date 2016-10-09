@@ -2,30 +2,34 @@
  * ontap server
  */
 
+// config
 require('dotenv').config();
+require('app-module-path').addPath(__dirname);
 
+
+// deps
 const express = require('express');
 const http = require('http');
 const morgan = require('morgan');
 
-
-// allows local require() calls to be relative to current directory
-require('app-module-path').addPath(__dirname);
-
-
+// local deps
 const logger = require('lib/logger');
+const apiRouter = require('routes/api');
 
 const app = express();
 
-// log requests
+// log all requests
 app.use(morgan('dev', {
   stream: logger.morganStream,
 }));
 
 
-// statically serve the client up
+// serve the client app
 app.use(express.static('client/dist'));
 
+
+// serve the api
+app.use('/api/v1/', apiRouter);
 
 // listen up
 const server = http.Server(app); // eslint-disable-line new-cap
