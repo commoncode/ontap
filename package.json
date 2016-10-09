@@ -5,6 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "build": "pack -r -m --src client/src --main main.js -o client/dist",
+    "lint": "eslint client/src",
     "watch": "pack -r -m -w --src client/src --main main.js -o client/dist"
   },
   "repository": {
@@ -23,5 +24,12 @@
     "pack-cli": "^0.2.2",
     "react": "^15.3.2",
     "recompose": "^0.20.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.6.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0"
   }
 }
