@@ -5,7 +5,7 @@
 const Router = require('express').Router;
 const bodyParser = require('body-parser');
 
-const db = require('models');
+const db = require('lib/db');
 
 const router = new Router();
 router.use(bodyParser.json());
@@ -64,5 +64,9 @@ router.post('/beers', createBeer);
 router.get('/beers/:id', getBeerById);
 router.put('/beers/:id', updateBeer);
 router.delete('/beers/:id', deleteBeer);
+
+router.get('/helloworld', (req, res) => {
+  res.status(200).send('what\'s up');
+});
 
 module.exports = router;
