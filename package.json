@@ -1,7 +1,10 @@
 {
   "name": "ontap",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "beer at cc",
+  "engines": {
+    "node": ">=6.5.0"
+  },
   "main": "src/main.js",
   "scripts": {
     "build": "pack -r -m --src client/src --main main.js -o client/dist",
@@ -12,8 +15,8 @@
     "type": "git",
     "url": "git+https://github.com/commoncode/ontap.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Common Code",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/commoncode/ontap/issues"
   },
