@@ -1,8 +1,8 @@
 /**
  * models.
  *
- * imports sequelize models, exports them onto a
- * single object for use throughout the app.
+ * imports sequelize models from the /models directory,
+ * exports them on a single object for use throughout the app.
  */
 
 
@@ -13,11 +13,12 @@ const Sequelize = require('sequelize');
 const logger = require('lib/logger');
 
 const sequelize = new Sequelize(null, null, null, {
-  host: 'ontap.sqlite',
+  host: process.env.DB_HOST,
   database: 'ontap',
   username: null,
   password: null,
   dialect: 'sqlite',
+  logging: logger.debug,
 });
 
 const db = {
@@ -25,16 +26,15 @@ const db = {
   Sequelize,
 };
 
-const thisFilename = path.basename(module.filename);
-
-// import models from the modules in this directory.
+// import our model files
+const modelsPath = path.join(__dirname, '/../models');
 const loadModels = () => {
-  fs.readdirSync(__dirname)
+  fs.readdirSync(modelsPath)
   .filter(file =>
-    // exclude hidden files and this file.
-    file[0] !== '.' && file !== thisFilename
+    // exclude hidden files
+    file[0] !== '.'
   ).forEach((file) => {
-    const model = sequelize.import(path.join(__dirname, file));
+    const model = sequelize.import(path.join(modelsPath, file));
     db[model.name] = model;
   });
 };
