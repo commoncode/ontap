@@ -8,6 +8,8 @@
   "main": "src/main.js",
   "scripts": {
     "build": "pack -r -m --src client/src --main main.js -o client/dist",
+    "db-cli": "node server/bin/db",
+    "dev": "nodemon server/index",
     "lint": "eslint client/src",
     "watch": "pack -r -m -w --src client/src --main main.js -o client/dist"
   },
