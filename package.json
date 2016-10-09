@@ -25,6 +25,7 @@
   "homepage": "https://github.com/commoncode/ontap#readme",
   "dependencies": {
     "app-module-path": "^2.1.0",
+    "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
@@ -33,6 +34,8 @@
     "pack-cli": "^0.2.2",
     "react": "^15.3.2",
     "recompose": "^0.20.2",
+    "sequelize": "^3.24.3",
+    "sqlite3": "^3.1.6",
     "winston": "^2.2.0"
   },
   "devDependencies": {
