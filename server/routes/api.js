@@ -27,7 +27,10 @@ function getAllBeers(req, res) {
 
 function getBeerById(req, res) {
   db.Beer.findById(req.params.id)
-  .then(beer => res.send(beer || 404));
+  .then((beer) => {
+    if (beer) return res.send(beer);
+    return res.sendStatus(404);
+  });
 }
 
 function createBeer(req, res) {
