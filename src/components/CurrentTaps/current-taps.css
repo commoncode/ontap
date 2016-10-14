@@ -82,7 +82,19 @@ colour scheme
   font-weight: 400;
   font-size: 1.8rem;
   color: #FC531F;
+  margin: 0 0 4px;
+}
+
+.tap .tapped {
+  font-size: 12px;
   margin: 0;
+  color: #638BBF;
+  white-space: no-wrap;
+}
+
+.tap .std {
+  font-size: 40%;
+  white-space: no-wrap;
 }
 
 .tap .notes {
@@ -116,12 +128,12 @@ colour scheme
 }
 
 .tap .beer header .title {
-  flex: 1;
+  flex: 2;
 }
 
-.tap .meta {
+.tap .beer header .meta {
   flex: 1 0 0;
-  align-self: center;
+  align-self: flex-start;
   padding: 0 24px;
   text-align: right;
 }
@@ -159,6 +171,4 @@ colour scheme
   }
 }
 
-.std {
-  font-size: 40%;
-}
+

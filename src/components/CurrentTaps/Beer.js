@@ -15,7 +15,7 @@ function calcStandardDrinks(abv, litres=0.500) {
 
 const classes = classnames.bind(styles);
 
-const Beer = ({ abv, beerName, breweryName, notes, standardDrinks }) =>
+const Beer = ({ abv, beerName, breweryName, notes, standardDrinks, tapped }) =>
   <div className={classes(['beer'])}>
     <header>
       <div className={classes(['title'])}>
@@ -26,10 +26,16 @@ const Beer = ({ abv, beerName, breweryName, notes, standardDrinks }) =>
           {breweryName}
         </h3>
       </div>
-      <p className={classes(['abv'])}>
-        {`${abv}%`}
-        <small className={classes(['std'])}>{` (${standardDrinks} SD)` } </small>
-      </p>
+      <div className={classes(['meta'])}>
+        <p className={classes(['abv'])}>
+          {`${abv}%`}
+          <small className={classes(['std'])}>{` (${standardDrinks} SD)` } </small>
+        </p>
+        <p className={classes(['tapped'])}>
+          Tapped {tapped}
+        </p>
+      </div>
+
     </header>
     <p className={classes(['notes'])}>
       {notes}
