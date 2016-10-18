@@ -27,6 +27,8 @@ To fire it up locally:
 # clone the repo
 git clone git@github.com:commoncode/ontap
 cd ontap
+cp .env.example .env
+# add any missing vars to .env file (ask dev team)
 npm install
 npm run build
 npm run start
