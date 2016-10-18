@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Beer', {
   beerName: DataTypes.STRING,
   breweryName: DataTypes.STRING,
   abv: DataTypes.FLOAT,
+  tapped: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
   notes: DataTypes.STRING,
   active: {
     type: DataTypes.BOOLEAN,
