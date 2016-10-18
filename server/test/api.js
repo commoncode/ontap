@@ -9,7 +9,7 @@
  * in order, i guess.
  */
 
-require('dotenv').config();
+require('dotenv-safe').load();
 require('app-module-path').addPath(`${__dirname}/../`);
 
 // use memory-based sqlite so it's fresh each time
