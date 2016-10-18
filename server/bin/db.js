@@ -14,7 +14,7 @@ require('dotenv').config();
 require('app-module-path').addPath(path.join(__dirname, '../'));
 
 
-const db = require('models/index.js');
+const db = require('lib/db.js');
 
 const r = repl.start('> ');
 
