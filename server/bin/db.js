@@ -10,7 +10,7 @@ const path = require('path');
 const repl = require('repl');
 
 // needs same config as index.js
-require('dotenv').config();
+require('dotenv-safe').load();
 require('app-module-path').addPath(path.join(__dirname, '../'));
 
 
