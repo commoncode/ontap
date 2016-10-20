@@ -9,11 +9,6 @@ const taps = [{
     tap: 'Right tap',
   }, {
     tap: 'Left tap',
-    beerName: 'Courage Blonde Ale',
-    breweryName: 'Cavalier Brewing Co',
-    abv: 4.5,
-    notes: 'A crisp refreshing Blonde ale using quality all Australian ingredients. Summer Saaz hops create the soft fruity aroma and slight bitterness. The beer presents light golden in colour with a mild malt flavour making it a perfectly balanced beer for any occasion.',
-    tapped: 'October 12',
   },
 ];
 
