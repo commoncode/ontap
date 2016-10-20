@@ -10,10 +10,10 @@ import styles from './current-taps.css';
 
 const classes = classnames.bind(styles);
 
-const Tap = (props) =>
+const Tap = ({ tapName, ...props }) =>
   <article className={classes(['tap'])}>
     <div className={classes(['tap-name'])}>
-      {props.tap}
+      {tapName}
     </div>
     <div className={classes(['beer'])}>
       <header>
@@ -22,10 +22,10 @@ const Tap = (props) =>
     </div>
   </article>
 
-const Dry = ({ tap }) =>
+const Dry = ({ tapName }) =>
   <article className={classes(['tap', 'no-service'])}>
     <div className={classes(['tap-name'])}>
-      {tap}
+      {tapName}
     </div>
     <div className={classes(['beer'])}>
       <header>
