@@ -4,6 +4,7 @@ import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 
 import styles from './current-taps.css';
+import { dayMonth } from '../../util/date';
 
 
 function calcStandardDrinks(abv, litres=0.500) {
@@ -32,7 +33,7 @@ const Beer = ({ abv, beerName, breweryName, notes, standardDrinks, tapped }) =>
           <small className={classes(['std'])}>{` (${standardDrinks} SD)` } </small>
         </p>
         <p className={classes(['tapped'])}>
-          Tapped {tapped}
+          Tapped {dayMonth(tapped)}
         </p>
       </div>
 
