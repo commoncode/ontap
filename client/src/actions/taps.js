@@ -5,8 +5,6 @@
 
 import dispatcher from '../dispatcher';
 
-const API_ROOT = 'http://localhost:4000';
-
 // will need these later
 const ajaxHeaders = new Headers();
 ajaxHeaders.set('Content-Type', 'application/json');
@@ -19,7 +17,7 @@ const tapActions = {
       type: 'REQUEST_FETCH_TAPS',
     });
 
-    return fetch(`${API_ROOT}/api/v1/ontap`)
+    return fetch('/api/v1/ontap')
     .then(res => res.json())
     .then((data) => {
       dispatcher.dispatch({

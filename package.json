@@ -13,7 +13,7 @@
     "lint": "eslint client/src",
     "start": "node server/index",
     "test": "mocha --reporter dot server/test",
-    "watch": "pack -r -m -w --src client/src --main main.js -o client/dist"
+    "watch": "pack -r -m -w --src client/src --main main.js -o client/dist --proxy 4000"
   },
   "repository": {
     "type": "git",
