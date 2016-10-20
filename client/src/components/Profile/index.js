@@ -18,7 +18,7 @@ const Profile = ({ profile, meta }) => {
         <div>
           <img
             className={classes(['avatar'])}
-            src={profile.avatar}
+            src={`${profile.avatar}?sz=32`}
             title={`Logged in as ${profile.name}`}
           />
         </div>
