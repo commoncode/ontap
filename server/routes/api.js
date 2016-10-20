@@ -60,16 +60,24 @@ function deleteBeer(req, res) {
   .catch(err => res.send(err.status));
 }
 
+// auth middleware.
+// prevent non-admins from hitting endpoints.
+function adminsOnly(req, res, next) {
+  if (!req.user || !req.user.admin) {
+    return res.status(403).send();
+  }
+  return next();
+}
 
 router.get('/ontap', getActiveBeers);
 router.get('/beers', getAllBeers);
-router.post('/beers', createBeer);
 router.get('/beers/:id', getBeerById);
+
+// admins only for all endpoints below this middleware
+router.use(adminsOnly);
+
+router.post('/beers', createBeer);
 router.put('/beers/:id', updateBeer);
 router.delete('/beers/:id', deleteBeer);
-
-router.get('/helloworld', (req, res) => {
-  res.status(200).send('what\'s up');
-});
 
 module.exports = router;
