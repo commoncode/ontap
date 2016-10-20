@@ -19,7 +19,19 @@ const db = require('lib/db.js');
 const r = repl.start('> ');
 
 
-// add .db to the REPL context
+// set a user's admin flag to true, by passing their pk
+function makeAdmin(id) {
+  return db.User.update({
+    admin: true,
+  }, {
+    where: {
+      id,
+    },
+  }).then(updated => console.log(updated)); // eslint-disable-line no-console
+}
+
+// add context to the REPL
 r.context = Object.assign(r.context, {
   db,
+  makeAdmin,
 });
