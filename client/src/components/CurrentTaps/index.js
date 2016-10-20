@@ -3,6 +3,7 @@ import classnames from 'classnames/bind';
 import { Container } from 'flux/utils';
 
 import Tap from './Tap';
+import Profile from '../Profile';
 import styles from './current-taps.css';
 
 import tapsActions from '../../actions/taps';
@@ -15,8 +16,11 @@ const CurrentTapsComponent = props => (
   <div className={classes(['container'])}>
     <header className={classes(['app-header'])}>
       <h1><span>Comm</span>On Tap</h1>
+      <Profile />
     </header>
     <section className={classes(['on-tap-list'])}>
+
+
       { props.taps.map(tap => <Tap key={tap.id} { ...tap } />) }
     </section>
     <footer className={classes(['footer'])}>

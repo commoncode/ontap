@@ -1,7 +1,6 @@
 /**
- * Tap Store.
- * Tell us what we can drink.
- * We're not here to fuck spiders.
+ * Profile Store.
+ * Don't forget who you are.
  */
 
 import { ReduceStore } from 'flux/utils';
@@ -13,10 +12,10 @@ const initialState = {
   fetching: false,
   fetched: false,
   error: null,
-  data: [],
+  data: {},
 };
 
-class TapsStore extends ReduceStore {
+class ProfileStore extends ReduceStore {
   getInitialState() {
     return initialState;
   }
@@ -26,20 +25,20 @@ class TapsStore extends ReduceStore {
 
     switch (type) {
 
-      case 'REQUEST_FETCH_TAPS':
+      case 'REQUEST_FETCH_PROFILE':
         return {
           fetching: true,
           fetched: false,
           error: null,
-          data: [],
+          data: {},
         };
 
-      case 'RECEIVE_FETCH_TAPS':
+      case 'RECEIVE_FETCH_PROFILE':
         return {
           fetching: false,
           fetched: true,
-          data: data || [],
           error,
+          data: data || {},
         };
 
       default:
@@ -48,5 +47,4 @@ class TapsStore extends ReduceStore {
   }
 }
 
-// export a singleton, one is plenty
-export default new TapsStore(dispatcher);
+export default new ProfileStore(dispatcher);
