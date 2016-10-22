@@ -6,10 +6,19 @@ const Router = require('express').Router;
 const bodyParser = require('body-parser');
 
 const db = require('lib/db');
+const log = require('lib/logger');
 
 const router = new Router();
 router.use(bodyParser.json());
 
+
+// log an error and send it to the client.
+// todo - strip info out of the errors to
+// prevent information leakage.
+function logAndSendError(err, res) {
+  log.error(err);
+  return res.status(500).send(err);
+}
 
 // maybe consider moving these to submodules
 // if we end up with too many of them...
@@ -18,11 +27,13 @@ function getActiveBeers(req, res) {
     where: {
       active: true,
     },
-  }).then(activeBeers => res.send(activeBeers));
+  }).then(activeBeers => res.send(activeBeers))
+  .catch(err => logAndSendError(err, res));
 }
 
 function getAllBeers(req, res) {
-  db.Beer.findAll().then(beers => res.json(beers));
+  db.Beer.findAll().then(beers => res.json(beers))
+  .catch(err => logAndSendError(err, res));
 }
 
 function getBeerById(req, res) {
@@ -30,14 +41,16 @@ function getBeerById(req, res) {
   .then((beer) => {
     if (beer) return res.send(beer);
     return res.sendStatus(404);
-  });
+  })
+  .catch(err => logAndSendError(err, res));
 }
 
 function createBeer(req, res) {
   db.Beer.create(req.body)
   .then((beer) => {
     res.status(201).send(beer);
-  });
+  })
+  .catch(err => logAndSendError(err, res));
 }
 
 function updateBeer(req, res) {
@@ -47,7 +60,8 @@ function updateBeer(req, res) {
       id,
     },
   })
-  .then(beer => res.send(beer));
+  .then(beer => res.send(beer))
+  .catch(err => logAndSendError(err, res));
 }
 
 function deleteBeer(req, res) {
@@ -56,7 +70,8 @@ function deleteBeer(req, res) {
     where: {
       id,
     },
-  }).then(res.send(204))
+  })
+  .then(res.send(204))
   .catch(err => res.send(err.status));
 }
 
