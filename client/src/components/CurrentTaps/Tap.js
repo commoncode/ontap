@@ -15,7 +15,7 @@ const Tap = ({ name, ...props }) => (
     </div>
     <div className={classes(['keg'])}>
       <header>
-        <Keg {...props.Keg} />
+        <Keg {...props.Keg} profile={props.profile} />
       </header>
     </div>
   </article>

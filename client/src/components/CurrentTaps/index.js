@@ -13,7 +13,7 @@ const CurrentTapsComponent = props => (
     {props.taps.fetching && <Loader />}
 
     {props.taps.fetched &&
-      props.taps.data.map(tap => <Tap key={tap.id} {...tap} />)
+      props.taps.data.map(tap => <Tap key={tap.id} {...tap} profile={props.profile}/>)
     }
   </section>
 );

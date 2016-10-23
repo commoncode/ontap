@@ -35,7 +35,7 @@ class Keg extends React.Component {
   }
 
   render() {
-    const { abv, beerName, breweryName, notes, standardDrinks, tapped } = this.props;
+    const { abv, beerName, breweryName, notes, standardDrinks, tapped, profile } = this.props;
     const { editing } = this.state;
 
     return (
@@ -57,7 +57,10 @@ class Keg extends React.Component {
             <p className={classes(['tapped'])}>
               {tapped && `Tapped ${dayMonth(tapped)}`}
             </p>
-            <a className={classes(['btn-edit'])} onClick={this.toggleEdit}>edit</a>
+
+            {profile && profile.admin &&
+              <a className={classes(['btn-edit'])} onClick={this.toggleEdit}>edit</a>
+            }
           </div>
 
         </header>
