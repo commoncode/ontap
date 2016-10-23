@@ -30,7 +30,8 @@ function getOnTap(req, res) {
 }
 
 function getAllKegs(req, res) {
-  db.Keg.findAll().then(kegs => res.json(kegs))
+  db.Keg.findAll()
+  .then(kegs => res.json(kegs))
   .catch(err => logAndSendError(err, res));
 }
 
@@ -58,6 +59,7 @@ function updateKeg(req, res) {
       id,
     },
   })
+  .then(() => db.Keg.findById(req.params.id))
   .then(keg => res.send(keg))
   .catch(err => logAndSendError(err, res));
 }
