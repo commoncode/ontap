@@ -59,7 +59,7 @@ class AppContainer extends React.Component {
   render() {
     return (
       <AppComponent
-        taps={this.state.taps.data}
+        taps={this.state.taps}
         profile={this.state.profile.data}
       />
     );
