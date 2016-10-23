@@ -11,7 +11,7 @@ import styles from './current-taps.css';
 const classes = classnames.bind(styles);
 
 const Tap = ({ tapName, ...props }) =>
-  <article className={classes(['tap'])}>
+  <article className={`tap ${classes(['tap'])}`}>
     <div className={classes(['tap-name'])}>
       {tapName}
     </div>

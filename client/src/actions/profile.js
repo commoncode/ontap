@@ -8,7 +8,7 @@ import dispatcher from '../dispatcher';
 const profileActions = {
 
   // find out who we are
-  whoami() {
+  fetchProfile() {
     dispatcher.dispatch({
       type: 'REQUEST_FETCH_PROFILE',
     });

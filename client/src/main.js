@@ -1,2 +1,4 @@
-import './main.css?global';
-export { default } from 'CurrentTaps';
+// global styles
+import './scss/main.scss?global';
+
+export { default } from 'App';

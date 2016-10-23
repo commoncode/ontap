@@ -47,7 +47,7 @@ class ProfileContainer extends React.Component {
 
   componentWillMount() {
     // get our profile info
-    profileActions.whoami();
+    profileActions.fetchProfile();
   }
 
   render() {
