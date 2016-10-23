@@ -6,7 +6,7 @@ import withProps from 'recompose/withProps';
 import styles from './current-taps.css';
 import { dayMonth } from '../../util/date';
 
-import EditBeer from '../Admin/beer';
+import KegEdit from '../Admin/KegEdit';
 
 function calcStandardDrinks(abv, litres = 0.500) {
   // http://www.alcohol.gov.au/internet/alcohol/publishing.nsf/content/standard
@@ -17,7 +17,7 @@ function calcStandardDrinks(abv, litres = 0.500) {
 
 const classes = classnames.bind(styles);
 
-class Beer extends React.Component {
+class Keg extends React.Component {
 
   constructor() {
     super();
@@ -39,7 +39,7 @@ class Beer extends React.Component {
     const { editing } = this.state;
 
     return (
-      <div className={classes(['beer'])}>
+      <div className={classes(['keg'])}>
         <header>
           <div className={classes(['title'])}>
             <h2 className={classes(['beer-name'])}>
@@ -55,7 +55,7 @@ class Beer extends React.Component {
               <small className={classes(['std'])}>{` (${standardDrinks} SD)` } </small>
             </p>
             <p className={classes(['tapped'])}>
-              Tapped {dayMonth(tapped)}
+              {tapped && `Tapped ${dayMonth(tapped)}`}
             </p>
             <a className={classes(['btn-edit'])} onClick={this.toggleEdit}>edit</a>
           </div>
@@ -66,7 +66,7 @@ class Beer extends React.Component {
         </p>
 
         {editing &&
-          <EditBeer {...this.props} />
+          <KegEdit {...this.props} />
         }
       </div>
     );
@@ -79,4 +79,4 @@ const enhance = compose(
   })),
 );
 
-export default enhance(Beer);
+export default enhance(Keg);

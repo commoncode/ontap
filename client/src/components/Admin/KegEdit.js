@@ -1,7 +1,7 @@
 /**
- * Beer Edit component.
- * Pass in a Beer model as props to edit an existing row,
- * or pass no props to create a new one.
+ * KegEdit component.
+ * Mount with no props to create a new Keg,
+ * pass in a Keg model as props to update existing.
  */
 
 import React from 'react';
@@ -13,7 +13,7 @@ import styles from './admin.scss';
 
 const classes = classnames.bind(styles);
 
-class EditBeer extends React.Component {
+class KegEdit extends React.Component {
 
   static propTypes() {
     return {
@@ -26,13 +26,11 @@ class EditBeer extends React.Component {
 
     this.state = {
       model: Object.assign({
-        tapName: '',
         breweryName: '',
         beerName: '',
         tapped: '',
         abv: '',
         notes: '',
-        active: true,
       }, props),
     };
 
@@ -56,6 +54,8 @@ class EditBeer extends React.Component {
     });
   }
 
+  // deprecated but i'm leaving it here because
+  // i just reckon i'll need it somewhere else.
   checkboxChangeHandler(evt) {
     this.setState({
       model: Object.assign(this.state.model, {
@@ -75,17 +75,17 @@ class EditBeer extends React.Component {
   }
 
   render() {
-    const { tapName, beerName, breweryName, abv, tapped, notes, active } = this.state.model;
+    const { beerName, breweryName, abv, tapped, untapped, notes } = this.state.model;
 
     return (
-      <div className={`admin-beer ${classes(['admin-beer'])}`}>
+      <div className={`keg-edit ${classes(['keg-edit'])}`}>
 
-        <label htmlFor="tapName">Tap Name</label>
+        <label htmlFor="beerName">Beer Name</label>
         <input
-          name="tapName"
-          placeholder="tapName"
+          name="beerName"
+          placeholder="beerName"
           onChange={this.inputChangeHandler}
-          value={tapName}
+          value={beerName}
         />
 
         <label htmlFor="breweryName">Brewery Name</label>
@@ -94,14 +94,6 @@ class EditBeer extends React.Component {
           placeholder="breweryName"
           onChange={this.inputChangeHandler}
           value={breweryName}
-        />
-
-        <label htmlFor="beerName">Beer Name</label>
-        <input
-          name="beerName"
-          placeholder="beerName"
-          onChange={this.inputChangeHandler}
-          value={beerName}
         />
 
         <label htmlFor="abv">ABV (%)</label>
@@ -120,6 +112,14 @@ class EditBeer extends React.Component {
           value={tapped}
         />
 
+        <label htmlFor="untapped">Date Untapped (YYYY-MM-DD)</label>
+        <input
+          name="untapped"
+          placeholder="untapped"
+          onChange={this.inputChangeHandler}
+          value={untapped}
+        />
+
         <label htmlFor="notes">Notes</label>
         <textarea
           name="notes"
@@ -128,17 +128,6 @@ class EditBeer extends React.Component {
           value={notes}
         />
 
-        <label htmlFor="active">
-          <input
-            type="checkbox"
-            name="active"
-            placeholder="active"
-            onChange={this.checkboxChangeHandler}
-            checked={active}
-          />
-          Currently on tap
-        </label>
-
         <button onClick={this.saveAction}>Save</button>
       </div>
     );
@@ -146,4 +135,4 @@ class EditBeer extends React.Component {
 
 }
 
-export default EditBeer;
+export default KegEdit;

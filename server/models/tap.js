@@ -23,5 +23,5 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Tap', {
     },
     unique: true,
     allowNull: true,
-  }
+  },
 });

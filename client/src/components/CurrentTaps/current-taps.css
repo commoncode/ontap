@@ -82,19 +82,19 @@
   padding: 0 24px;
 }
 
-.tap .beer {
+.tap .keg {
   flex: 5 0 0;
 }
 
-.tap .beer header {
+.tap .keg header {
   display: flex;
 }
 
-.tap .beer header .title {
+.tap .keg header .title {
   flex: 2;
 }
 
-.tap .beer header .meta {
+.tap .keg header .meta {
   flex: 1 0 0;
   align-self: flex-start;
   padding: 0 24px;
@@ -130,7 +130,7 @@
     margin: 0 0 1em;
   }
 
-  .tap .beer {
+  .tap .keg {
     flex: 1;
   }
 }
