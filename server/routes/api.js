@@ -106,11 +106,10 @@ function adminsOnly(req, res, next) {
   return next();
 }
 
-function simulateCommonCodeInternet(req, res, next) {
-  setTimeout(next, 2000);
-}
-
-router.use(simulateCommonCodeInternet);
+// function simulateCommonCodeInternet(req, res, next) {
+//   setTimeout(next, 2000);
+// }
+// router.use(simulateCommonCodeInternet);
 
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
