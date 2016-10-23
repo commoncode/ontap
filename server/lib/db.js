@@ -38,8 +38,17 @@ const loadModels = () => {
 
 loadModels();
 
+// sequelize names these backwards imho
+db.Keg.hasOne(db.Tap, {
+  foreignKey: 'kegId',
+});
+db.Tap.belongsTo(db.Keg, {
+  foreignKey: 'kegId',
+});
+
 sequelize.sync().then(() => {
   logger.info('sequelize db synced');
 });
+
 
 module.exports = db;
