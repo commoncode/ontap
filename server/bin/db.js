@@ -15,6 +15,7 @@ require('app-module-path').addPath(path.join(__dirname, '../'));
 
 
 const db = require('lib/db.js');
+const seed = require('seed/seed');
 
 const r = repl.start('> ');
 
@@ -34,4 +35,5 @@ function makeAdmin(id) {
 r.context = Object.assign(r.context, {
   db,
   makeAdmin,
+  seed,
 });
