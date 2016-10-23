@@ -7,7 +7,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 
-import tapActions from '../../actions/taps';
+import { updateKeg, createKeg } from '../../actions/kegs';
 
 import styles from './admin.scss';
 
@@ -68,14 +68,14 @@ class KegEdit extends React.Component {
     // if we've got an id, we're saving an existing beer
     // if we don't, we're adding a new one.
     if (this.props.id) {
-      tapActions.updateBeer(this.state.model);
-    } else {
-      tapActions.createBeer(this.state.model);
+      return updateKeg(this.state.model);
     }
+    return createKeg(this.state.model);
   }
 
   render() {
     const { beerName, breweryName, abv, tapped, untapped, notes } = this.state.model;
+    const { saving } = this.state;
 
     return (
       <div className={`keg-edit ${classes(['keg-edit'])}`}>
@@ -129,6 +129,7 @@ class KegEdit extends React.Component {
         />
 
         <button onClick={this.saveAction}>Save</button>
+
       </div>
     );
   }
