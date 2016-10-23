@@ -22,7 +22,11 @@ class TapsStore extends ReduceStore {
   }
 
   reduce(state, action) {
+    console.log(action, state);
     const { type, data, error } = action;
+
+    // can do global error handling here
+    if (error) console.error(error);
 
     switch (type) {
 
@@ -40,6 +44,14 @@ class TapsStore extends ReduceStore {
           fetched: true,
           data: data || [],
           error,
+        };
+
+      case 'RECEIVE_CREATE_BEER':
+        return {
+          fetching: false,
+          fetched: true,
+          data: state.data.slice().concat([data]),
+          error: null,
         };
 
       default:
