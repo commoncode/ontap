@@ -20,39 +20,39 @@
   color: #6D7340;
 }
 
-.tap .beer-name {
+.keg .beer-name {
   color: #638BBF;
   font-size: 1.5rem;
   margin: 0;
 }
 
-.tap .brewery-name {
+.keg .brewery-name {
   color: #89BAD9;
   font-size: 1.2rem;
   margin: 0 0 0.5em;
   font-weight: 400;
 }
 
-.tap .abv {
+.keg .abv {
   font-weight: 400;
   font-size: 1.8rem;
   color: #FC531F;
   margin: 0 0 4px;
 }
 
-.tap .tapped {
+.keg .tapped {
   font-size: 12px;
   margin: 0;
   color: #638BBF;
   white-space: nowrap;
 }
 
-.tap .std {
+.keg .std {
   font-size: 40%;
   white-space: nowrap;
 }
 
-.tap .notes {
+.keg .notes {
   margin: 1em 0 0;
   font-size: 0.8em;
   font-weight: 200;
@@ -86,24 +86,19 @@
   flex: 5 0 0;
 }
 
-.tap .keg header {
+.keg header {
   display: flex;
 }
 
-.tap .keg header .title {
+.keg header .title {
   flex: 2;
 }
 
-.tap .keg header .meta {
+.keg header .meta {
   flex: 1 0 0;
   align-self: flex-start;
   padding: 0 24px;
   text-align: right;
-}
-
-.on-tap-list {
-  overflow-y: auto;
-  flex: 1 1 auto;
 }
 
 .footer {
@@ -116,7 +111,6 @@
 .footer a {
   color: #89BAD9;
 }
-
 
 @media (max-width: 600px) {
   .tap {

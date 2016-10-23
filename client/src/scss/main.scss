@@ -82,6 +82,12 @@ body {
   }
 }
 
+// App Content
+.app-content {
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
 // App Footer
 .app-footer {
   text-align: center;
@@ -91,5 +97,41 @@ body {
 
   a {
     color: $lightBlue;
+  }
+}
+
+
+// keg list
+.keg-list {
+
+  .keg {
+    border-bottom: 1px solid $lightBlue;
+    padding: 24px;
+  }
+
+  .btn-new-keg {
+    display: block;
+    margin: 1em auto;
+  }
+
+  .keg-edit {
+    padding: 20px;
+  }
+}
+
+
+// buttons
+button {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-weight: 200;
+  color: #89BAD9;
+
+  cursor: pointer;
+  padding: 0.5em 1em;
+
+  &:hover {
+    border: 1px solid #bbb;
   }
 }

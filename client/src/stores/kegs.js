@@ -1,7 +1,6 @@
 /**
- * Tap Store.
- * Tell us what we can drink.
- * We're not here to fuck spiders.
+ * Kegs Store.
+ * A cellar?
  */
 
 import { ReduceStore } from 'flux/utils';
@@ -16,21 +15,17 @@ const initialState = {
   data: [],
 };
 
-class TapsStore extends ReduceStore {
+class KegsStore extends ReduceStore {
   getInitialState() {
     return initialState;
   }
 
   reduce(state, action) {
-    console.log(action, state);
     const { type, data, error } = action;
-
-    // can do global error handling here
-    if (error) console.error(error);
 
     switch (type) {
 
-      case 'REQUEST_FETCH_TAPS':
+      case 'REQUEST_FETCH_KEGS':
         return {
           fetching: true,
           fetched: false,
@@ -38,7 +33,7 @@ class TapsStore extends ReduceStore {
           data: [],
         };
 
-      case 'RECEIVE_FETCH_TAPS':
+      case 'RECEIVE_FETCH_KEGS':
         return {
           fetching: false,
           fetched: true,
@@ -52,5 +47,4 @@ class TapsStore extends ReduceStore {
   }
 }
 
-// export a singleton, one is plenty
-export default new TapsStore(dispatcher);
+export default new KegsStore(dispatcher);

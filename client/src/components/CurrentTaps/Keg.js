@@ -39,7 +39,7 @@ class Keg extends React.Component {
     const { editing } = this.state;
 
     return (
-      <div className={classes(['keg'])}>
+      <div className={`keg ${classes(['keg'])}`}>
         <header>
           <div className={classes(['title'])}>
             <h2 className={classes(['beer-name'])}>
