@@ -7,29 +7,21 @@
 import React from 'react';
 import { Container } from 'flux/utils';
 
+import ContentRouter from '../router';
 import Profile from '../Profile';
-import CurrentTaps from '../CurrentTaps';
-import Kegs from '../Kegs';
 
-import tapsActions from '../../actions/taps';
-import { fetchKegs } from '../../actions/kegs';
-import profileActions from '../../actions/profile';
-
-import tapsStore from '../../stores/taps';
 import profileStore from '../../stores/profile';
-import kegsStore from '../../stores/kegs';
-
+import profileActions from '../../actions/profile';
 
 const AppComponent = props => (
   <div className="container">
     <header className="app-header">
       <h1><span>Comm</span>On Tap</h1>
-      <Profile />
+      <Profile {...props.profile} />
     </header>
 
     <div className="app-content">
-      <CurrentTaps taps={props.taps} profile={props.profile} />
-
+      <ContentRouter {...props} />
     </div>
 
     <footer className="app-footer">
@@ -39,39 +31,32 @@ const AppComponent = props => (
 );
 
 AppComponent.propTypes = {
-  taps: React.PropTypes.object,
   profile: React.PropTypes.object,
-  kegs: React.PropTypes.object,
 };
 
-// flux-utils container to bind our stores to our
-// components.
+// flux-utils container to bind stores to our components.
+// any stores that will share data globally (ie profiles)
+// should be mounted here and passed down
 class AppContainer extends React.Component {
   static getStores() {
-    return [tapsStore, profileStore, kegsStore];
+    return [profileStore];
   }
 
   static calculateState() {
     return {
-      taps: tapsStore.getState(),
-      kegs: kegsStore.getState(),
       profile: profileStore.getState(),
     };
   }
 
   componentWillMount() {
     // hit the APIs
-    tapsActions.fetchTaps();
     profileActions.fetchProfile();
-    // fetchKegs();
   }
 
   render() {
     return (
       <AppComponent
-        taps={this.state.taps}
-        profile={this.state.profile.data}
-        kegs={this.state.kegs}
+        profile={this.state.profile}
       />
     );
   }

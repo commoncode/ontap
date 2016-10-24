@@ -5,10 +5,14 @@
  */
 
 import React from 'react';
+import { Container } from 'flux/utils';
 
 import Keg from '../CurrentTaps/Keg';
 import KegEdit from '../Admin/KegEdit';
 import Loader from '../Loader';
+
+import { fetchKegs } from '../../actions/kegs';
+import kegsStore from '../../stores/kegs';
 
 class KegsComponent extends React.Component {
 
@@ -58,4 +62,29 @@ class KegsComponent extends React.Component {
   }
 }
 
-export default KegsComponent;
+class KegsContainer extends React.Component {
+  static getStores() {
+    return [kegsStore];
+  }
+
+  static calculateState() {
+    return {
+      kegs: kegsStore.getState(),
+    };
+  }
+
+  componentWillMount() {
+    fetchKegs();
+  }
+
+  render() {
+    return (
+      <KegsComponent
+        kegs={this.state.kegs}
+        {...this.props}
+      />
+    );
+  }
+}
+
+export default Container.create(KegsContainer);
