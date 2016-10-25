@@ -8,8 +8,8 @@ import React from 'react';
 import classnames from 'classnames/bind';
 
 import { updateKeg, createKeg } from '../../actions/kegs';
-
 import styles from './admin.scss';
+import Loader from '../Loader';
 
 const classes = classnames.bind(styles);
 
@@ -17,21 +17,27 @@ class KegEdit extends React.Component {
 
   static propTypes() {
     return {
-      id: React.PropTypes.number,
+      model: React.PropTypes.object,
+      syncing: React.PropTypes.boolean,
     };
   }
 
   constructor(props) {
     super();
 
+    // copy the props to the state so we can edit it.
+    // i guess that's a reasonable enough pattern, right?
+    // todo - stop it from overwriting empty strings with nulls so
+    // react doesn't cry
     this.state = {
       model: Object.assign({
         breweryName: '',
         beerName: '',
         tapped: '',
+        untapped: '',
         abv: '',
         notes: '',
-      }, props),
+      }, props.model),
     };
 
     this.inputChangeHandler = this.inputChangeHandler.bind(this);
@@ -39,7 +45,9 @@ class KegEdit extends React.Component {
     this.saveAction = this.saveAction.bind(this);
   }
 
-  // this will probably cause headaches at some point
+  // i think this potentially could cause headaches.
+  // if a props change happens you'll overwrite your local state.
+  // guess if it ever happens we'll decide what to do about it then.
   componentWillReceiveProps(props) {
     this.setState = {
       model: Object.assign({}, props),
@@ -67,7 +75,7 @@ class KegEdit extends React.Component {
   saveAction() {
     // if we've got an id, we're saving an existing beer
     // if we don't, we're adding a new one.
-    if (this.props.id) {
+    if (this.props.model && this.props.model.id) {
       return updateKeg(this.state.model);
     }
     return createKeg(this.state.model);
@@ -75,7 +83,7 @@ class KegEdit extends React.Component {
 
   render() {
     const { beerName, breweryName, abv, tapped, untapped, notes } = this.state.model;
-    const { saving } = this.state;
+    const { syncing } = this.props;
 
     return (
       <div className={`keg-edit ${classes(['keg-edit'])}`}>
@@ -128,7 +136,7 @@ class KegEdit extends React.Component {
           value={notes}
         />
 
-        <button onClick={this.saveAction}>Save</button>
+        {!syncing ? <button onClick={this.saveAction}>Save</button> : <Loader />}
 
       </div>
     );

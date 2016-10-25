@@ -32,6 +32,29 @@ export function fetchKegs() {
   });
 }
 
+// fetch one keg
+export function fetchKeg(id) {
+  dispatcher.dispatch({
+    type: 'REQUEST_FETCH_KEG',
+    id,
+  });
+
+  return fetch(`/api/v1/kegs/${id}`)
+  .then(res => res.json())
+  .then((data) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_FETCH_KEG',
+      data,
+    });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_FETCH_KEG',
+      error,
+    });
+  });
+}
+
 // update an existing keg
 export function updateKeg(keg) {
   const { id } = keg;
@@ -86,5 +109,20 @@ export function createKeg(keg) {
       type: 'RECEIVE_CREATE_KEG',
       error,
     });
+  });
+}
+
+// toggle editing of a keg
+export function toggleEditKeg(kegId) {
+  return dispatcher.dispatch({
+    type: 'TOGGLE_EDIT_KEG',
+    kegId,
+  });
+}
+
+// toggle creation of a new keg
+export function toggleCreateKeg() {
+  return dispatcher.dispatch({
+    type: 'TOGGLE_CREATE_KEG',
   });
 }

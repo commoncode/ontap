@@ -36,6 +36,7 @@
     "express": "^4.14.0",
     "express-session": "^1.14.1",
     "flux": "^3.1.0",
+    "immutable": "^3.8.1",
     "morgan": "^1.7.0",
     "normalize.css": "^4.2.0",
     "pack-cli": "^0.2.2",

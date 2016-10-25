@@ -11,6 +11,7 @@ import React from 'react';
 // import components
 import Kegs from './Kegs';
 import CurrentTaps from './CurrentTaps';
+import KegAdmin from './Admin/Keg';
 
 
 // define your routes.
@@ -26,6 +27,15 @@ const routes = {
       firstParam: params[0],
       secondParam: params[1],
     }),
+  },
+  '/kegs/?/edit': {
+    component: KegAdmin,
+    props: (props, params) => {
+      console.log(params);
+      return {
+        kegId: params[0],
+      };
+    },
   },
   '/kegs': {
     component: Kegs,

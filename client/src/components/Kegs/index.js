@@ -11,7 +11,7 @@ import Keg from '../CurrentTaps/Keg';
 import KegEdit from '../Admin/KegEdit';
 import Loader from '../Loader';
 
-import { fetchKegs } from '../../actions/kegs';
+import { fetchKegs, toggleCreateKeg } from '../../actions/kegs';
 import kegsStore from '../../stores/kegs';
 
 class KegsComponent extends React.Component {
@@ -20,6 +20,7 @@ class KegsComponent extends React.Component {
     return {
       profile: React.PropTypes.object,
       kegs: React.PropTypes.array,
+      sync: React.PropTypes.object,
     };
   }
 
@@ -33,24 +34,26 @@ class KegsComponent extends React.Component {
   }
 
   toggleShowCreate() {
-    this.setState({
-      showCreate: !this.state.showCreate,
-    });
+    toggleCreateKeg();
   }
 
   render() {
-    const { kegs, profile } = this.props;
+    const { kegs, profile, sync } = this.props;
     const { showCreate } = this.state;
 
     return (
       <section className="keg-list">
-        {kegs.fetching && <Loader />}
-
-        {kegs.fetched &&
-          kegs.data.map(keg => <Keg key={keg.id} {...keg} profile={profile} />)
+        { sync.fetching &&
+          <Loader />
         }
 
-        {profile && profile.admin &&
+
+        { kegs.map(keg => (
+            <Keg key={keg.model.id} {...keg} profile={profile} />
+          ))
+        }
+
+        {profile && profile.admin && sync.fetched &&
           <button className="btn-new-keg" onClick={this.toggleShowCreate}>Add a Keg +</button>
         }
 
@@ -69,7 +72,7 @@ class KegsContainer extends React.Component {
 
   static calculateState() {
     return {
-      kegs: kegsStore.getState(),
+      kegsState: kegsStore.getState(),
     };
   }
 
@@ -78,9 +81,17 @@ class KegsContainer extends React.Component {
   }
 
   render() {
+    // todo - so i wanna keep the data in the store as
+    // Immutable Maps, but then for passing to components
+    // you *probably* just want JSON. so do we map that out
+    // below, or should we override .getState() to actually
+    // convert it then?
+    // i don't know.
+    // OR maybe we just teach the components to use maps.
     return (
       <KegsComponent
-        kegs={this.state.kegs}
+        kegs={this.state.kegsState.get('kegs').toArray().map(map => map.toJSON())}
+        sync={this.state.kegsState.get('sync').toJSON()}
         {...this.props}
       />
     );

@@ -6,6 +6,8 @@ import withProps from 'recompose/withProps';
 import styles from './current-taps.css';
 import { dayMonth } from '../../util/date';
 
+import { toggleEditKeg } from '../../actions/kegs';
+
 import KegEdit from '../Admin/KegEdit';
 
 function calcStandardDrinks(abv, litres = 0.500) {
@@ -19,6 +21,16 @@ const classes = classnames.bind(styles);
 
 class Keg extends React.Component {
 
+  static propTypes() {
+    return {
+      model: React.PropTypes.object,
+      standardDrinks: React.PropTypes.number,
+      editing: React.PropTypes.boolean,
+      syncing: React.PropTypes.boolean,
+      profile: React.PropTypes.object,
+    };
+  }
+
   constructor() {
     super();
     this.state = {
@@ -29,14 +41,12 @@ class Keg extends React.Component {
   }
 
   toggleEdit() {
-    this.setState({
-      editing: !this.state.editing,
-    });
+    toggleEditKeg(this.props.model.id);
   }
 
   render() {
-    const { abv, beerName, breweryName, notes, standardDrinks, tapped, profile } = this.props;
-    const { editing } = this.state;
+    const { standardDrinks, editing, syncing, profile, model } = this.props;
+    const { abv, beerName, breweryName, notes, tapped } = model;
 
     return (
       <div className={`keg ${classes(['keg'])}`}>
@@ -69,7 +79,7 @@ class Keg extends React.Component {
         </p>
 
         {editing &&
-          <KegEdit {...this.props} />
+          <KegEdit model={model} syncing={syncing} />
         }
       </div>
     );
@@ -77,8 +87,8 @@ class Keg extends React.Component {
 }
 
 const enhance = compose(
-  withProps(({ abv }) => ({
-    standardDrinks: calcStandardDrinks(abv),
+  withProps(({ model }) => ({
+    standardDrinks: calcStandardDrinks(model.abv),
   })),
 );
 
