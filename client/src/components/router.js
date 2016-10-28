@@ -8,10 +8,9 @@
 
 import React from 'react';
 
-// import components
-import KegList from './Kegs/keglist';
-import CurrentTaps from './CurrentTaps';
-import KegAdmin from './Admin/Keg';
+import KegList from './kegs/keg-list';
+import Taps from './taps';
+import KegDetail from './kegs/keg-detail';
 
 
 // define your routes.
@@ -29,7 +28,7 @@ const routes = {
     }),
   },
   '/kegs/?/edit': {
-    component: KegAdmin,
+    component: KegDetail,
     props: (props, params) => ({
       kegId: params[0],
     }),
@@ -41,7 +40,7 @@ const routes = {
     }),
   },
   '/taps': {
-    component: CurrentTaps,
+    component: Taps,
     props: props => ({
       profile: props.profile.data,
     }),

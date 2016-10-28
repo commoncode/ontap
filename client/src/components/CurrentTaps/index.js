@@ -5,7 +5,7 @@ import { Container } from 'flux/utils';
 import Loader from '../Loader';
 
 import Tap from './Tap';
-import styles from './current-taps.css';
+import styles from './taps.css';
 
 import { fetchTaps } from '../../actions/taps';
 import tapsStore from '../../stores/taps';

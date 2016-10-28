@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'flux/utils';
 
-import KegEdit from './KegEdit';
+import KegEdit from './keg-edit';
 
 import kegsStore from '../../stores/kegs';
 import { fetchKeg } from '../../actions/kegs';
@@ -13,6 +13,12 @@ const KegEditComponent = props => (
 );
 
 class KegEditContainer extends React.Component {
+  static propTypes() {
+    return {
+      kegId: React.PropTypes.number,
+    };
+  }
+
   static getStores() {
     return [kegsStore];
   }

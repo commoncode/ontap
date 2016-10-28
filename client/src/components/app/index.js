@@ -7,11 +7,12 @@
 import React from 'react';
 import { Container } from 'flux/utils';
 
-import ContentRouter from '../router';
-import Profile from '../Profile';
-
 import profileStore from '../../stores/profile';
 import profileActions from '../../actions/profile';
+import * as propTypes from '../../proptypes/';
+
+import ContentRouter from '../router';
+import Profile from '../profile/';
 
 const AppComponent = props => (
   <div className="container">
@@ -31,7 +32,7 @@ const AppComponent = props => (
 );
 
 AppComponent.propTypes = {
-  profile: React.PropTypes.object,
+  profile: propTypes.profile,
 };
 
 // flux-utils container to bind stores to our components.

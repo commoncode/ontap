@@ -1,6 +1,8 @@
 import React from 'react';
 import classnames from 'classnames/bind';
+
 import styles from './profile.css';
+import * as propTypes from '../../proptypes/';
 
 const classes = classnames.bind(styles);
 
@@ -13,6 +15,7 @@ const Profile = (props) => {
       { props.data &&
         <div>
           <img
+            role="presentation"
             className={classes(['avatar'])}
             src={`${props.data.avatar}?sz=32`}
             title={`Logged in as ${props.data.name}`}
@@ -28,5 +31,7 @@ const Profile = (props) => {
     </div>
   );
 };
+
+Profile.propTypes = propTypes.profile;
 
 export default Profile;

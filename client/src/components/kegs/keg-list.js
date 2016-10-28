@@ -9,18 +9,19 @@ import { Container } from 'flux/utils';
 
 import { fetchKegs } from '../../actions/kegs';
 import kegsStore from '../../stores/kegs';
+import * as propTypes from '../../proptypes/';
 
-import KegListItem from './keglistitem';
-import Loader from '../Loader';
+import KegListItem from './keg-list-item';
+import Loader from '../Loader/';
 
 
 class KegsComponent extends React.Component {
 
   static propTypes() {
     return {
-      profile: React.PropTypes.object,
-      kegs: React.PropTypes.array,
-      sync: React.PropTypes.object,
+      profile: propTypes.profile,
+      kegs: propTypes.kegs,
+      sync: propTypes.sync,
     };
   }
 
