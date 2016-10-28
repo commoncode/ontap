@@ -8,7 +8,7 @@ import classnames from 'classnames/bind';
 import compose from 'recompose/compose';
 import withProps from 'recompose/withProps';
 
-import styles from '../CurrentTaps/taps.css';
+import styles from '../taps/taps.css';
 import { dayMonth } from '../../util/date';
 
 const classes = classnames.bind(styles);

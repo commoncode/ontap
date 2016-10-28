@@ -10,7 +10,7 @@ import renderComponent from 'recompose/renderComponent';
 
 import { kegModel } from '../../proptypes/';
 
-import Keg from '../Kegs/keg';
+import Keg from '../kegs/keg';
 import styles from './taps.css';
 
 const classes = classnames.bind(styles);

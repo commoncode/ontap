@@ -12,7 +12,7 @@ import kegsStore from '../../stores/kegs';
 import * as propTypes from '../../proptypes/';
 
 import KegListItem from './keg-list-item';
-import Loader from '../Loader/';
+import Loader from '../loader/';
 
 
 class KegsComponent extends React.Component {

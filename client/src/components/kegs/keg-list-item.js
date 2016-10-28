@@ -10,7 +10,7 @@ import * as propTypes from '../../proptypes/';
 
 import Keg from './keg';
 import KegEdit from './keg-edit';
-import Loader from '../Loader/';
+import Loader from '../loader/';
 
 const KegListItem = (props) => {
   const { editing, syncing, model, profile } = props;

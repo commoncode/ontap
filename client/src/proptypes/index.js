@@ -14,16 +14,7 @@ export const sync = {
   error,
 };
 
-// keg model from the db
-export const kegModel = {
-  beerName: React.PropTypes.string,
-  breweryName: React.PropTypes.string,
-  tapped: React.PropTypes.string, // date?
-  untapped: React.PropTypes.string, // date?
-  notes: React.PropTypes.string,
-};
-
-// user model from the db
+// profile model from the API.
 export const profileModel = {
   id: React.PropTypes.number,
   name: React.PropTypes.string,
@@ -38,14 +29,42 @@ export const profile = Object.assign(sync, {
   data: profileModel,
 });
 
+// keg model from the API.
+export const kegModel = React.PropTypes.shape({
+  beerName: React.PropTypes.string,
+  breweryName: React.PropTypes.string,
+  tapped: React.PropTypes.string, // date?
+  untapped: React.PropTypes.string, // date?
+  notes: React.PropTypes.string,
+});
+
+// keg with a sync object and editing/syncing props
+// todo - fold editing/syncing into the sync object?
+// maybe just syncing.
+export const keg = React.PropTypes.shape(Object.assign(sync, {
+  editing: React.PropTypes.boolean,
+  syncing: React.PropTypes.boolean,
+  model: kegModel,
+}));
+
 // array of kegs
-// sync, model and editing/syncing
-// todo - move syncing into `sync`?
-// or even just use fetching? i guess they're different.
-export const kegs = React.PropTypes.arrayOf(
-  React.PropTypes.shape(Object.assign(sync, {
-    editing: React.PropTypes.boolean,
-    syncing: React.PropTypes.boolean,
-    model: kegModel,
-  }))
-);
+export const kegs = React.PropTypes.arrayOf(keg);
+
+// tap model from the API
+export const tapModel = React.PropTypes.shape({
+  id: React.PropTypes.number,
+  name: React.PropTypes.string,
+  kegId: React.PropTypes.number,
+  Keg: kegModel,
+});
+
+// tap with a sync object and editing/syncing props
+// todo - fold editing/syncing into sync object? see above.
+export const tap = React.PropTypes.shape(Object.assign(sync, {
+  editing: React.PropTypes.boolean,
+  syncing: React.PropTypes.boolean,
+  model: tapModel,
+}));
+
+// array of taps
+export const taps = React.PropTypes.arrayOf(tap);

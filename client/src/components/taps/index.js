@@ -2,13 +2,13 @@ import React from 'react';
 import classnames from 'classnames/bind';
 import { Container } from 'flux/utils';
 
-import Loader from '../Loader';
-
-import Tap from './Tap';
-import styles from './taps.css';
-
 import { fetchTaps } from '../../actions/taps';
 import tapsStore from '../../stores/taps';
+import styles from './taps.css';
+import * as propTypes from '../../proptypes';
+
+import Loader from '../loader';
+import Tap from './tap';
 
 const classes = classnames.bind(styles);
 
@@ -25,9 +25,9 @@ const CurrentTapsComponent = (props) => {
 };
 
 CurrentTapsComponent.propTypes = {
-  profile: React.PropTypes.object,
-  taps: React.PropTypes.array,
-  sync: React.PropTypes.object,
+  profile: propTypes.profile,
+  taps: propTypes.taps,
+  sync: propTypes.sync,
 };
 
 

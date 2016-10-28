@@ -9,7 +9,7 @@ import classnames from 'classnames/bind';
 
 import { updateKeg, createKeg } from '../../actions/kegs';
 import styles from './keg-edit.scss';
-import Loader from '../Loader/';
+import Loader from '../loader/';
 
 const classes = classnames.bind(styles);
 
