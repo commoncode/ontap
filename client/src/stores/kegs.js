@@ -10,7 +10,7 @@ import dispatcher from '../dispatcher';
 // creates a new Map that represents a keg
 // has a bunch of meta properties on it,
 // and .model points to the actual model data.
-function jsonToKeg(model= {}) {
+function jsonToKeg(model = {}) {
   return new Immutable.Map({
     fetching: false,
     editing: false,
@@ -23,8 +23,8 @@ function jsonToKeg(model= {}) {
 // turn an array of keg json objects into an
 // Immutable Map
 function kegsToMap(kegs = []) {
-  return new Immutable.Map().withMutations(map => {
-    kegs.forEach(keg => {
+  return new Immutable.Map().withMutations((map) => {
+    kegs.forEach((keg) => {
       map.set(keg.id, jsonToKeg(keg));
     });
     return map;
@@ -73,25 +73,8 @@ class KegMapStore extends ReduceStore {
       case 'RECEIVE_UPDATE_KEG':
         return state.setIn(['kegs', data.id], jsonToKeg(data));
 
-      case 'TOGGLE_CREATE_KEG': {
-        // this is a bit of a hack...
-        // to create a new keg we insert one into the store with id 0.
-        const newKeg = state.getIn(['kegs', 0]);
-        if (newKeg) {
-          return state.deleteIn(['kegs', 0]);
-        }
-        return state.setIn(['kegs', 0], jsonToKeg({
-          id: 0,
-        }));
-        // why doesn't this work?
-        // .setIn(['kegs', 0, 'editing', true]);
-      }
-
       case 'RECEIVE_CREATE_KEG':
-        // same as RECEIVE_UPDATE_KEG but we need to clean up the
-        // keg with id 0 that we created above ^
-        return state.setIn(['kegs', data.id], jsonToKeg(data))
-        .deleteIn(['kegs', 0]);
+        return state.setIn(['kegs', data.id], jsonToKeg(data));
 
       default:
         return state;

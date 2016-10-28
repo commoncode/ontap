@@ -7,12 +7,12 @@
 import React from 'react';
 import { Container } from 'flux/utils';
 
-import Keg from '../CurrentTaps/Keg';
-import KegEdit from '../Admin/KegEdit';
+import { fetchKegs } from '../../actions/kegs';
+import kegsStore from '../../stores/kegs';
+
+import KegListItem from './keglistitem';
 import Loader from '../Loader';
 
-import { fetchKegs, toggleCreateKeg } from '../../actions/kegs';
-import kegsStore from '../../stores/kegs';
 
 class KegsComponent extends React.Component {
 
@@ -27,39 +27,31 @@ class KegsComponent extends React.Component {
   constructor() {
     super();
     this.state = {
-      showCreate: false,
+      showNew: false,
     };
 
-    this.toggleShowCreate = this.toggleShowCreate.bind(this);
+    this.toggleShowNew = this.toggleShowNew.bind(this);
   }
 
-  toggleShowCreate() {
-    toggleCreateKeg();
+  toggleShowNew() {
+    this.setState({
+      showNew: !this.state.showNew,
+    });
   }
 
   render() {
     const { kegs, profile, sync } = this.props;
-    const { showCreate } = this.state;
 
     return (
       <section className="keg-list">
-        { sync.fetching &&
-          <Loader />
+        { sync.fetching && <Loader /> }
+
+        { kegs.map(keg => <KegListItem {...keg} profile={profile} />) }
+
+        { profile && profile.admin && sync.fetched &&
+          <button className="btn-new-keg" onClick={this.toggleShowNew}>Add a Keg +</button>
         }
 
-
-        { kegs.map(keg => (
-            <Keg key={keg.model.id} {...keg} profile={profile} />
-          ))
-        }
-
-        {profile && profile.admin && sync.fetched &&
-          <button className="btn-new-keg" onClick={this.toggleShowCreate}>Add a Keg +</button>
-        }
-
-        {showCreate &&
-          <KegEdit />
-        }
       </section>
     );
   }

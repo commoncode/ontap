@@ -7,23 +7,27 @@ import Loader from '../Loader';
 import Tap from './Tap';
 import styles from './current-taps.css';
 
-import tapsActions from '../../actions/taps';
+import { fetchTaps } from '../../actions/taps';
 import tapsStore from '../../stores/taps';
 
 const classes = classnames.bind(styles);
 
-const CurrentTapsComponent = props => (
-  <section className={classes(['on-tap-list'])}>
-    {props.taps.fetching && <Loader />}
+const CurrentTapsComponent = (props) => {
+  const { taps, profile, sync } = props;
 
-    {props.taps.fetched &&
-      props.taps.data.map(tap => <Tap key={tap.id} {...tap} profile={props.profile} />)
-    }
-  </section>
-);
+  return (
+    <section className={classes(['on-tap-list'])}>
+      {sync.fetching && <Loader />}
+
+      {taps.map(tap => <Tap key={tap.model.id} {...tap} profile={profile} />) }
+    </section>
+  );
+};
 
 CurrentTapsComponent.propTypes = {
-  taps: React.PropTypes.object,
+  profile: React.PropTypes.object,
+  taps: React.PropTypes.array,
+  sync: React.PropTypes.object,
 };
 
 
@@ -39,13 +43,14 @@ class CurrentTapsContainer extends React.Component {
   }
 
   componentWillMount() {
-    tapsActions.fetchTaps();
+    fetchTaps();
   }
 
   render() {
     return (
       <CurrentTapsComponent
-        taps={this.state.taps}
+        taps={this.state.taps.get('taps').toArray().map(map => map.toJSON())}
+        sync={this.state.taps.get('sync').toJSON()}
         {...this.props}
       />
     );

@@ -9,7 +9,7 @@
 import React from 'react';
 
 // import components
-import Kegs from './Kegs';
+import KegList from './Kegs/keglist';
 import CurrentTaps from './CurrentTaps';
 import KegAdmin from './Admin/Keg';
 
@@ -20,7 +20,7 @@ import KegAdmin from './Admin/Keg';
 // props function in order.
 const routes = {
   '/example/?/?': {
-    component: Kegs,
+    component: KegList,
     props: (props, params) => ({
       foo: 'bar',
       bar: props.bar,
@@ -30,15 +30,12 @@ const routes = {
   },
   '/kegs/?/edit': {
     component: KegAdmin,
-    props: (props, params) => {
-      console.log(params);
-      return {
-        kegId: params[0],
-      };
-    },
+    props: (props, params) => ({
+      kegId: params[0],
+    }),
   },
   '/kegs': {
-    component: Kegs,
+    component: KegList,
     props: props => ({
       profile: props.profile.data,
     }),

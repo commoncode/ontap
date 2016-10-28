@@ -8,7 +8,7 @@ import React from 'react';
 import classnames from 'classnames/bind';
 
 import { updateKeg, createKeg } from '../../actions/kegs';
-import styles from './admin.scss';
+import styles from '../Admin/admin.scss';
 import Loader from '../Loader';
 
 const classes = classnames.bind(styles);

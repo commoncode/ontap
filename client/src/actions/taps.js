@@ -4,30 +4,23 @@
 
 import dispatcher from '../dispatcher';
 
-const tapActions = {
+export const fetchTaps = () => {
+  dispatcher.dispatch({
+    type: 'REQUEST_FETCH_TAPS',
+  });
 
-  // find out what's on tap
-  fetchTaps() {
+  return fetch('/api/v1/ontap')
+  .then(res => res.json())
+  .then((data) => {
     dispatcher.dispatch({
-      type: 'REQUEST_FETCH_TAPS',
+      type: 'RECEIVE_FETCH_TAPS',
+      data,
     });
-
-    return fetch('/api/v1/ontap')
-    .then(res => res.json())
-    .then((data) => {
-      dispatcher.dispatch({
-        type: 'RECEIVE_FETCH_TAPS',
-        data,
-      });
-    })
-    .catch((error) => {
-      dispatcher.dispatch({
-        type: 'RECEIVE_FETCH_TAPS',
-        error,
-      });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_FETCH_TAPS',
+      error,
     });
-  },
-
+  });
 };
-
-export default tapActions;
