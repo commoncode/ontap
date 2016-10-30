@@ -8,42 +8,43 @@ import React from 'react';
 export const error = React.PropTypes.object;
 
 // sync object
-export const sync = {
-  fetching: React.PropTypes.boolean,
-  fetched: React.PropTypes.boolean,
+export const sync = React.PropTypes.shape({
+  fetching: React.PropTypes.bool,
+  fetched: React.PropTypes.bool,
   error,
-};
+});
 
 // profile model from the API.
-export const profileModel = {
+export const profileModel = React.PropTypes.shape({
   id: React.PropTypes.number,
   name: React.PropTypes.string,
-  admin: React.PropTypes.boolean,
+  admin: React.PropTypes.bool,
   avatar: React.PropTypes.string,
-};
+});
 
 // profile with sync object & data
 // todo - rename 'data' to 'model', like the others
 // will mean updating the store
-export const profile = Object.assign(sync, {
+export const profile = React.PropTypes.shape(Object.assign(sync, {
   data: profileModel,
-});
+}));
 
 // keg model from the API.
 export const kegModel = React.PropTypes.shape({
   beerName: React.PropTypes.string,
   breweryName: React.PropTypes.string,
+  abv: React.PropTypes.number,
+  notes: React.PropTypes.string,
   tapped: React.PropTypes.string, // date?
   untapped: React.PropTypes.string, // date?
-  notes: React.PropTypes.string,
 });
 
 // keg with a sync object and editing/syncing props
 // todo - fold editing/syncing into the sync object?
 // maybe just syncing.
 export const keg = React.PropTypes.shape(Object.assign(sync, {
-  editing: React.PropTypes.boolean,
-  syncing: React.PropTypes.boolean,
+  editing: React.PropTypes.bool,
+  syncing: React.PropTypes.bool,
   model: kegModel,
 }));
 
@@ -61,8 +62,8 @@ export const tapModel = React.PropTypes.shape({
 // tap with a sync object and editing/syncing props
 // todo - fold editing/syncing into sync object? see above.
 export const tap = React.PropTypes.shape(Object.assign(sync, {
-  editing: React.PropTypes.boolean,
-  syncing: React.PropTypes.boolean,
+  editing: React.PropTypes.bool,
+  syncing: React.PropTypes.bool,
   model: tapModel,
 }));
 

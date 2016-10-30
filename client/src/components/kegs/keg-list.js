@@ -11,11 +11,12 @@ import { fetchKegs } from '../../actions/kegs';
 import kegsStore from '../../stores/kegs';
 import * as propTypes from '../../proptypes/';
 
-import KegListItem from './keg-list-item';
+import Keg from './keg';
+import KegEdit from './keg-edit';
 import Loader from '../loader/';
 
 
-class KegsComponent extends React.Component {
+class KegList extends React.Component {
 
   static propTypes() {
     return {
@@ -42,15 +43,18 @@ class KegsComponent extends React.Component {
 
   render() {
     const { kegs, profile, sync } = this.props;
+    const { showNew } = this.state;
 
     return (
       <section className="keg-list">
         { sync.fetching && <Loader /> }
 
-        { kegs.map(keg => <KegListItem {...keg} profile={profile} />) }
+        { kegs.map(keg => <Keg key={keg.model.id} {...keg.model} />) }
+
+        { showNew && <KegEdit /> }
 
         { profile && profile.admin && sync.fetched &&
-          <button className="btn-new-keg" onClick={this.toggleShowNew}>Add a Keg +</button>
+          <a className="btn-new-keg" href="/#/kegs/new">Add a Keg +</a>
         }
 
       </section>
@@ -58,7 +62,7 @@ class KegsComponent extends React.Component {
   }
 }
 
-class KegsContainer extends React.Component {
+class KegListContainer extends React.Component {
   static getStores() {
     return [kegsStore];
   }
@@ -82,7 +86,7 @@ class KegsContainer extends React.Component {
     // i don't know.
     // OR maybe we just teach the components to use maps.
     return (
-      <KegsComponent
+      <KegList
         kegs={this.state.kegsState.get('kegs').toArray().map(map => map.toJSON())}
         sync={this.state.kegsState.get('sync').toJSON()}
         {...this.props}
@@ -91,4 +95,4 @@ class KegsContainer extends React.Component {
   }
 }
 
-export default Container.create(KegsContainer);
+export default Container.create(KegListContainer);

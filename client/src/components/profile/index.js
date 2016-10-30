@@ -15,7 +15,6 @@ const Profile = (props) => {
       { props.data &&
         <div>
           <img
-            role="presentation"
             className={classes(['avatar'])}
             src={`${props.data.avatar}?sz=32`}
             title={`Logged in as ${props.data.name}`}

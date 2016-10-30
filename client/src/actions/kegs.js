@@ -4,6 +4,29 @@
 
 import dispatcher from '../dispatcher';
 
+
+function CleanError(props) {
+  this.isClean = true;
+  Object.assign(this, {
+    code: 500,
+    message: 'Something went wrong',
+  }, props);
+}
+
+// wrap `fetch` to handle errors nicely
+function fetcher(...args) {
+  return fetch(args).then((res) => {
+    if (!res.ok) {
+      throw new CleanError({
+        code: res.status,
+        message: res.statusText,
+      });
+    }
+    return res.json();
+  });
+}
+
+
 // fetch options
 const headers = new Headers();
 headers.set('Content-Type', 'application/json');
@@ -39,17 +62,18 @@ export function fetchKeg(id) {
     id,
   });
 
-  return fetch(`/api/v1/kegs/${id}`)
-  .then(res => res.json())
+  return fetcher(`/api/v1/kegs/${id}`)
   .then((data) => {
     dispatcher.dispatch({
       type: 'RECEIVE_FETCH_KEG',
+      id,
       data,
     });
   })
   .catch((error) => {
     dispatcher.dispatch({
       type: 'RECEIVE_FETCH_KEG',
+      id,
       error,
     });
   });

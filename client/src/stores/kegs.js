@@ -46,8 +46,13 @@ class KegMapStore extends ReduceStore {
   reduce(state, action) {
     const { type, data, error } = action;
 
+    console.log({
+      type, data, error,
+    });
+
     switch (type) {
 
+      // fetch all kegs
       case 'REQUEST_FETCH_KEGS':
         return state.set('sync', new Immutable.Map({
           fetching: true,
@@ -55,12 +60,23 @@ class KegMapStore extends ReduceStore {
           error: null,
         })).set('kegs', new Immutable.Map());
 
+      // fetch single keg
+      case 'REQUEST_FETCH_KEG':
+        return state.setIn(['kegs', action.id], jsonToKeg().set('fetching', true));
+
       case 'RECEIVE_FETCH_KEGS':
         return state.set('sync', new Immutable.Map({
           fetching: false,
           fetched: true,
           error: error || null,
         })).set('kegs', kegsToMap(data));
+
+      case 'RECEIVE_FETCH_KEG':
+        return state.setIn(['kegs', action.id],
+          jsonToKeg(data)
+          .set('error', error || null)
+          .set('fetching', false)
+        );
 
       case 'TOGGLE_EDIT_KEG': {
         const currentToggleState = state.getIn(['kegs', action.kegId, 'editing']);

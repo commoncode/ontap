@@ -29,8 +29,8 @@ const KegListItem = (props) => {
 };
 
 KegListItem.propTypes = {
-  editing: React.PropTypes.boolean.required,
-  syncing: React.PropTypes.boolean.required,
+  editing: React.PropTypes.bool,
+  syncing: React.PropTypes.bool,
   model: propTypes.kegModel,
   profile: propTypes.profile,
 };

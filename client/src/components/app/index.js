@@ -1,7 +1,6 @@
 /**
  * App component/container
  * Basically wraps the whole thing.
- *
  */
 
 import React from 'react';
@@ -12,14 +11,18 @@ import profileActions from '../../actions/profile';
 import * as propTypes from '../../proptypes/';
 
 import ContentRouter from '../router';
-import Profile from '../profile/';
+import Profile from '../profile';
 
 const AppComponent = props => (
   <div className="container">
     <header className="app-header">
-      <h1><span>Comm</span>On Tap</h1>
+      <h1><a href="/#/"><span>Comm</span>On Tap</a></h1>
       <Profile {...props.profile} />
     </header>
+    <nav className="app-nav">
+      <a href="/#/">Now On Tap</a>
+      <a href="/#/kegs">All Kegs</a>
+    </nav>
 
     <div className="app-content">
       <ContentRouter {...props} />

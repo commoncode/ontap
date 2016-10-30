@@ -20,6 +20,11 @@
   color: #6D7340;
 }
 
+.keg a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .keg .beer-name {
   color: #638BBF;
   font-size: 1.5rem;

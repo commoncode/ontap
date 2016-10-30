@@ -18,7 +18,7 @@ class KegEdit extends React.Component {
   static propTypes() {
     return {
       model: React.PropTypes.object,
-      syncing: React.PropTypes.boolean,
+      syncing: React.PropTypes.bool,
     };
   }
 

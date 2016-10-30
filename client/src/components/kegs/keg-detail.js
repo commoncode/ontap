@@ -1,18 +1,28 @@
 import React from 'react';
 import { Container } from 'flux/utils';
 
-import KegEdit from './keg-edit';
-
 import kegsStore from '../../stores/kegs';
+import profileStore from '../../stores/profile';
 import { fetchKeg } from '../../actions/kegs';
 
-const KegEditComponent = props => (
-  <div>
-    <KegEdit {...props} />
+import KegListItem from './keg-list-item';
+import Keg from './keg';
+import Loader from '../loader/';
+import ErrorComponent from '../error' ;
+
+const KegDetail = props => (
+  <div className="keg-detail">
+    <ErrorComponent {...props.keg.error } />
+
+    { props.keg.fetching ?
+      <Loader /> :
+      <KegListItem {...props.keg} profile={props.profile}/>
+    }
+
   </div>
 );
 
-class KegEditContainer extends React.Component {
+class KegDetailContainer extends React.Component {
   static propTypes() {
     return {
       kegId: React.PropTypes.number,
@@ -20,12 +30,17 @@ class KegEditContainer extends React.Component {
   }
 
   static getStores() {
-    return [kegsStore];
+    return [kegsStore, profileStore];
   }
 
   static calculateState(prevState, props) {
+    const state = kegsStore.getState();
+    const pathToKeg = ['kegs', props.kegId];
+    const keg = state.hasIn(pathToKeg) ? state.getIn(pathToKeg).toJSON() : {};
+
     return {
-      keg: kegsStore.getState().kegs[props.kegId],
+      keg,
+      profile: profileStore.getState(),
     };
   }
 
@@ -34,8 +49,8 @@ class KegEditContainer extends React.Component {
   }
 
   render() {
-    return <KegEditComponent keg={this.state.keg} />;
+    return <KegDetail keg={this.state.keg} profile={this.state.profile} />;
   }
 }
 
-export default Container.create(KegEditContainer, { withProps: true });
+export default Container.create(KegDetailContainer, { withProps: true });

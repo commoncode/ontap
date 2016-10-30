@@ -14,14 +14,14 @@ import { dayMonth } from '../../util/date';
 const classes = classnames.bind(styles);
 
 const Keg = (props) => {
-  const { standardDrinks, abv, beerName, breweryName, notes, tapped } = props;
+  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped } = props;
 
   return (
     <div className={`keg ${classes(['keg'])}`}>
       <header>
         <div className={classes(['title'])}>
           <h2 className={classes(['beer-name'])}>
-            {beerName}
+            <a href={`/#/kegs/${id}`}>{beerName}</a>
           </h2>
           <h3 className={classes(['brewery-name'])}>
             {breweryName}
@@ -46,8 +46,9 @@ const Keg = (props) => {
 };
 
 Keg.propTypes = {
-  standardDrinks: React.PropTypes.string,
-  abv: React.PropTypes.string,
+  id: React.PropTypes.number,
+  standardDrinks: React.PropTypes.number,
+  abv: React.PropTypes.number,
   beerName: React.PropTypes.string,
   breweryName: React.PropTypes.string,
   notes: React.PropTypes.string,

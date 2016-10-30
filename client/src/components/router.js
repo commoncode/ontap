@@ -27,10 +27,11 @@ const routes = {
       secondParam: params[1],
     }),
   },
-  '/kegs/?/edit': {
+  '/kegs/?': {
     component: KegDetail,
     props: (props, params) => ({
-      kegId: params[0],
+      kegId: Number(params[0]),
+      key: params[0],
     }),
   },
   '/kegs': {
