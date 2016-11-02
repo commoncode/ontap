@@ -6,9 +6,14 @@ import styles from './current-taps.css';
 
 const classes = classnames.bind(styles);
 const taps = [{
-    tap: 'Right tap',
-  }, {
     tap: 'Left tap',
+    beerName: 'Once Bitter',
+    breweryName: 'Collins St. Brewing Co',
+    abv: 4.5,
+    notes: 'An beautifully balanced golden ale inspiration, with subtle tropical notes and a present malt sweetness. Clean and crisp, a real thirst quencher.',
+    tapped: 'November 2',
+  },{
+    tap: 'Right tap',
   },
 ];
 
