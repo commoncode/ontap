@@ -12,17 +12,17 @@ const Profile = (props) => {
 
   return (
     <div className={classes(['profile'])}>
-      { props.data &&
+      { props.data && props.data.id &&
         <div>
           <img
             className={classes(['avatar'])}
             src={`${props.data.avatar}?sz=32`}
-            title={`Logged in as ${props.data.name}`}
+            alt={`Logged in as ${props.data.name}`}
           />
         </div>
       }
 
-      { !props.data &&
+      { !props.data || !props.data.id &&
         <div className={classes(['nobody'])}>
           <a href="/login">Login with Google</a>
         </div>

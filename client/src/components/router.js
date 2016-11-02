@@ -8,15 +8,20 @@
 
 import React from 'react';
 
+import KegDetail from './kegs/keg-detail';
 import KegList from './kegs/keg-list';
 import Taps from './taps';
-import KegDetail from './kegs/keg-detail';
+import TapChange from './taps/tap-change';
 
 
 // define your routes.
 // use ? to grab a param
 // they're not named, they're just passed to your
 // props function in order.
+//
+// don't forget to add a key prop to any routes with params.
+// without that, if you change params but not routes
+// it won't refresh.
 const routes = {
   '/example/?/?': {
     component: KegList,
@@ -38,6 +43,14 @@ const routes = {
     component: KegList,
     props: props => ({
       profile: props.profile.data,
+    }),
+  },
+  '/taps/?': {
+    component: TapChange,
+    props: (props, params) => ({
+      profile: props.profile.data,
+      tapId: Number(params[0]),
+      key: params[0],
     }),
   },
   '/taps': {

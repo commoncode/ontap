@@ -14,7 +14,7 @@ import { dayMonth } from '../../util/date';
 const classes = classnames.bind(styles);
 
 const Keg = (props) => {
-  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped } = props;
+  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped, untapped } = props;
 
   return (
     <div className={`keg ${classes(['keg'])}`}>
@@ -34,6 +34,7 @@ const Keg = (props) => {
           </p>
           <p className={classes(['tapped'])}>
             {tapped && `Tapped ${dayMonth(tapped)}`}
+            {tapped && untapped && ` - ${dayMonth(untapped)}`}
           </p>
         </div>
 
@@ -53,6 +54,7 @@ Keg.propTypes = {
   breweryName: React.PropTypes.string,
   notes: React.PropTypes.string,
   tapped: React.PropTypes.string,
+  untapped: React.PropTypes.string,
 };
 
 function calcStandardDrinks(abv, litres = 0.500) {

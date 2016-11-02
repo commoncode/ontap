@@ -3,34 +3,7 @@
  */
 
 import dispatcher from '../dispatcher';
-
-
-function CleanError(props) {
-  this.isClean = true;
-  Object.assign(this, {
-    code: 500,
-    message: 'Something went wrong',
-  }, props);
-}
-
-// wrap `fetch` to handle errors nicely
-function fetcher(...args) {
-  return fetch(args).then((res) => {
-    if (!res.ok) {
-      throw new CleanError({
-        code: res.status,
-        message: res.statusText,
-      });
-    }
-    return res.json();
-  });
-}
-
-
-// fetch options
-const headers = new Headers();
-headers.set('Content-Type', 'application/json');
-const credentials = 'same-origin';
+import { fetcher, headers, credentials } from './util';
 
 
 // fetch all the kegs

@@ -45,7 +45,7 @@
   margin: 0 0 4px;
 }
 
-.keg .tapped {
+.keg .tapped, .keg .untapped {
   font-size: 12px;
   margin: 0;
   color: #638BBF;
