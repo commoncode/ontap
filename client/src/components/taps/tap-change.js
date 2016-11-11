@@ -28,7 +28,7 @@ class TapChange extends React.Component {
     this.state = {
       tapped: '',
       untapped: '',
-      kegId: '',
+      kegId: null,
     };
 
     this.selectChangeHandler = this.selectChangeHandler.bind(this);
@@ -62,21 +62,6 @@ class TapChange extends React.Component {
     .then(() => {
       console.log('done');
     });
-
-  }
-
-  componentWillReceiveProps(props){
-
-    console.log('receiving props');
-    console.log(props.tap);
-
-    const { tap } = props;
-
-    if (tap && tap.Keg) {
-      this.setState({
-        kegId: props.tap.Keg.id,
-      });
-    }
   }
 
   render() {
@@ -90,18 +75,26 @@ class TapChange extends React.Component {
 
     return (
       <div>
-        <h3>Change tap: <span>{tap.name}</span></h3>
+        <h3>{tap.name}</h3>
 
-        <p>
-          Currently on tap: <em>{tap.Keg ? `${tap.Keg.beerName} by ${tap.Keg.breweryName}` : 'Empty'}</em>
-        </p>
+        <h4>
+          {tap.Keg ? `${tap.Keg.beerName} by ${tap.Keg.breweryName}` : 'No Service'}
+        </h4>
+
+
+        <h5>Change this Keg</h5>
 
         <label htmlFor="kegId">Keg</label>
-
         <select onChange={this.selectChangeHandler} value={kegId} name="kegId">
           <option value="">No Service (Untap current keg)</option>
           <option disabled="true">-----</option>
-          { kegs.map(keg => <option key={keg.id} value={keg.id}>{keg.beerName}</option>) }
+          { kegs.map(keg => (
+            <option
+              key={keg.id}
+              value={keg.id}
+              disabled={keg.Tap}
+            >{keg.beerName}</option>
+          )) }
         </select>
 
         <label htmlFor="tapped">New Keg Tapped Date</label>

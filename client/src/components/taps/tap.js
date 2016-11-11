@@ -8,7 +8,7 @@ import branch from 'recompose/branch';
 import classnames from 'classnames/bind';
 import renderComponent from 'recompose/renderComponent';
 
-import { kegModel } from '../../proptypes/';
+import * as propTypes from '../../proptypes/';
 
 import Keg from '../kegs/keg';
 import styles from './taps.css';
@@ -16,12 +16,15 @@ import styles from './taps.css';
 const classes = classnames.bind(styles);
 
 const Tap = (props) => {
-  const { model } = props;
+  const { model, profile } = props;
   const { name } = model;
   return (
     <article className={`tap ${classes(['tap'])}`}>
       <div className={classes(['tap-name'])}>
-        {name}
+        {profile && profile.admin &&
+          <a href={`/#/taps/${model.id}`}>{name}</a>
+        }
+        {!profile || !profile.admin && name }
       </div>
       <div className={classes(['keg'])}>
         <header>
@@ -33,13 +36,17 @@ const Tap = (props) => {
 };
 
 Tap.propTypes = {
-  model: kegModel,
+  model: propTypes.kegModel,
+  profile: propTypes.profile,
 };
 
 const Dry = props => (
   <article className={classes(['tap', 'no-service'])}>
     <div className={classes(['tap-name'])}>
-      {props.model.name}
+      {props.profile && props.profile.admin &&
+          <a href={`/#/taps/${props.model.id}`}>{props.model.name}</a>
+        }
+        {!props.profile || !props.profile.admin && props.model.name }
     </div>
     <div className={classes(['keg'])}>
       <header>
@@ -50,7 +57,7 @@ const Dry = props => (
 );
 
 Dry.propTypes = {
-  model: kegModel,
+  model: propTypes.kegModel,
 };
 
 // switch Dry/Tap based on whether there's a Keg

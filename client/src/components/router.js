@@ -9,6 +9,7 @@
 import React from 'react';
 
 import KegDetail from './kegs/keg-detail';
+import KegEdit from './kegs/keg-edit';
 import KegList from './kegs/keg-list';
 import Taps from './taps';
 import TapChange from './taps/tap-change';
@@ -30,6 +31,12 @@ const routes = {
       bar: props.bar,
       firstParam: params[0],
       secondParam: params[1],
+    }),
+  },
+  '/kegs/new': {
+    component: KegEdit,
+    props: props => ({
+      profile: props.profile.data,
     }),
   },
   '/kegs/?': {

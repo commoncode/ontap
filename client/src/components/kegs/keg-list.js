@@ -12,55 +12,32 @@ import kegsStore from '../../stores/kegs';
 import * as propTypes from '../../proptypes/';
 
 import Keg from './keg';
-import KegEdit from './keg-edit';
 import Loader from '../loader/';
 
 
-class KegList extends React.Component {
+const KegList = (props) => {
+  const { kegs, profile, sync } = props;
 
-  static propTypes() {
-    return {
-      profile: propTypes.profile,
-      kegs: propTypes.kegs,
-      sync: propTypes.sync,
-    };
-  }
+  return (
+    <section className="keg-list">
+      { sync.fetching && <Loader /> }
 
-  constructor() {
-    super();
-    this.state = {
-      showNew: false,
-    };
+      { kegs.map(keg => <Keg key={keg.model.id} {...keg.model} />) }
 
-    this.toggleShowNew = this.toggleShowNew.bind(this);
-  }
+      { profile && profile.admin && sync.fetched &&
+        <a className="btn-new-keg" href="/#/kegs/new">Add a Keg +</a>
+      }
 
-  toggleShowNew() {
-    this.setState({
-      showNew: !this.state.showNew,
-    });
-  }
+    </section>
+  );
+};
 
-  render() {
-    const { kegs, profile, sync } = this.props;
-    const { showNew } = this.state;
+KegList.propTypes = {
+  profile: propTypes.profile,
+  kegs: propTypes.kegs,
+  sync: propTypes.sync,
+};
 
-    return (
-      <section className="keg-list">
-        { sync.fetching && <Loader /> }
-
-        { kegs.map(keg => <Keg key={keg.model.id} {...keg.model} />) }
-
-        { showNew && <KegEdit /> }
-
-        { profile && profile.admin && sync.fetched &&
-          <a className="btn-new-keg" href="/#/kegs/new">Add a Keg +</a>
-        }
-
-      </section>
-    );
-  }
-}
 
 class KegListContainer extends React.Component {
   static getStores() {

@@ -35,7 +35,7 @@ export const fetchTapWithKegs = (tapId) => {
 
   return Promise.all([
     fetcher(`/api/v1/taps/${tapId}`),
-    fetcher('/api/v1/kegs'),
+    fetcher('/api/v1/kegs/new'),
   ])
   .then(([tap, kegs]) => {
     dispatcher.dispatch({

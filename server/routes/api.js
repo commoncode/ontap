@@ -35,6 +35,23 @@ function getAllKegs(req, res) {
   .catch(err => logAndSendError(err, res));
 }
 
+// kegs that haven't been tapped.
+// ie, .tapped === null
+// sequelize does some weird shit returning
+// null date values, so we have to fetch all
+// and do a filter instead.
+// see the getter for `tapped` in models/keg.js
+function getNewKegs(req, res) {
+  db.Keg.findAll({
+    // where: {
+    //   tapped: null,
+    // },
+  })
+  .then(kegs => kegs.filter(keg => !keg.get('tapped')))
+  .then(kegs => res.json(kegs))
+  .catch(err => logAndSendError(err, res));
+}
+
 function getKegById(req, res) {
   db.Keg.findById(req.params.id)
   .then((keg) => {
@@ -218,10 +235,11 @@ function adminsOnly(req, res, next) {
 function simulateCommonCodeInternet(req, res, next) {
   setTimeout(next, 1000);
 }
-// router.use(simulateCommonCodeInternet);
+router.use(simulateCommonCodeInternet);
 
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
+router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
 router.get('/kegs/:id', getKegById);
 router.get('/taps', getAllTaps);
 router.get('/taps/:id', getTapById);

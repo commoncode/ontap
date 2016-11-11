@@ -11,6 +11,7 @@ export const error = React.PropTypes.object;
 export const sync = React.PropTypes.shape({
   fetching: React.PropTypes.bool,
   fetched: React.PropTypes.bool,
+  pushing: React.PropTypes.bool,
   error,
 });
 
@@ -42,11 +43,10 @@ export const kegModel = React.PropTypes.shape({
 // keg with a sync object and editing/syncing props
 // todo - fold editing/syncing into the sync object?
 // maybe just syncing.
-export const keg = React.PropTypes.shape(Object.assign(sync, {
-  editing: React.PropTypes.bool,
-  syncing: React.PropTypes.bool,
+export const keg = React.PropTypes.shape({
+  ...sync,
   model: kegModel,
-}));
+});
 
 // array of kegs
 export const kegs = React.PropTypes.arrayOf(keg);

@@ -1,26 +1,60 @@
 import React from 'react';
 import { Container } from 'flux/utils';
 
-import kegsStore from '../../stores/kegs';
+import kegDetailStore from '../../stores/keg-detail';
 import profileStore from '../../stores/profile';
 import { fetchKeg } from '../../actions/kegs';
+import propTypes from '../../proptypes';
 
-import KegListItem from './keg-list-item';
 import Keg from './keg';
+import KegEdit from './keg-edit';
 import Loader from '../loader/';
 import ErrorComponent from '../error' ;
 
-const KegDetail = props => (
-  <div className="keg-detail">
-    <ErrorComponent {...props.keg.error } />
+class KegDetail extends React.Component {
+  static propTypes() {
+    return {
+      keg: propTypes.keg,
+      profile: propTypes.profile,
+    };
+  }
 
-    { props.keg.fetching ?
-      <Loader /> :
-      <KegListItem {...props.keg} profile={props.profile}/>
-    }
+  constructor() {
+    super();
+    this.state = {
+      editing: false,
+    };
 
-  </div>
-);
+    this.toggleEditing = this.toggleEditing.bind(this);
+  }
+
+  toggleEditing() {
+    this.setState({
+      editing: !this.state.editing,
+    });
+  }
+
+  render() {
+    const { keg, profile } = this.props;
+
+    return (
+      <div className="keg-detail">
+        <ErrorComponent {...keg.error } />
+
+        { keg.fetching && <Loader />}
+
+        { keg.model && (
+            <div>
+              <Keg {...keg.model} profile={profile} />
+              <KegEdit model={keg.model} />
+            </div>
+          )
+        }
+
+      </div>
+    );
+  }
+}
 
 class KegDetailContainer extends React.Component {
   static propTypes() {
@@ -30,16 +64,12 @@ class KegDetailContainer extends React.Component {
   }
 
   static getStores() {
-    return [kegsStore, profileStore];
+    return [kegDetailStore, profileStore];
   }
 
-  static calculateState(prevState, props) {
-    const state = kegsStore.getState();
-    const pathToKeg = ['kegs', props.kegId];
-    const keg = state.hasIn(pathToKeg) ? state.getIn(pathToKeg).toJSON() : {};
-
+  static calculateState() {
     return {
-      keg,
+      keg: kegDetailStore.getState(),
       profile: profileStore.getState(),
     };
   }

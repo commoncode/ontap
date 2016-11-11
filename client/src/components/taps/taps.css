@@ -20,7 +20,7 @@
   color: #6D7340;
 }
 
-.keg a {
+.keg a, .tap a {
   color: inherit;
   text-decoration: none;
 }
