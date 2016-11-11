@@ -1,6 +1,7 @@
 /**
  * Tap Change Store.
  * State management for TapChange component.
+ * todo - make Immutable Map, like the others.
  */
 
 import { ReduceStore } from 'flux/utils';

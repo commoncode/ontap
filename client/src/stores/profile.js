@@ -1,6 +1,7 @@
 /**
  * Profile Store.
  * Don't forget who you are.
+ * todo - make it an ImmutableMap like the others, for consistency.
  */
 
 import { ReduceStore } from 'flux/utils';

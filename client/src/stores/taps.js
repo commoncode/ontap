@@ -1,7 +1,6 @@
 /**
  * Tap Store.
- * Tell us what we can drink.
- * We're not here to fuck spiders.
+ * Tell us what we can drink; we're not here to fuck spiders.
  */
 
 import Immutable from 'immutable';
