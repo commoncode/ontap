@@ -19,7 +19,7 @@ const KegList = (props) => {
   const { kegs, sync } = props;
 
   return (
-    <secti  on className="keg-list">
+    <section className="keg-list">
       { sync.fetching && <Loader /> }
 
       { kegs.map(keg => <Keg key={keg.model.id} {...keg.model} />) }
