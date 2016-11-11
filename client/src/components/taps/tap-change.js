@@ -74,7 +74,7 @@ class TapChange extends React.Component {
     }
 
     return (
-      <div>
+      <div className="tap-change">
         <h3>{tap.name}</h3>
 
         <h4>

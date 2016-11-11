@@ -21,8 +21,7 @@ const AppComponent = props => (
     </header>
     <nav className="app-nav">
       <a href="/#/">Now On Tap</a>
-      <a href="/#/kegs">Next Kegs</a>
-      <a href="/#/kegs/all">All Kegs</a>
+      <a href="/#/kegs">Kegs</a>
       {props.profile && props.profile.data.admin && <a href="/#/kegs/new">Add a Keg</a> }
 
     </nav>

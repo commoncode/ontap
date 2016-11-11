@@ -36,20 +36,30 @@ class KegDetail extends React.Component {
 
   render() {
     const { keg, profile } = this.props;
+    const { editing } = this.state;
+    const canEdit = profile.data && profile.data.admin;
 
     return (
       <div className="keg-detail">
-        <ErrorComponent {...keg.error } />
+        <ErrorComponent {...keg.error} />
 
         { keg.fetching && <Loader />}
 
         { keg.model && (
-            <div>
-              <Keg {...keg.model} profile={profile} />
-              <KegEdit model={keg.model} />
-            </div>
-          )
-        }
+          <div>
+            <Keg {...keg.model} profile={profile} />
+          </div>
+        ) }
+
+        { canEdit && (
+          <button
+            className="btn"
+            onClick={this.toggleEditing}
+          >Edit this Keg</button>
+        ) }
+
+        { editing && <KegEdit model={keg.model} />}
+
 
       </div>
     );

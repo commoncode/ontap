@@ -147,6 +147,23 @@ body {
 }
 
 
+.keg-detail {
+  padding: 24px;
+
+  .keg {
+    margin-bottom: 3em;
+  }
+}
+
+.tap-change {
+  padding: 24px;
+}
+
+.app-content > .keg-edit {
+  padding: 24px;
+}
+
+
 // buttons
 button {
   border: 1px solid #ddd;

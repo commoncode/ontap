@@ -16,24 +16,19 @@ import Loader from '../loader/';
 
 
 const KegList = (props) => {
-  const { kegs, profile, sync } = props;
+  const { kegs, sync } = props;
 
   return (
-    <section className="keg-list">
+    <secti  on className="keg-list">
       { sync.fetching && <Loader /> }
 
       { kegs.map(keg => <Keg key={keg.model.id} {...keg.model} />) }
-
-      { profile && profile.admin && sync.fetched &&
-        <a className="btn-new-keg" href="/#/kegs/new">Add a Keg +</a>
-      }
 
     </section>
   );
 };
 
 KegList.propTypes = {
-  profile: propTypes.profile,
   kegs: propTypes.kegs,
   sync: propTypes.sync,
 };

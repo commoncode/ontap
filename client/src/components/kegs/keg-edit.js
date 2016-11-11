@@ -84,9 +84,12 @@ class KegEdit extends React.Component {
   render() {
     const { beerName, breweryName, abv, tapped, untapped, notes } = this.state.model;
     const { syncing } = this.props;
+    const isNew = !this.props.model || !this.props.model.id;
 
     return (
       <div className={`keg-edit ${classes(['keg-edit'])}`}>
+
+        {isNew && <h1>Add a New Keg</h1>}
 
         <label htmlFor="beerName">Beer Name</label>
         <input
