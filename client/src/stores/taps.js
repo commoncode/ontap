@@ -10,21 +10,10 @@ import { ReduceStore } from 'flux/utils';
 import dispatcher from '../dispatcher';
 
 
-function jsonToTap(model = {}) {
-  return new Immutable.Map({
-    fetching: false,
-    editing: false,
-    syncing: false,
-    error: null,
-    model,
-  });
-}
-
+// array of Tap objects -> Immutable Map
 function tapsToMap(taps = []) {
   return new Immutable.Map().withMutations((map) => {
-    taps.forEach((tap) => {
-      map.set(tap.id, jsonToTap(tap));
-    });
+    taps.forEach(tap => map.set(tap.id, tap));
     return map;
   });
 }

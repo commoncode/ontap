@@ -232,8 +232,10 @@ function adminsOnly(req, res, next) {
   return next();
 }
 
+// simulate a slow connection.
+// change the timeout to make it work.
 function simulateCommonCodeInternet(req, res, next) {
-  setTimeout(next, 1000);
+  setTimeout(next, 0);
 }
 router.use(simulateCommonCodeInternet);
 

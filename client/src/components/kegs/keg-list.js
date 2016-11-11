@@ -22,7 +22,7 @@ const KegList = (props) => {
     <section className="keg-list">
       { sync.fetching && <Loader /> }
 
-      { kegs.map(keg => <Keg key={keg.model.id} {...keg.model} />) }
+      { kegs.map(keg => <Keg key={keg.id} {...keg} />) }
 
     </section>
   );
@@ -59,7 +59,7 @@ class KegListContainer extends React.Component {
     // OR maybe we just teach the components to use maps.
     return (
       <KegList
-        kegs={this.state.kegsState.get('kegs').toArray().map(map => map.toJSON())}
+        kegs={this.state.kegsState.get('kegs').toArray()}
         sync={this.state.kegsState.get('sync').toJSON()}
         {...this.props}
       />

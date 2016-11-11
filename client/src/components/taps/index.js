@@ -19,7 +19,7 @@ const CurrentTapsComponent = (props) => {
     <section className={classes(['on-tap-list'])}>
       {sync.fetching && <Loader />}
 
-      {taps.map(tap => <Tap key={tap.model.id} {...tap} profile={profile} />) }
+      {taps.map(tap => <Tap key={tap.id} model={tap} profile={profile} />) }
     </section>
   );
 };
@@ -49,7 +49,7 @@ class CurrentTapsContainer extends React.Component {
   render() {
     return (
       <CurrentTapsComponent
-        taps={this.state.taps.get('taps').toArray().map(map => map.toJSON())}
+        taps={this.state.taps.get('taps').toArray()}
         sync={this.state.taps.get('sync').toJSON()}
         {...this.props}
       />
