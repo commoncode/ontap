@@ -1,27 +1,61 @@
 {
   "name": "ontap",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "beer at cc",
+  "engines": {
+    "node": ">=6.5.0"
+  },
   "main": "src/main.js",
   "scripts": {
-    "start": "pack -r -m -w",
-    "build": "pack -r -m"
+    "build": "pack -r -m --src client/src --main main.js -o client/dist",
+    "db-cli": "node server/bin/db",
+    "dev": "nodemon server/index --ignore client",
+    "lint": "eslint client/src",
+    "start": "node server/index",
+    "test": "mocha --reporter dot server/test",
+    "watch": "pack -r -m -w --src client/src --main main.js -o client/dist --proxy 4000"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/commoncode/ontap.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Common Code",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/commoncode/ontap/issues"
   },
   "homepage": "https://github.com/commoncode/ontap#readme",
   "dependencies": {
+    "app-module-path": "^2.1.0",
+    "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
+    "connect-session-sequelize": "^3.2.0",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^2.0.0",
+    "dotenv-safe": "^2.3.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "flux": "^3.1.0",
+    "immutable": "^3.8.1",
+    "morgan": "^1.7.0",
     "normalize.css": "^4.2.0",
     "pack-cli": "^0.2.2",
+    "passport": "^0.3.2",
+    "passport-google-oauth20": "^1.0.0",
     "react": "^15.3.2",
-    "recompose": "^0.20.2"
+    "recompose": "^0.20.2",
+    "sequelize": "^3.24.3",
+    "sqlite3": "^3.1.6",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.6.1",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
+    "mocha": "^3.1.0",
+    "supertest": "^2.0.0"
   }
 }

@@ -1,0 +1,181 @@
+/**
+ * Global styles go here.
+ * CSS modules are enabled in the build process if you want
+ * to declare styles specific to components; put a .scss file
+ * in the /components/ComponentName folder and import into the
+ * component.
+ */
+
+
+// colour scheme
+$darkBlue: #638BBF;
+$lightBlue: #89BAD9;
+$darkerBlue: #436B9F;
+$offGrey: #EEEEEE;
+$offWhite: #F2F2F2;
+$brown: #59596E;
+$khaki: #6D7340;
+$highlight: #FC531F;
+
+@import '~normalize.css/normalize.css';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 24px;
+  font-family: 'Helvetica Neue', Helvetica, arial, sans-serif;
+  color: $brown;
+}
+
+.container {
+  display: block;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+
+
+// KegEdit component inlined into tap view
+.tap .keg-edit {
+  margin: 40px 0 0;
+  padding: 40px 0 0;
+  border-top: 1px solid #ccc;
+}
+
+
+// App Header
+.app-header {
+  background: $lightBlue;
+  color: $offWhite;
+  margin: 0;
+  padding: 24px;
+  flex: 0 0 auto;
+  display: flex;
+
+  h1 {
+    font-weight: 800;
+    color: white;
+    font-size: 2rem;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+    margin: 0;
+    flex: 1 0 0;
+
+    span {
+      color: #eee;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  .profile {
+    flex: 1 0 0;
+  }
+}
+
+// App Nav
+.app-nav {
+  background: $darkBlue;
+  font-size: 14px;
+  padding: 4px;
+  border-top: 2px solid $darkerBlue;
+
+  a {
+    color: $offGrey;
+    text-decoration: none;
+    padding: 0 24px;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  a + a {
+    border-left: 1px solid $lightBlue;
+  }
+}
+
+// App Content
+.app-content {
+  overflow-y: auto;
+  flex: 1 1 auto;
+}
+
+// App Footer
+.app-footer {
+  text-align: center;
+  font-size: 14px;
+  padding: 1em;
+  margin: 0;
+
+  a {
+    color: $lightBlue;
+  }
+}
+
+
+// keg list
+.keg-list {
+
+  .keg {
+    border-bottom: 1px solid $lightBlue;
+    padding: 24px;
+  }
+
+  .btn-new-keg {
+    display: block;
+    margin: 1em auto;
+  }
+
+  .keg-edit {
+    padding: 20px;
+  }
+}
+
+
+.keg-detail {
+  padding: 24px;
+
+  .keg {
+    margin-bottom: 3em;
+  }
+}
+
+.tap-change {
+  padding: 24px;
+}
+
+.app-content > .keg-edit {
+  padding: 24px;
+}
+
+
+// buttons
+button {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-weight: 200;
+  color: #89BAD9;
+
+  cursor: pointer;
+  padding: 0.5em 1em;
+
+  &:hover {
+    border: 1px solid #bbb;
+  }
+}
