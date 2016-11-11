@@ -7,13 +7,18 @@ import styles from './current-taps.css';
 const classes = classnames.bind(styles);
 const taps = [{
     tap: 'Left tap',
-    beerName: 'Once Bitter',
-    breweryName: 'Collins St. Brewing Co',
-    abv: 4.5,
-    notes: 'An beautifully balanced golden ale inspiration, with subtle tropical notes and a present malt sweetness. Clean and crisp, a real thirst quencher.',
-    tapped: 'November 2',
+    beerName: 'Weizen',
+    breweryName: 'Cavalier',
+    abv: 5,
+    notes: 'Limited Release! A mix of banana, subtle bubblegum, clove and spicy aromas are backed up by a soft, bready, slightly sweet malt flavour finishing with a mild tartness. Unfiltered and cloudy with a thick white head.'
+    tapped: 'November 4',
   },{
-    tap: 'Right tap',
+    tap: 'Middle tap',
+    beerName: 'Brown Ale',
+    breweryName: 'Cavalier',
+    abv: 5,
+    notes: 'Using a broad mix of chocolate and crystal malts, the Cavalier Brown delivers an initial burst of caramel sweetness, followed by a dry, crisp roasted note. The perfect mix of chocolate and toasty caramel flavours. With the added complexity of aromas from classic American hops, subtle citrus notes reveal something new in every sip.',
+    tapped: 'November 11',
   },
 ];
 
