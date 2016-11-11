@@ -10,7 +10,7 @@ const taps = [{
     beerName: 'Weizen',
     breweryName: 'Cavalier',
     abv: 5,
-    notes: 'Limited Release! A mix of banana, subtle bubblegum, clove and spicy aromas are backed up by a soft, bready, slightly sweet malt flavour finishing with a mild tartness. Unfiltered and cloudy with a thick white head.'
+    notes: 'Limited Release! A mix of banana, subtle bubblegum, clove and spicy aromas are backed up by a soft, bready, slightly sweet malt flavour finishing with a mild tartness. Unfiltered and cloudy with a thick white head.',
     tapped: 'November 4',
   },{
     tap: 'Middle tap',
