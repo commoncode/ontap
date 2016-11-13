@@ -24,7 +24,10 @@ function logAndSendError(err, res) {
 // if we end up with too many of them...
 function getOnTap(req, res) {
   db.Tap.findAll({
-    include: [db.Keg],
+    include: [{
+      model: db.Keg,
+      include: [db.Rating],
+    }],
   }).then(taps => res.send(taps))
   .catch(err => logAndSendError(err, res));
 }
@@ -127,6 +130,50 @@ function deleteTap(req, res) {
   })
   .then(res.send(204))
   .catch(err => res.send(err.status));
+}
+
+function rateKeg(req, res) {
+  if (!req.user || !req.user.id) {
+    return res.status(401).send();
+  }
+
+  const kegId = req.params.id;
+  const userId = req.user.id;
+  const value = req.body.value;
+
+  // if the rating already exists for this user
+  // on this keg, then we need to update it.
+  // otherwise we create it.
+  return db.Rating.findOrCreate({
+    where: {
+      kegId,
+      userId,
+    },
+    defaults: {
+      value,
+    },
+  })
+  .then((result) => {
+    const [instance, created] = result;
+
+    // instance is newly created, return it.
+    if (created) {
+      return instance;
+    }
+
+    // instance pre-exists, update and send.
+    return instance.update({
+      value,
+    });
+  })
+  .then((instance) => {
+    log.info(`${req.user.name} rated keg #${kegId} a ${value}`);
+    res.send(instance.get());
+  })
+  .catch((err) => {
+    log.error(err);
+    res.status(500).send(err);
+  });
 }
 
 /**
@@ -251,6 +298,7 @@ router.use(adminsOnly);
 
 router.post('/kegs', createKeg);
 router.put('/kegs/:id', updateKeg);
+router.put('/kegs/:id/rate', rateKeg);
 router.delete('/kegs/:id', deleteKeg);
 
 router.post('/taps', createTap);

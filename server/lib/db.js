@@ -38,12 +38,25 @@ const loadModels = () => {
 
 loadModels();
 
-// sequelize names these backwards imho
+// keg <-> tap
 db.Keg.hasOne(db.Tap, {
   foreignKey: 'kegId',
 });
 db.Tap.belongsTo(db.Keg, {
   foreignKey: 'kegId',
+});
+
+// kegs have ratings
+db.Keg.hasMany(db.Rating, {
+  foreignKey: 'kegId',
+});
+
+// ratings have users
+db.User.hasOne(db.Rating, {
+  foreignKey: 'userId',
+});
+db.Rating.belongsTo(db.User, {
+  foreignKey: 'userId',
 });
 
 sequelize.sync().then(() => {
