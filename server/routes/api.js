@@ -33,7 +33,9 @@ function getOnTap(req, res) {
 }
 
 function getAllKegs(req, res) {
-  db.Keg.findAll()
+  db.Keg.findAll({
+    include: [db.Rating],
+  })
   .then(kegs => res.json(kegs))
   .catch(err => logAndSendError(err, res));
 }
@@ -270,7 +272,17 @@ function changeKegHandler(req, res) {
 }
 
 
+
 // auth middleware.
+
+// prevent guests from hitting endpoints
+function usersOnly(req, res, next) {
+  if (!req.user) {
+    return res.status(401).send();
+  }
+  return next();
+}
+
 // prevent non-admins from hitting endpoints.
 function adminsOnly(req, res, next) {
   if (!req.user || !req.user.admin) {
@@ -293,14 +305,16 @@ router.get('/kegs/:id', getKegById);
 router.get('/taps', getAllTaps);
 router.get('/taps/:id', getTapById);
 
+// guests can't use endpoints below this middleware
+router.use(usersOnly);
+router.put('/kegs/:id/rate', rateKeg);
+
 // admins only for all endpoints below this middleware
 router.use(adminsOnly);
 
 router.post('/kegs', createKeg);
 router.put('/kegs/:id', updateKeg);
-router.put('/kegs/:id/rate', rateKeg);
 router.delete('/kegs/:id', deleteKeg);
-
 router.post('/taps', createTap);
 router.post('/taps/:id/keg', changeKegHandler);
 router.delete('/taps/:id', deleteTap);

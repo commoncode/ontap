@@ -179,3 +179,52 @@ button {
     border: 1px solid #bbb;
   }
 }
+
+
+// emoji for rating beer
+
+.emoji {
+  background-size: 100%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+
+.emoji-happy {
+  @extend .emoji;
+  background-image: url('../images/emoji-happy.svg');
+}
+
+.emoji-meh {
+  @extend .emoji;
+  background-image: url('../images/emoji-meh.svg');
+}
+
+.emoji-sad {
+  @extend .emoji;
+  background-image: url('../images/emoji-sad.svg');
+}
+
+
+.keg-rating {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+
+  .rating {
+    margin-left: 24px;
+    .icon {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+  }
+
+  color: $lightBlue;
+  font-size: 14px;
+
+  span {
+    font-size: 1rem;
+  }
+}

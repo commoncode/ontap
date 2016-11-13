@@ -40,6 +40,14 @@ export const kegModel = React.PropTypes.shape({
   untapped: React.PropTypes.string, // date?
 });
 
+export const ratingModel = React.PropTypes.shape({
+  value: React.PropTypes.number,
+  kegId: React.PropTypes.number,
+  userId: React.PropTypes.number,
+});
+
+export const ratings = React.PropTypes.arrayOf(ratingModel);
+
 // keg with a sync object and editing/syncing props
 // todo - fold editing/syncing into the sync object?
 // maybe just syncing.

@@ -33,3 +33,5 @@ export function fetcher(path, opts) {
     return res.json();
   });
 }
+
+window.fetcher = fetcher;
