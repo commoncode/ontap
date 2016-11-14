@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Rating', {
   value: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    validate: {
+      min: -1,
+      max: 1,
+    },
   },
   kegId: {
     type: DataTypes.INTEGER,
