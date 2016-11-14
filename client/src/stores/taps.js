@@ -29,6 +29,7 @@ class TapsStore extends ReduceStore {
     return new Immutable.Map().mergeIn(['sync'], sync).mergeIn(['taps'], taps);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   reduce(state, action) {
     const { type, data, error } = action;
 
@@ -46,6 +47,26 @@ class TapsStore extends ReduceStore {
           fetched: true,
           error: error || null,
         })).set('taps', tapsToMap(data));
+
+      case 'RECEIVE_RATE_KEG': {
+        // todo - not sure how but sometimes .taps isn't set...?
+        if (!state.has('taps')) return state;
+
+        // todo - handle this.
+        if (error) return state;
+
+        // payload is a Keg.
+        // if that Keg is in our Taps, find it and update it.
+        const matchingTap = state.get('taps').findEntry(tap => tap.kegId === action.kegId);
+        if (matchingTap) {
+          const [tapId, tapObject] = matchingTap;
+          return state.setIn(['taps', tapId], {
+            ...tapObject,
+            Keg: data,
+          });
+        }
+        return state;
+      }
 
       default:
         return state;

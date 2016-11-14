@@ -46,7 +46,7 @@ const Keg = (props) => {
         {notes}
       </p>
 
-      <KegRating ratings={Ratings} />
+      <KegRating ratings={Ratings} kegId={id} />
 
     </div>
   );

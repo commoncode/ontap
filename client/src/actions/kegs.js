@@ -109,11 +109,32 @@ export function createKeg(keg) {
   });
 }
 
-// toggle editing of a keg
-export function toggleEditKeg(kegId) {
-  return dispatcher.dispatch({
-    type: 'TOGGLE_EDIT_KEG',
+// rate a keg
+export function rateKeg(kegId, value) {
+  dispatcher.dispatch({
+    type: 'REQUEST_RATE_KEG',
     kegId,
+  });
+
+  return fetcher(`/api/v1/kegs/${kegId}/rate`, {
+    method: 'PUT',
+    body: JSON.stringify({
+      value,
+    }),
+  })
+  .then((data) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_RATE_KEG',
+      kegId,
+      data,
+    });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_RATE_KEG',
+      kegId,
+      error,
+    });
   });
 }
 

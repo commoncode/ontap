@@ -168,9 +168,14 @@ function rateKeg(req, res) {
       value,
     });
   })
-  .then((instance) => {
+  .then(() => {
     log.info(`${req.user.name} rated keg #${kegId} a ${value}`);
-    res.send(instance.get());
+    return db.Keg.findById(kegId, {
+      include: [db.Rating],
+    });
+  })
+  .then((keg) => {
+    res.send(keg.get());
   })
   .catch((err) => {
     log.error(err);
@@ -255,7 +260,7 @@ function changeKegHandler(req, res) {
     // API should always return consistent errors
 
     // errors from changeKeg()
-    if (err.message && err.message === '404' || err.message === '400') {
+    if (err.message && (err.message === '404' || err.message === '400')) {
       return res.status(err.message).send(err);
     }
 
@@ -270,7 +275,6 @@ function changeKegHandler(req, res) {
     return res.status(500).send(err);
   });
 }
-
 
 
 // auth middleware.
