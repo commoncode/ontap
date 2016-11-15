@@ -23,7 +23,7 @@ const profileActions = {
         data,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       dispatcher.dispatch({
         type: 'RECEIVE_FETCH_PROFILE',
         error,

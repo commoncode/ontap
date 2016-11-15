@@ -4,6 +4,7 @@
 
 import dispatcher from '../dispatcher';
 import { fetcher, headers, credentials } from './util';
+import { addNotification } from './notifications';
 
 
 // fetch all the kegs
@@ -96,6 +97,7 @@ export function createKeg(keg) {
   })
   .then(res => res.json())
   .then((data) => {
+    addNotification('Done.');
     dispatcher.dispatch({
       type: 'RECEIVE_CREATE_KEG',
       data,
@@ -123,6 +125,7 @@ export function rateKeg(kegId, value) {
     }),
   })
   .then((data) => {
+    addNotification('Cheers, homeslice.');
     dispatcher.dispatch({
       type: 'RECEIVE_RATE_KEG',
       kegId,
@@ -130,6 +133,10 @@ export function rateKeg(kegId, value) {
     });
   })
   .catch((error) => {
+    if (error.isClean && error.code === 401) {
+      addNotification('Please log in to rate beers');
+    }
+
     dispatcher.dispatch({
       type: 'RECEIVE_RATE_KEG',
       kegId,

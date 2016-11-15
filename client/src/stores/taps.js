@@ -52,7 +52,8 @@ class TapsStore extends ReduceStore {
         // todo - not sure how but sometimes .taps isn't set...?
         if (!state.has('taps')) return state;
 
-        // todo - handle this.
+        // a notification gets fired from the action creator
+        // so we're good to ignore this
         if (error) return state;
 
         // payload is a Keg.

@@ -206,6 +206,7 @@ button {
 }
 
 
+// rate kegs
 .keg-rating {
   display: flex;
   justify-content: flex-end;
@@ -227,5 +228,44 @@ button {
 
   span {
     font-size: 1rem;
+  }
+}
+
+
+// notifications
+
+.notifications {
+  position: fixed;
+  width: 100%;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
+
+  .notification {
+    display: block;
+    text-align: center;
+    margin: 0;
+    padding: 12px;
+    cursor: pointer;
+    background: $offWhite;
+    border-bottom: 1px solid white;
+    animation: fadein 0.25s linear;
+    overflow: hidden;
+
+    &:hover {
+      background: #ddd !important;
+    }
+
+    &:nth-child(odd) {
+      background: $offGrey;
+    }
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

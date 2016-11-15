@@ -77,3 +77,11 @@ export const tap = React.PropTypes.shape(Object.assign(sync, {
 
 // array of taps
 export const taps = React.PropTypes.arrayOf(tap);
+
+// notification
+export const notification = React.PropTypes.shape({
+  message: React.PropTypes.string,
+});
+
+// array of notifications
+export const notifications = React.PropTypes.arrayOf(notification);

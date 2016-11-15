@@ -22,7 +22,7 @@ const Profile = (props) => {
         </div>
       }
 
-      { !props.data || !props.data.id &&
+      { (!props.data || !props.data.id) &&
         <div className={classes(['nobody'])}>
           <a href="/login">Login with Google</a>
         </div>
