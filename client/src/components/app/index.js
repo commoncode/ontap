@@ -12,9 +12,11 @@ import * as propTypes from '../../proptypes/';
 
 import ContentRouter from '../router';
 import Profile from '../profile';
+import Notifications from '../notifications';
 
 const AppComponent = props => (
   <div className="container">
+    <Notifications />
     <header className="app-header">
       <h1><a href="/#/"><span>Comm</span>On Tap</a></h1>
       <Profile {...props.profile} />

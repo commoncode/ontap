@@ -24,13 +24,18 @@ function logAndSendError(err, res) {
 // if we end up with too many of them...
 function getOnTap(req, res) {
   db.Tap.findAll({
-    include: [db.Keg],
+    include: [{
+      model: db.Keg,
+      include: [db.Rating],
+    }],
   }).then(taps => res.send(taps))
   .catch(err => logAndSendError(err, res));
 }
 
 function getAllKegs(req, res) {
-  db.Keg.findAll()
+  db.Keg.findAll({
+    include: [db.Rating],
+  })
   .then(kegs => res.json(kegs))
   .catch(err => logAndSendError(err, res));
 }
@@ -129,6 +134,55 @@ function deleteTap(req, res) {
   .catch(err => res.send(err.status));
 }
 
+function rateKeg(req, res) {
+  if (!req.user || !req.user.id) {
+    return res.status(401).send();
+  }
+
+  const kegId = req.params.id;
+  const userId = req.user.id;
+  const value = req.body.value;
+
+  // if the rating already exists for this user
+  // on this keg, then we need to update it.
+  // otherwise we create it.
+  return db.Rating.findOrCreate({
+    where: {
+      kegId,
+      userId,
+    },
+    defaults: {
+      value,
+    },
+  })
+  .then((result) => {
+    const [instance, created] = result;
+
+    // instance is newly created, return it.
+    if (created) {
+      return instance;
+    }
+
+    // instance pre-exists, update and send.
+    return instance.update({
+      value,
+    });
+  })
+  .then(() => {
+    log.info(`${req.user.name} rated keg #${kegId} a ${value}`);
+    return db.Keg.findById(kegId, {
+      include: [db.Rating],
+    });
+  })
+  .then((keg) => {
+    res.send(keg.get());
+  })
+  .catch((err) => {
+    log.error(err);
+    res.status(500).send(err);
+  });
+}
+
 /**
  * Change the Keg on a Tap.
  *
@@ -206,7 +260,7 @@ function changeKegHandler(req, res) {
     // API should always return consistent errors
 
     // errors from changeKeg()
-    if (err.message && err.message === '404' || err.message === '400') {
+    if (err.message && (err.message === '404' || err.message === '400')) {
       return res.status(err.message).send(err);
     }
 
@@ -224,6 +278,15 @@ function changeKegHandler(req, res) {
 
 
 // auth middleware.
+
+// prevent guests from hitting endpoints
+function usersOnly(req, res, next) {
+  if (!req.user) {
+    return res.status(401).send();
+  }
+  return next();
+}
+
 // prevent non-admins from hitting endpoints.
 function adminsOnly(req, res, next) {
   if (!req.user || !req.user.admin) {
@@ -246,13 +309,16 @@ router.get('/kegs/:id', getKegById);
 router.get('/taps', getAllTaps);
 router.get('/taps/:id', getTapById);
 
+// guests can't use endpoints below this middleware
+router.use(usersOnly);
+router.put('/kegs/:id/rate', rateKeg);
+
 // admins only for all endpoints below this middleware
 router.use(adminsOnly);
 
 router.post('/kegs', createKeg);
 router.put('/kegs/:id', updateKeg);
 router.delete('/kegs/:id', deleteKeg);
-
 router.post('/taps', createTap);
 router.post('/taps/:id/keg', changeKegHandler);
 router.delete('/taps/:id', deleteTap);

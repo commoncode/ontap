@@ -11,10 +11,12 @@ import withProps from 'recompose/withProps';
 import styles from '../taps/taps.css';
 import { dayMonth } from '../../util/date';
 
+import KegRating from './keg-rating';
+
 const classes = classnames.bind(styles);
 
 const Keg = (props) => {
-  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped, untapped } = props;
+  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped, untapped, Ratings } = props;
 
   return (
     <div className={`keg ${classes(['keg'])}`}>
@@ -39,9 +41,13 @@ const Keg = (props) => {
         </div>
 
       </header>
+
       <p className={classes(['notes'])}>
         {notes}
       </p>
+
+      <KegRating ratings={Ratings} kegId={id} />
+
     </div>
   );
 };

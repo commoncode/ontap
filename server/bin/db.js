@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 /**
  * bin/db
  *
@@ -28,7 +30,12 @@ function makeAdmin(id) {
     where: {
       id,
     },
-  }).then(updated => console.log(updated)); // eslint-disable-line no-console
+  }).then(updated => console.log(updated));
+}
+
+// prints the result of a .findAll() to the console
+function printRows(rows) {
+  return console.log(rows.map(row => row.get()));
 }
 
 // add context to the REPL
@@ -36,4 +43,5 @@ r.context = Object.assign(r.context, {
   db,
   makeAdmin,
   seed,
+  printRows,
 });

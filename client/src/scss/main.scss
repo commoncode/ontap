@@ -179,3 +179,93 @@ button {
     border: 1px solid #bbb;
   }
 }
+
+
+// emoji for rating beer
+
+.emoji {
+  background-size: 100%;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+}
+
+.emoji-happy {
+  @extend .emoji;
+  background-image: url('../images/emoji-happy.svg');
+}
+
+.emoji-meh {
+  @extend .emoji;
+  background-image: url('../images/emoji-meh.svg');
+}
+
+.emoji-sad {
+  @extend .emoji;
+  background-image: url('../images/emoji-sad.svg');
+}
+
+
+// rate kegs
+.keg-rating {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5em;
+
+  .rating {
+    margin-left: 24px;
+    .icon {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+  }
+
+  color: $lightBlue;
+  font-size: 14px;
+
+  span {
+    font-size: 1rem;
+  }
+}
+
+
+// notifications
+
+.notifications {
+  position: fixed;
+  width: 100%;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
+
+  .notification {
+    display: block;
+    text-align: center;
+    margin: 0;
+    padding: 12px;
+    cursor: pointer;
+    background: $offWhite;
+    border-bottom: 1px solid white;
+    animation: fadein 0.25s linear;
+    overflow: hidden;
+
+    &:hover {
+      background: #ddd !important;
+    }
+
+    &:nth-child(odd) {
+      background: $offGrey;
+    }
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
