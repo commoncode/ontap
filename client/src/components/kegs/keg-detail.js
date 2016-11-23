@@ -7,6 +7,7 @@ import { fetchKeg } from '../../actions/kegs';
 import propTypes from '../../proptypes';
 
 import Keg from './keg';
+import KegRatingDetail from './keg-rating-detail';
 import KegEdit from './keg-edit';
 import Loader from '../loader/';
 import ErrorComponent from '../error' ;
@@ -48,6 +49,7 @@ class KegDetail extends React.Component {
         { keg.model && (
           <div>
             <Keg {...keg.model} profile={profile} />
+            <KegRatingDetail {...keg.model} profile={profile} />
           </div>
         ) }
 

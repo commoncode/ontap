@@ -61,7 +61,12 @@ function getNewKegs(req, res) {
 }
 
 function getKegById(req, res) {
-  db.Keg.findById(req.params.id)
+  db.Keg.findById(req.params.id, {
+    include: [{
+      model: db.Rating,
+      include: [db.User],
+    }],
+  })
   .then((keg) => {
     if (keg) return res.send(keg);
     return res.sendStatus(404);

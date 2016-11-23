@@ -158,6 +158,10 @@ body {
   .keg {
     margin-bottom: 3em;
   }
+
+  .keg-rating {
+    display: none; // hide this, show keg-rating-detail instead
+  }
 }
 
 .tap-change {
@@ -259,6 +263,24 @@ button {
 
   span {
     font-size: 1rem;
+  }
+}
+
+
+// keg rating detail
+.keg-rating-detail {
+  h3 {
+    color: $darkBlue;
+    font-size: 1.5rem;
+    margin: 0 0 0.5em;
+
+    .emoji {
+      vertical-align: bottom;
+    }
+  }
+
+  .rating-group {
+    margin: 0 0 1em;
   }
 }
 
