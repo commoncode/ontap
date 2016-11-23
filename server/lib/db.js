@@ -50,9 +50,12 @@ db.Tap.belongsTo(db.Keg, {
 db.Keg.hasMany(db.Rating, {
   foreignKey: 'kegId',
 });
+db.Rating.belongsTo(db.Keg, {
+  foreignKey: 'kegId',
+});
 
 // ratings have users
-db.User.hasOne(db.Rating, {
+db.User.hasMany(db.Rating, {
   foreignKey: 'userId',
 });
 db.Rating.belongsTo(db.User, {

@@ -285,6 +285,56 @@ button {
 }
 
 
+// user detail
+.user-detail {
+
+  header {
+    display: flex;
+    align-items: center;
+    margin: 0 0 2em;
+
+    h2 {
+      order: 1;
+    }
+
+    .avatar {
+      order: 0;
+      margin-right: 1em;
+      width: 110px;
+    }
+  }
+
+  padding: 24px;
+
+  h2 {
+    color: $darkBlue;
+  }
+
+  .avatar {
+    border-radius: 12px;
+  }
+}
+
+// user detail ratings
+.user-detail-ratings {
+
+  .emoji {
+    vertical-align: bottom;
+  }
+
+  .rating {
+    margin: 0 0 0.5em;
+  }
+
+  a {
+    color: $lightBlue;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 // notifications
 
 .notifications {

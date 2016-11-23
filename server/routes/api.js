@@ -12,6 +12,9 @@ const router = new Router();
 router.use(bodyParser.json());
 
 
+
+const safeUserAttributes = ['id', 'name', 'avatar'];
+
 // log an error and send it to the client.
 // todo - strip info out of the errors to
 // prevent information leakage.
@@ -103,6 +106,26 @@ function deleteKeg(req, res) {
   })
   .then(res.send(204))
   .catch(err => res.send(err.status));
+}
+
+function getUserById(req, res) {
+  db.User.findById(req.params.id, {
+    include: [{
+      model: db.Rating,
+      attributes: ['id', 'value', 'updatedAt'],
+      include: [{
+        model: db.Keg,
+        attributes: ['id', 'beerName', 'breweryName'],
+      }],
+    }],
+    attributes: safeUserAttributes,
+  })
+  .then((user) => {
+    if (!user) return res.sendStatus(400);
+
+    return res.send(user);
+  })
+  .catch(err => logAndSendError(err, res));
 }
 
 function createTap(req, res) {
@@ -316,6 +339,7 @@ router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
 router.get('/kegs/:id', getKegById);
 router.get('/taps', getAllTaps);
 router.get('/taps/:id', getTapById);
+router.get('/users/:id', getUserById);
 
 // guests can't use endpoints below this middleware
 router.use(usersOnly);
