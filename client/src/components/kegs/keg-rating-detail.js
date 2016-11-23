@@ -9,13 +9,15 @@ import groupBy from 'lodash/groupBy';
 export default class KegRatingDetail extends React.Component {
 
   printGroup(ratings = []) {
-    return ratings.map(rating => {
-      return <img
-        src={`${rating.User.avatar}?size=60`}
-        title={rating.User.name}
-        style={{ borderRadius: '4px', marginRight: '8px' }}
-      />;
-    });
+    return ratings.map(rating => (
+      <a href={`/#/users/${rating.User.id}`}>
+        <img
+          src={`${rating.User.avatar}?size=60`}
+          title={rating.User.name}
+          style={{ borderRadius: '4px', marginRight: '8px' }}
+        />
+      </a>
+    ));
   }
 
   render() {

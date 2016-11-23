@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Keg', {
     // dumb reason. possibly sqlite only, i don't know.
     get: function getTapped() {
       const dataValue = this.dataValues.tapped;
-      if (dataValue.getDate && !isNaN(dataValue.getDate())) {
+      if (dataValue && dataValue.getDate && !isNaN(dataValue.getDate())) {
         return dataValue;
       }
       return null;

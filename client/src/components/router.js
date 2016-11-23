@@ -13,6 +13,7 @@ import KegEdit from './kegs/keg-edit';
 import KegList from './kegs/keg-list';
 import Taps from './taps';
 import TapChange from './taps/tap-change';
+import UserDetail from './users/user-detail';
 
 
 // define your routes.
@@ -66,6 +67,14 @@ const routes = {
       profile: props.profile.data,
     }),
   },
+  '/users/?': {
+    component: UserDetail,
+    props: (props, params) => ({
+      profile: props.profile.data,
+      userId: Number(params[0]),
+      key: params[0],
+   }),
+  }
 };
 
 // set a default route
