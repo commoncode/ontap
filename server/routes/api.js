@@ -35,6 +35,9 @@ function getOnTap(req, res) {
 function getAllKegs(req, res) {
   db.Keg.findAll({
     include: [db.Rating],
+    order: [
+      ['tapped', 'ASC'],
+    ],
   })
   .then(kegs => res.json(kegs))
   .catch(err => logAndSendError(err, res));

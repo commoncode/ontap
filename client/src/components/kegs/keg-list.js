@@ -13,20 +13,86 @@ import * as propTypes from '../../proptypes/';
 
 import Keg from './keg';
 import Loader from '../loader/';
+import ToggleButton from '../generic/toggle-button';
 
 
-const KegList = (props) => {
-  const { kegs, sync } = props;
-
-  return (
-    <section className="keg-list">
-      { sync.fetching && <Loader /> }
-
-      { kegs.map(keg => <Keg key={keg.id} {...keg} />) }
-
-    </section>
-  );
+// filter functions
+const filters = {
+  all(keg) {
+    return keg;
+  },
+  ontap(keg) {
+    return keg.tapped !== null && keg.untapped === null;
+  },
+  untapped(keg) {
+    return keg.tapped === null;
+  },
+  finished(keg) {
+    return keg.untapped !== null;
+  },
 };
+
+class KegList extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      activeFilterName: 'all',
+    };
+    this.setFilter = this.setFilter.bind(this);
+  }
+
+  setFilter(activeFilterName) {
+    this.setState({
+      activeFilterName,
+    });
+  }
+
+  render() {
+    const { kegs, sync } = this.props;
+    const { activeFilterName } = this.state;
+
+    return (
+      <section className="keg-list">
+        { sync.fetching && <Loader /> }
+
+        { !sync.fetching && (
+
+          <div className="keg-list-filter button-group">
+            <ToggleButton
+              clickHandler={this.setFilter}
+              value="all"
+              title="All"
+              activeValue={activeFilterName}
+            />
+            <ToggleButton
+              clickHandler={this.setFilter}
+              value="ontap"
+              title="On Tap Now"
+              activeValue={activeFilterName}
+            />
+            <ToggleButton
+              clickHandler={this.setFilter}
+              value="untapped"
+              title="Up Next"
+              activeValue={activeFilterName}
+            />
+            <ToggleButton
+              clickHandler={this.setFilter}
+              value="finished"
+              title="Finished"
+              activeValue={activeFilterName}
+            />
+          </div>
+
+        )}
+
+        { kegs.filter(filters[activeFilterName]).map(keg => <Keg key={keg.id} {...keg} />) }
+
+      </section>
+    );
+  }
+}
 
 KegList.propTypes = {
   kegs: propTypes.kegs,
