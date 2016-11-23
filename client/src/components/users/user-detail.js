@@ -8,7 +8,7 @@ import propTypes from '../../proptypes';
 
 import User from './user';
 import Loader from '../loader/';
-import Smiley from '../generic/smiley';
+
 
 class UserDetail extends React.Component {
   static propTypes() {
@@ -41,7 +41,11 @@ class UserDetail extends React.Component {
       <div className="user-detail">
         { user.fetching && <Loader />}
 
+        { !user.fetching && !model && '404!' }
+
         { model && <User {...model} /> }
+
+
 
       </div>
     );
