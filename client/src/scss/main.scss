@@ -131,6 +131,11 @@ body {
 // keg list
 .keg-list {
 
+  .button-group {
+    text-align: center;
+    margin: 1em 0 0;
+  }
+
   .keg {
     border-bottom: 1px solid $lightBlue;
     padding: 24px;
@@ -152,6 +157,10 @@ body {
 
   .keg {
     margin-bottom: 3em;
+  }
+
+  .keg-rating {
+    display: none; // hide this, show keg-rating-detail instead
   }
 }
 
@@ -177,6 +186,32 @@ button {
 
   &:hover {
     border: 1px solid #bbb;
+  }
+}
+
+// button group
+.button-group {
+  button {
+    font-size: 0.7em;
+    border-radius: 0;
+    margin-left: -1px; // collapse borders
+    outline: none;
+
+    &:first-child {
+      border-radius: 4px 0 0 4px;
+    }
+
+    &:last-child {
+      border-radius: 0 4px 4px 0;
+    }
+
+    &:hover {
+      background: $offWhite;
+    }
+
+    &.active {
+      background: $offGrey;
+    }
   }
 }
 
@@ -228,6 +263,24 @@ button {
 
   span {
     font-size: 1rem;
+  }
+}
+
+
+// keg rating detail
+.keg-rating-detail {
+  h3 {
+    color: $darkBlue;
+    font-size: 1.5rem;
+    margin: 0 0 0.5em;
+
+    .emoji {
+      vertical-align: bottom;
+    }
+  }
+
+  .rating-group {
+    margin: 0 0 1em;
   }
 }
 
