@@ -12,7 +12,6 @@ const router = new Router();
 router.use(bodyParser.json());
 
 
-
 const safeUserAttributes = ['id', 'name', 'avatar'];
 
 // log an error and send it to the client.
@@ -22,6 +21,7 @@ function logAndSendError(err, res) {
   log.error(err);
   return res.status(500).send(err);
 }
+
 
 // maybe consider moving these to submodules
 // if we end up with too many of them...
@@ -128,6 +128,88 @@ function getUserById(req, res) {
   .catch(err => logAndSendError(err, res));
 }
 
+function getAllBeers(req, res) {
+  db.Beer.findAll({
+    include: [db.Vote],
+  })
+  .then(rows => res.send(rows))
+  .catch(err => logAndSendError(err, res));
+}
+
+function getBeerById(req, res) {
+  db.Beer.findById(req.params.id, {
+    include: [db.Vote],
+  })
+  .then((beer) => {
+    if (!beer) return res.sendStatus(404);
+    return res.send(beer);
+  })
+  .catch(err => logAndSendError(err, res));
+}
+
+function createBeer(req, res) {
+  db.Beer.create(req.body)
+  .then((beer) => {
+    res.status(201).send(beer);
+  })
+  .catch(err => logAndSendError(err, res));
+}
+
+// vote for a beer
+function voteForBeer(req, res) {
+  if (!req.user || !req.user.id) {
+    return res.sendStatus(401);
+  }
+
+  const beerId = req.params.id;
+  const userId = req.user.id;
+
+  return db.Vote.findOrCreate({
+    where: {
+      beerId,
+      userId,
+    },
+  })
+  .then((vote) => {
+    // send back the vote or the beer?
+    res.send(vote);
+  })
+  .catch(err => logAndSendError(err, res));
+}
+
+// revoke my existing vote for a beer
+function revokeVote(req, res) {
+  if (!req.user || !req.user.id) {
+    return res.sendStatus(401);
+  }
+
+  const beerId = req.params.id;
+  const userId = req.user.id;
+
+  return db.Vote.destroy({
+    where: {
+      beerId,
+      userId,
+    },
+  })
+  .then(() => res.sendStatus(204))
+  .catch(err => logAndSendError(err, res));
+}
+
+// clear all the votes for a beer
+function clearVotes(req, res) {
+  const beerId = req.params.id;
+
+  return db.Vote.destroy({
+    where: {
+      beerId,
+    },
+  })
+  .then(() => res.sendStatus(204))
+  .catch(err => logAndSendError(err, res));
+}
+
+
 function createTap(req, res) {
   db.Tap.create(req.body)
   .then((tap) => {
@@ -165,6 +247,10 @@ function deleteTap(req, res) {
   .catch(err => res.send(err.status));
 }
 
+/**
+ * Rate a Keg.
+ * Users can give a Keg a +1, 0 or -1.
+ */
 function rateKeg(req, res) {
   if (!req.user || !req.user.id) {
     return res.status(401).send();
@@ -340,10 +426,18 @@ router.get('/kegs/:id', getKegById);
 router.get('/taps', getAllTaps);
 router.get('/taps/:id', getTapById);
 router.get('/users/:id', getUserById);
+router.get('/beers', getAllBeers);
+router.get('/beers/:id', getBeerById);
+
 
 // guests can't use endpoints below this middleware
 router.use(usersOnly);
+
 router.put('/kegs/:id/rate', rateKeg);
+router.post('/beers', createBeer);
+router.put('/beers/:id/vote', voteForBeer);
+router.delete('/beers/:id/vote', revokeVote);
+
 
 // admins only for all endpoints below this middleware
 router.use(adminsOnly);
@@ -354,5 +448,6 @@ router.delete('/kegs/:id', deleteKeg);
 router.post('/taps', createTap);
 router.post('/taps/:id/keg', changeKegHandler);
 router.delete('/taps/:id', deleteTap);
+router.post('/beers/:id/clearvotes', clearVotes);
 
 module.exports = router;
