@@ -49,6 +49,7 @@ app.use(passport.session());
 
 
 // routes
+app.use('/public/', express.static('public'));
 app.use(express.static('client/dist'));
 app.use('/api/v1/', apiRouter);
 app.use(passportRouter);
