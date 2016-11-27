@@ -94,7 +94,7 @@ class BeerList extends React.Component {
             <header className="page-header">
               <h1 className="page-title">Beers.</h1>
               <h2 className="page-subtitle">Vote for what you want to drink next.</h2>
-              <p>
+              <p className="canbuy-help-text">
                 Beers with a <span className="emoji-beers" /> have a
                 confirmed supplier and can be ordered ASAP.
               </p>

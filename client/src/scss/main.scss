@@ -89,15 +89,16 @@ body {
 
 // App Nav
 .app-nav {
+  padding: 0;
   background: $darkBlue;
-  font-size: 14px;
-  padding: 4px;
-  border-top: 2px solid $darkerBlue;
+  font-size: 18px;
+  font-weight: 200;
 
   a {
+    display: inline-block;
     color: $offGrey;
     text-decoration: none;
-    padding: 0 24px;
+    padding: 8px 24px;
 
     &:hover {
       color: white;
@@ -107,6 +108,11 @@ body {
   a + a {
     border-left: 1px solid $lightBlue;
   }
+
+  .btn-app-nav-toggle {
+    display: none;
+  }
+
 }
 
 // App Content
@@ -274,6 +280,70 @@ body {
     }
   }
 }
+
+
+// responsiveness
+@media (max-width: 600px) {
+
+  .app-header h1 span {
+    display: none;
+  }
+
+  .beer-list-view {
+    .canbuy-help-text {
+      display: none;
+    }
+  }
+
+  .beer-list-item {
+    flex-wrap: wrap;
+
+    > header {
+      flex: 0 0 100%;
+    }
+
+    .name span {
+      display: block;
+    }
+
+    .meta {
+      display: none;
+    }
+
+    .votes {
+      margin: 1em 0 0;
+    }
+  }
+
+  .beer-detail-view {
+    .beer-details {
+      .primary {
+        flex: 0 0 100%;
+      }
+
+      .meta {
+        text-align: left;
+        margin: 0.5em 0 0;
+      }
+
+      .notes {
+        margin: 1em 0;
+      }
+    }
+
+    button {
+      width: 100%;
+      margin: 0 0 0.5em;
+    }
+
+    .beer-actions button + button {
+      margin-left: 0;
+    }
+  }
+}
+
+
+
 
 // circular score thing
 .beer-vote-total {
