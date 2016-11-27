@@ -32,6 +32,7 @@ class KegDetailStore extends ReduceStore {
         };
 
       case 'RECEIVE_FETCH_KEG':
+      case 'RECEIVE_UPDATE_KEG':
         return {
           fetching: false,
           pushing: false,

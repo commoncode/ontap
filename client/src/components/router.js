@@ -14,6 +14,8 @@ import KegList from './kegs/keg-list';
 import Taps from './taps';
 import TapChange from './taps/tap-change';
 import UserDetail from './users/user-detail';
+import BeerList from './beers/beer-list';
+import BeerDetail from './beers/beer-detail';
 
 
 // define your routes.
@@ -73,8 +75,21 @@ const routes = {
       profile: props.profile.data,
       userId: Number(params[0]),
       key: params[0],
-   }),
-  }
+    }),
+  },
+  '/beers/?': {
+    component: BeerDetail,
+    props: (props, params) => ({
+      beerId: Number(params[0]),
+      key: params[0],
+    }),
+  },
+  '/beers': {
+    component: BeerList,
+    props: props => ({
+      profile: props.profile.data,
+    }),
+  },
 };
 
 // set a default route

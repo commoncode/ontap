@@ -30,6 +30,26 @@ export function fetcher(path, opts) {
         message: res.statusText,
       });
     }
+
+    // don't try and parse 204s
+    // todo - better way to detect whether we're receiving json?
+    // check the headers i guess
+    if (res.status === 204) {
+      return {};
+    }
     return res.json();
   });
+}
+
+/**
+ * return a copy of an object that replaces
+ * all empty strings with null.
+ * @param  {Object} obj
+ * @return {Object}
+ */
+export function nullify(obj) {
+  return Object.keys(obj).reduce((memo, key) => {
+    memo[key] = obj[key] === '' ? null : obj[key];
+    return memo;
+  }, {});
 }

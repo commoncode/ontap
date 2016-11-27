@@ -38,7 +38,7 @@ const loadModels = () => {
 
 loadModels();
 
-// keg <-> tap
+// tap has a single keg
 db.Keg.hasOne(db.Tap, {
   foreignKey: 'kegId',
 });
@@ -61,6 +61,35 @@ db.User.hasMany(db.Rating, {
 db.Rating.belongsTo(db.User, {
   foreignKey: 'userId',
 });
+
+// beers are added by a user
+db.User.hasOne(db.Beer, {
+  foreignKey: 'addedBy',
+  as: 'addedByUser',
+});
+
+db.Beer.belongsTo(db.User, {
+  foreignKey: 'addedBy',
+  as: 'addedByUser',
+});
+
+// beers have votes
+db.Beer.hasMany(db.Vote, {
+  foreignKey: 'beerId',
+  onDelete: 'CASCADE', // delete the beer, delete the votes
+});
+db.Vote.belongsTo(db.Beer, {
+  foreignKey: 'beerId',
+});
+
+// votes have users
+db.User.hasMany(db.Vote, {
+  foreignKey: 'userId',
+});
+db.Vote.belongsTo(db.User, {
+  foreignKey: 'userId',
+});
+
 
 sequelize.sync().then(() => {
   logger.info('sequelize db synced');

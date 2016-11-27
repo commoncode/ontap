@@ -144,10 +144,3 @@ export function rateKeg(kegId, value) {
     });
   });
 }
-
-// toggle creation of a new keg
-export function toggleCreateKeg() {
-  return dispatcher.dispatch({
-    type: 'TOGGLE_CREATE_KEG',
-  });
-}
