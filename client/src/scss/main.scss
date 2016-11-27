@@ -81,10 +81,6 @@ body {
       text-decoration: none;
     }
   }
-
-  .profile {
-    flex: 1 0 0;
-  }
 }
 
 // App Nav
@@ -114,6 +110,51 @@ body {
   }
 
 }
+
+
+// Header Profile
+.profile {
+  position: relative;
+  flex: 0 0 auto;
+
+  .profile-avatar {
+    width: 45px;
+    height: auto;
+    border-radius: 5px;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .profile-nobody {
+    font-size: 14px;
+
+    a {
+      color: white;
+    }
+  }
+
+  .profile-menu {
+    display: none;
+    vertical-align: middle;
+
+    &.show {
+      display: inline-block;
+
+
+      a {
+        text-decoration: none;
+        color: white;
+        font-size: 1rem;
+        margin-left: 1em;
+      }
+
+    }
+  }
+
+}
+
+
+
 
 // App Content
 .app-content {
