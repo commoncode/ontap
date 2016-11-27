@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Beer', {
   },
   breweryName: {
     type: DataTypes.STRING,
-    allowNull: false,
   },
   abv: DataTypes.FLOAT,
   ibu: DataTypes.FLOAT,
@@ -29,5 +28,13 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Beer', {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
     allowNull: false,
-  }
+  },
+  addedBy: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Users',
+      key: 'id',
+    },
+    allowNull: true,
+  },
 });

@@ -26,9 +26,10 @@ export const profileModel = React.PropTypes.shape({
 // profile with sync object & data
 // todo - rename 'data' to 'model', like the others
 // will mean updating the store
-export const profile = React.PropTypes.shape(Object.assign(sync, {
+export const profile = React.PropTypes.shape({
+  ...sync,
   data: profileModel,
-}));
+});
 
 // keg model from the API.
 export const kegModel = React.PropTypes.shape({
@@ -46,6 +47,17 @@ export const ratingModel = React.PropTypes.shape({
   userId: React.PropTypes.number,
 });
 
+export const beerModel = React.PropTypes.shape({
+  id: React.PropTypes.number,
+  name: React.PropTypes.string,
+  breweryName: React.PropTypes.string,
+  abv: React.PropTypes.number,
+  ibu: React.PropTypes.number,
+  variety: React.PropTypes.string,
+  notes: React.PropTypes.string,
+  canBuy: React.PropTypes.bool,
+});
+
 export const ratings = React.PropTypes.arrayOf(ratingModel);
 
 // keg with a sync object and editing/syncing props
@@ -59,6 +71,9 @@ export const keg = React.PropTypes.shape({
 // array of kegs
 export const kegs = React.PropTypes.arrayOf(keg);
 
+// array of beers
+export const beers = React.PropTypes.arrayOf(beerModel);
+
 // tap model from the API
 export const tapModel = React.PropTypes.shape({
   id: React.PropTypes.number,
@@ -69,11 +84,12 @@ export const tapModel = React.PropTypes.shape({
 
 // tap with a sync object and editing/syncing props
 // todo - fold editing/syncing into sync object? see above.
-export const tap = React.PropTypes.shape(Object.assign(sync, {
+export const tap = React.PropTypes.shape({
+  ...sync,
   editing: React.PropTypes.bool,
   syncing: React.PropTypes.bool,
   model: tapModel,
-}));
+});
 
 // array of taps
 export const taps = React.PropTypes.arrayOf(tap);

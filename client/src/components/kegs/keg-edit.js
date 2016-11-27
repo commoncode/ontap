@@ -5,13 +5,9 @@
  */
 
 import React from 'react';
-import classnames from 'classnames/bind';
 
 import { updateKeg, createKeg } from '../../actions/kegs';
-import styles from './keg-edit.scss';
 import Loader from '../loader/';
-
-const classes = classnames.bind(styles);
 
 class KegEdit extends React.Component {
 
@@ -49,9 +45,9 @@ class KegEdit extends React.Component {
   // if a props change happens you'll overwrite your local state.
   // guess if it ever happens we'll decide what to do about it then.
   componentWillReceiveProps(props) {
-    this.setState = {
+    this.setState({
       model: Object.assign({}, props),
-    };
+    });
   }
 
   inputChangeHandler(evt) {
@@ -87,7 +83,7 @@ class KegEdit extends React.Component {
     const isNew = !this.props.model || !this.props.model.id;
 
     return (
-      <div className={`keg-edit ${classes(['keg-edit'])}`}>
+      <div className="keg-edit edit-form">
 
         {isNew && <h1>Add a New Keg</h1>}
 

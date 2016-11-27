@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Vote', {
   beerId: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'Beer',
+      model: 'Beers',
       key: 'id',
     },
     unique: 'beerAndUser', // unique-together

@@ -10,7 +10,7 @@ export default class KegRatingDetail extends React.Component {
 
   printGroup(ratings = []) {
     return ratings.map(rating => (
-      <a href={`/#/users/${rating.User.id}`}>
+      <a key={rating.id} href={`/#/users/${rating.User.id}`}>
         <img
           src={`${rating.User.avatar}?size=60`}
           title={rating.User.name}
