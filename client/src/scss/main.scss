@@ -186,6 +186,7 @@ body {
 .app-content {
   overflow-y: auto;
   flex: 1 1 auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 // App Footer
