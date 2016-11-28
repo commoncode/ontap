@@ -1,6 +1,9 @@
 /**
  * notifications store.
- * store is a Map, store.notifications is a List
+ * display a flash notification at the top of the app.
+ *
+ * store is an Immutable Map
+ * .notifications is an Immutable List
  */
 
 import { ReduceStore } from 'flux/utils';
@@ -20,12 +23,16 @@ class NotificationsStore extends ReduceStore {
     switch (type) {
 
       case 'ADD_NOTIFICATION': {
-        return state.set('notifications', state.get('notifications').push(data));
+        // this is a list but i got booed by everybody when they stacked up at the top
+        // so for now, adding a new notification will clear the last one.
+        // leaving it as a list though in case we
+        return state.set('notifications', new Immutable.List().push(data));
       }
 
       case 'REMOVE_NOTIFICATION': {
-        // data is the key index
-        return state.set('notifications', state.get('notifications').delete(data));
+        // see comment above, we only show 1 notification at a time so we can just
+        // nuke the whole list
+        return state.set('notifications', new Immutable.List());
       }
 
       default:

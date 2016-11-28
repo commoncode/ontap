@@ -1,6 +1,9 @@
 /**
  * notifications component.
  * show notifications at the top of the app.
+ *
+ * note that this component can show multiple notifications
+ * but the store only holds one at a time.
  */
 
 import React from 'react';
