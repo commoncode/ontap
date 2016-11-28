@@ -37,9 +37,9 @@ function getOnTap(req, res) {
 
 function getAllKegs(req, res) {
   db.Keg.findAll({
-    include: [db.Rating],
+    include: [db.Rating, db.Tap],
     order: [
-      ['tapped', 'ASC'],
+      ['tapped', 'DESC'],
     ],
   })
   .then(kegs => res.json(kegs))
@@ -68,7 +68,7 @@ function getKegById(req, res) {
     include: [{
       model: db.Rating,
       include: [db.User],
-    }],
+    }, db.Tap],
   })
   .then((keg) => {
     if (keg) return res.send(keg);
