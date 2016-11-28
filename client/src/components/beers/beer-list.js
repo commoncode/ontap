@@ -15,6 +15,8 @@ import * as propTypes from '../../proptypes/';
 import Loader from '../loader/';
 import BeerEdit from './beer-edit';
 
+const SEARCHABLE_PROPS = ['name', 'breweryName', 'variety'];
+
 class BeerListItem extends React.Component {
   static propTypes() {
     return propTypes.beerModel;
@@ -70,21 +72,38 @@ class BeerListItem extends React.Component {
 }
 
 
-// todo - use the react compose fork thing to handle sync.fetching
+// todo - use the react compose branch thing to handle sync.fetching
 class BeerList extends React.Component {
 
   constructor() {
     super();
+
     this.state = {
       adding: false,
+      filterQuery: '',
     };
+
+    this.setFilterQuery = this.setFilterQuery.bind(this);
+  }
+
+  setFilterQuery(evt) {
+    this.setState({
+      filterQuery: evt.target.value,
+    });
   }
 
   render() {
     const { beers, sync, create, profile } = this.props;
 
+    const { filterQuery } = this.state;
+
+    const filteredBeers = !filterQuery ? beers : beers.filter((beer) => {
+      const searchString = SEARCHABLE_PROPS.map(key => beer[key]).join();
+      return searchString.match(new RegExp(filterQuery, 'gi'));
+    });
+
     // most votes first
-    const sortedBeers = beers.sort((a, b) => b.Votes.length - a.Votes.length);
+    const sortedBeers = filteredBeers.sort((a, b) => b.Votes.length - a.Votes.length);
 
     return (
       <div>
@@ -99,6 +118,15 @@ class BeerList extends React.Component {
                 confirmed supplier and can be ordered ASAP.
               </p>
             </header>
+
+            <div className="list-search">
+              <input
+                type="search"
+                onChange={this.setFilterQuery}
+                value={filterQuery}
+                placeholder="search..."
+              />
+            </div>
 
             <section className="beer-list">
               { sortedBeers.map(beer => (
