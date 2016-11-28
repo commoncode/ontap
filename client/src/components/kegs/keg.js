@@ -16,10 +16,11 @@ import KegRating from './keg-rating';
 const classes = classnames.bind(styles);
 
 const Keg = (props) => {
-  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped, untapped, Ratings } = props;
+  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped, untapped, Ratings, Tap } = props;
+  const onTapClass = Tap ? 'on-tap' : '';
 
   return (
-    <div className={`keg ${classes(['keg'])}`}>
+    <div className={`keg ${classes(['keg', onTapClass])}`}>
       <header>
         <div className={classes(['title'])}>
           <h2 className={classes(['beer-name'])}>
@@ -41,6 +42,12 @@ const Keg = (props) => {
         </div>
 
       </header>
+
+      {Tap && (
+        <p className={classes(['now-on-tap'])}>
+          Now pouring on {Tap.name}.
+        </p>
+      )}
 
       <p className={classes(['notes'])}>
         {notes}
