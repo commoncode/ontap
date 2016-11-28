@@ -37,7 +37,7 @@ class KegList extends React.Component {
   constructor() {
     super();
     this.state = {
-      activeFilterName: 'all',
+      activeFilterName: 'ontap',
     };
     this.setFilter = this.setFilter.bind(this);
   }
@@ -61,14 +61,8 @@ class KegList extends React.Component {
           <div className="keg-list-filter button-group">
             <ToggleButton
               clickHandler={this.setFilter}
-              value="all"
-              title="All"
-              activeValue={activeFilterName}
-            />
-            <ToggleButton
-              clickHandler={this.setFilter}
               value="ontap"
-              title="On Tap Now"
+              title="Now On Tap"
               activeValue={activeFilterName}
             />
             <ToggleButton
@@ -81,6 +75,12 @@ class KegList extends React.Component {
               clickHandler={this.setFilter}
               value="finished"
               title="Finished"
+              activeValue={activeFilterName}
+            />
+            <ToggleButton
+              clickHandler={this.setFilter}
+              value="all"
+              title="Show All"
               activeValue={activeFilterName}
             />
           </div>

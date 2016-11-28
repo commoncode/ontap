@@ -64,6 +64,12 @@
   white-space: pre-wrap;
 }
 
+.keg .now-on-tap {
+  color: #59596E;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
 .btn-edit {
   font-size: 12px;
   margin: 0;

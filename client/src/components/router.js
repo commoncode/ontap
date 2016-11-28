@@ -93,7 +93,7 @@ const routes = {
 };
 
 // set a default route
-routes.defaultRoute = routes['/taps'];
+routes.defaultRoute = routes['/kegs'];
 
 
 // converts ? literals to capture groups for capturing params
