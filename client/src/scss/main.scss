@@ -89,12 +89,20 @@ body {
   background: $darkBlue;
   font-size: 18px;
   font-weight: 200;
+  display: flex;
+  flex-wrap: wrap;
+
+  .btn-toggle-nav {
+    display: none;
+  }
+
 
   a {
-    display: inline-block;
+    display: block;
     color: $offGrey;
     text-decoration: none;
     padding: 8px 24px;
+    flex: 0 0 auto;
 
     &:hover {
       color: white;
@@ -107,6 +115,23 @@ body {
 
   .btn-app-nav-toggle {
     display: none;
+  }
+
+  @media (max-width: 600px) {
+
+    .btn-toggle-nav {
+      display: block;
+      text-align: right;
+    }
+
+    a {
+      flex: 0 0 auto;
+      width: 100%;
+      text-align: center;
+      align-self: center;
+      border-bottom: 1px solid $lightBlue;
+      background: inherit;
+    }
   }
 
 }
@@ -518,11 +543,16 @@ button {
 
 // button group
 .button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
   button {
     font-size: 0.7em;
     border-radius: 0;
     margin-left: -1px; // collapse borders
     outline: none;
+    flex: 0 0 auto;
 
     &:first-child {
       border-radius: 4px 0 0 4px;
@@ -539,6 +569,14 @@ button {
     &.active {
       background: $offGrey;
     }
+  }
+
+  @media (max-width: 600px) {
+
+    button {
+      flex: 1 1 auto;
+    }
+
   }
 }
 
@@ -740,6 +778,31 @@ button {
     margin: 0 1em 1.5em 0;
   }
 
+}
+
+// list view search box
+.list-search {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 0.5em;
+
+  input {
+    font-size: 1rem;
+    padding: 6px;
+    border-radius: 4px;
+    color: $brown;
+    border: 1px solid $offGrey;
+    outline: none;
+
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+
+    &:focus {
+      border: 1px solid $lightBlue;
+    }
+
+  }
 }
 
 
