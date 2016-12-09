@@ -11,6 +11,7 @@ import { Container } from 'flux/utils';
 import { fetchBeers, voteForBeer, unvoteForBeer, showAddBeer } from '../../actions/beers';
 import beersStore from '../../stores/beers';
 import * as propTypes from '../../proptypes/';
+import { replaceQueryParams } from '../router';
 
 import Loader from '../loader/';
 import BeerEdit from './beer-edit';
@@ -71,6 +72,13 @@ class BeerListItem extends React.Component {
   }
 }
 
+// Update the ?q=foo value in the current url.
+// Uses replace so it doesn't create an extra history state.
+function updatePathQueryString(evt) {
+  replaceQueryParams({
+    q: evt.target.value,
+  });
+}
 
 // todo - use the react compose branch thing to handle sync.fetching
 class BeerList extends React.Component {
@@ -86,6 +94,12 @@ class BeerList extends React.Component {
     this.setFilterQuery = this.setFilterQuery.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    this.setState({
+      filterQuery: (props.queryParams && props.queryParams.q) || '',
+    });
+  }
+
   setFilterQuery(evt) {
     this.setState({
       filterQuery: evt.target.value,
@@ -94,7 +108,6 @@ class BeerList extends React.Component {
 
   render() {
     const { beers, sync, create, profile } = this.props;
-
     const { filterQuery } = this.state;
 
     const filteredBeers = !filterQuery ? beers : beers.filter((beer) => {
@@ -108,7 +121,6 @@ class BeerList extends React.Component {
     return (
       <div>
         { sync.fetching ? <Loader /> : (
-
           <section className="beer-list-view">
             <header className="page-header">
               <h1 className="page-title">Beers.</h1>
@@ -123,6 +135,7 @@ class BeerList extends React.Component {
               <input
                 type="search"
                 onChange={this.setFilterQuery}
+                onBlur={updatePathQueryString}
                 value={filterQuery}
                 placeholder="search..."
               />
