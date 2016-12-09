@@ -72,11 +72,12 @@ class BeerListItem extends React.Component {
   }
 }
 
-function pushFilterQuery(evt){
+// Update the ?q=foo value in the current url.
+// Uses replace so it doesn't create an extra history state.
+function updatePathQueryString(evt) {
   replaceQueryParams({
     q: evt.target.value,
   });
-  console.log('pushed');
 }
 
 // todo - use the react compose branch thing to handle sync.fetching
@@ -120,7 +121,6 @@ class BeerList extends React.Component {
     return (
       <div>
         { sync.fetching ? <Loader /> : (
-
           <section className="beer-list-view">
             <header className="page-header">
               <h1 className="page-title">Beers.</h1>
@@ -135,7 +135,7 @@ class BeerList extends React.Component {
               <input
                 type="search"
                 onChange={this.setFilterQuery}
-                onBlur={pushFilterQuery}
+                onBlur={updatePathQueryString}
                 value={filterQuery}
                 placeholder="search..."
               />

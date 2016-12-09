@@ -97,12 +97,22 @@ const routes = {
 routes.defaultRoute = routes['/kegs'];
 
 
-// converts ! literals to capture groups for capturing params
+/**
+ * Converts ! literals into matching groups
+ * for parsing routes.
+ * @param  {String} route
+ * @return {RegExp}
+ */
 function routeToRegex(route) {
   return new RegExp(route.replace(/!/g, '([\\w|\\-]+)'));
 }
 
-// foo=bar&bar=qux => object
+/**
+ * Convert a string of foo=bar&bar=qux
+ * to an object of key-pairs.
+ * @param  {String} str
+ * @return {Object}
+ */
 export function queryParamsToObject(str) {
   const pairs = str.split('&');
 
@@ -113,15 +123,22 @@ export function queryParamsToObject(str) {
   }, {});
 }
 
-// object => foo=bar&bar=qux
+/**
+ * Create a query string of foo=bar&bar=qux
+ * from an object. Doesn't prefix with a ? though.
+ * @param  {Object} obj
+ * @return {String}
+ */
 export function objectToQueryParams(obj) {
   const pairs = Object.keys(obj).map(key => `${key}=${obj[key]}`);
   return pairs.join('&');
 }
 
-// return the query params as an object
-// pass in a path as a string, we can't use location.search
-// because we're using hash urls.
+/**
+ * Parse a path to return the query params as an object
+ * @param  {String} pathWithParams
+ * @return {Object}
+ */
 function getQueryParams(pathWithParams) {
   const match = pathWithParams.match(/\?.*/);
   if (!match) return {};
@@ -129,6 +146,12 @@ function getQueryParams(pathWithParams) {
   return queryParamsToObject(match[0].slice(1));
 }
 
+
+/**
+ * Use history.replace to switch current query params
+ * for new ones.
+ * @param  {Object} params key-value pairs to add/replace
+ */
 export function replaceQueryParams(params) {
   const path = document.location.hash;
   const currentQueryParams = getQueryParams(document.location.hash);
