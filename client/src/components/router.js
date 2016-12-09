@@ -129,7 +129,6 @@ function getQueryParams(pathWithParams) {
   return queryParamsToObject(match[0].slice(1));
 }
 
-
 export function replaceQueryParams(params) {
   const path = document.location.hash;
   const currentQueryParams = getQueryParams(document.location.hash);
@@ -140,9 +139,6 @@ export function replaceQueryParams(params) {
   };
 
   const stringifiedQueryParams = objectToQueryParams(newQueryParams);
-
-  debugger;
-
   history.replaceState({}, null, path.replace(/\?.*/, `?${stringifiedQueryParams}`));
 }
 
