@@ -104,7 +104,7 @@ function deleteKeg(req, res) {
       id,
     },
   })
-  .then(res.send(204))
+  .then(res.sendStatus(204))
   .catch(err => res.send(err.status));
 }
 
