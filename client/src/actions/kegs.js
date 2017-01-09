@@ -144,3 +144,28 @@ export function rateKeg(kegId, value) {
     });
   });
 }
+
+// delete a keg
+export function deleteKeg(kegId) {
+  dispatcher.dispatch({
+    type: 'REQUEST_DELETE_KEG',
+    kegId,
+  });
+
+  return fetcher(`/api/v1/kegs/${kegId}`, {
+    method: 'DELETE',
+  })
+  .then(() => {
+    addNotification('Keg removed');
+    dispatcher.dispatch({
+      type: 'RECEIVE_DELETE_KEG',
+      kegId,
+    });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_DELETE_BEER',
+      error,
+    });
+  });
+}
