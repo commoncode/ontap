@@ -3,7 +3,7 @@ import { Container } from 'flux/utils';
 
 import kegDetailStore from '../../stores/keg-detail';
 import profileStore from '../../stores/profile';
-import { fetchKeg } from '../../actions/kegs';
+import { fetchKeg, deleteKeg } from '../../actions/kegs';
 import propTypes from '../../proptypes';
 
 import Keg from './keg';
@@ -27,12 +27,18 @@ class KegDetail extends React.Component {
     };
 
     this.toggleEditing = this.toggleEditing.bind(this);
+    this.deleteKeg = this.deleteKeg.bind(this);
   }
 
   toggleEditing() {
     this.setState({
       editing: !this.state.editing,
     });
+  }
+
+  deleteKeg() {
+    deleteKeg(this.props.keg.model.id)
+    .then(document.location.hash = '/');
   }
 
   render() {
@@ -54,10 +60,18 @@ class KegDetail extends React.Component {
         ) }
 
         { canEdit && (
-          <button
-            className="btn"
-            onClick={this.toggleEditing}
-          >Edit this Keg</button>
+          <div className="beer-actions">
+
+            <button
+              className="btn"
+              onClick={this.toggleEditing}
+            >Edit Keg</button>
+
+            <button
+              className="btn"
+              onClick={this.deleteKeg}
+            >Delete Keg</button>
+          </div>
         ) }
 
         { editing && <KegEdit model={keg.model} />}
