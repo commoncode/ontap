@@ -90,6 +90,19 @@ router.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+
+// simulates a user being logged in.
+// set USER_ID to falsey to skip.
+router.use((req, res, next) => {
+  const USER_ID = 1;
+  if (!USER_ID) next();
+  db.User.findById(USER_ID)
+  .then((user) => {
+    req.user = (user && user.get({ plain: true })) || null; // eslint-disable-line no-param-reassign
+    next();
+  });
+});
+
 // tell the user who they are.
 router.get('/whoami', (req, res) => {
   res.send(req.user || {});
