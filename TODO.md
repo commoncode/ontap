@@ -15,4 +15,4 @@
 
 ## cleanup/refactor:
 
-- consolidate the CSS; probably remoe the modules because they're shit.
+- consolidate the CSS; probably remove the modules because they're shit.
