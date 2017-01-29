@@ -1,10 +1,14 @@
 # todo
 
+## architecture/design
+
+- kegs fk to beers
+
+
+
 ## functionality:
 
 - Show UI feedback for success/error in KegEdit component
-- Add a filter for past/current/next kegs in Keg List
-- Add a Delete button to Keg Detail view
 - Use that recompose conditional thing for showing loaders
 - Clientside validation for KegEdit component
 
