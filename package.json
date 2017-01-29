@@ -45,6 +45,7 @@
     "react": "^15.3.2",
     "recompose": "^0.20.2",
     "sequelize": "^3.24.3",
+    "sequelize-cli": "^2.5.1",
     "sqlite3": "^3.1.6",
     "winston": "^2.2.0"
   },
