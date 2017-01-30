@@ -8,7 +8,9 @@
 
 ## functionality:
 
-- Show UI feedback for success/error in KegEdit component
+- kegedit component sync handling
+- tap list component
+
 - Use that recompose conditional thing for showing loaders
 - Clientside validation for KegEdit component
 
