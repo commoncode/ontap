@@ -16,7 +16,10 @@ import KegRating from './keg-rating';
 const classes = classnames.bind(styles);
 
 const Keg = (props) => {
-  const { id, standardDrinks, abv, beerName, breweryName, notes, tapped, untapped, Ratings, Tap } = props;
+  const { id, standardDrinks, tapped, untapped, Ratings, Tap, Beer } = props;
+  const kegNotes = props.notes;
+  const beerNotes = props.Beer.notes;
+  const { name, breweryName, abv, ibu } = Beer;
   const onTapClass = Tap ? 'on-tap' : '';
 
   return (
@@ -24,7 +27,7 @@ const Keg = (props) => {
       <header>
         <div className={classes(['title'])}>
           <h2 className={classes(['beer-name'])}>
-            <a href={`/#/kegs/${id}`}>{beerName}</a>
+            <a href={`/#/kegs/${id}`}>{name}</a>
           </h2>
           <h3 className={classes(['brewery-name'])}>
             {breweryName}
@@ -34,6 +37,9 @@ const Keg = (props) => {
           <p className={classes(['abv'])}>
             {`${abv}%`}
             <small className={classes(['std'])}>{` (${standardDrinks} SD)` } </small>
+          </p>
+          <p className={classes(['ibu'])}>
+            {ibu} IBU
           </p>
           <p className={classes(['tapped'])}>
             {tapped && `Tapped ${dayMonth(tapped)}`}
@@ -50,7 +56,10 @@ const Keg = (props) => {
       )}
 
       <p className={classes(['notes'])}>
-        {notes}
+        {kegNotes}
+      </p>
+      <p className={classes(['notes'])}>
+        {beerNotes}
       </p>
 
       <KegRating ratings={Ratings} kegId={id} />
@@ -79,7 +88,7 @@ function calcStandardDrinks(abv, litres = 0.500) {
 
 const enhance = compose(
   withProps(props => ({
-    standardDrinks: calcStandardDrinks(props.abv),
+    standardDrinks: calcStandardDrinks(props.Beer.abv),
   })),
 );
 

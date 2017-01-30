@@ -37,7 +37,16 @@ function getOnTap(req, res) {
 
 function getAllKegs(req, res) {
   db.Keg.findAll({
-    include: [db.Rating, db.Tap],
+    include: [db.Rating, db.Tap, {
+      model: db.Beer,
+      attributes: [
+        'name',
+        'breweryName',
+        'notes',
+        'abv',
+        'ibu',
+      ],
+    }],
     order: [
       ['tapped', 'DESC'],
     ],
@@ -68,7 +77,18 @@ function getKegById(req, res) {
     include: [{
       model: db.Rating,
       include: [db.User],
-    }, db.Tap],
+    }, {
+      model: db.Beer,
+      attributes: [
+        'name',
+        'breweryName',
+        'notes',
+        'abv',
+        'ibu',
+      ],
+    },
+      db.Tap,
+    ],
   })
   .then((keg) => {
     if (keg) return res.send(keg);
@@ -116,7 +136,11 @@ function getUserById(req, res) {
       attributes: ['id', 'value', 'updatedAt'],
       include: [{
         model: db.Keg,
-        attributes: ['id', 'beerName', 'breweryName'],
+        attributes: ['id'],
+        include: [{
+          model: db.Beer,
+          attributes: ['name', 'breweryName'],
+        }],
       }],
     }, {
       model: db.Vote,
@@ -160,6 +184,8 @@ function getBeerById(req, res) {
       model: db.User,
       as: 'addedByUser',
       attributes: safeUserAttributes,
+    }, {
+      model: db.Keg,
     }],
   })
   .then((beer) => {

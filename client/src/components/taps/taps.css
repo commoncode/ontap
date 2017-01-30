@@ -38,11 +38,18 @@
   font-weight: 400;
 }
 
-.keg .abv {
+.keg .abv, .keg .ibu {
   font-weight: 400;
   font-size: 1.8rem;
   color: #FC531F;
   margin: 0 0 4px;
+}
+
+.keg .ibu {
+  font-weight: 400;
+  font-size: 12px;
+  color: #638BBF;
+  margin: 0;
 }
 
 .keg .tapped, .keg .untapped {
