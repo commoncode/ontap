@@ -13,10 +13,12 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Keg', {
   beerName: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'beer name',
   },
   breweryName: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'brewery name',
   },
   abv: DataTypes.FLOAT,
   tapped: {
