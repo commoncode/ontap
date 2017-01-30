@@ -10,6 +10,17 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Keg', {
     primaryKey: true,
     autoIncrement: true,
   },
+  beerName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'beer name',
+  },
+  breweryName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'brewery name',
+  },
+  abv: DataTypes.FLOAT,
   tapped: {
     type: DataTypes.DATE,
     allowNull: true,
@@ -35,5 +46,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Keg', {
       model: 'Kegs',
       key: 'id',
     },
+    allowNull: false,
   },
 });

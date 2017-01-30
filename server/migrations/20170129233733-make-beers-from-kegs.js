@@ -23,14 +23,16 @@ module.exports = {
     })
     .then(() => db.Keg.findAll())
     .then(kegs => Promise.all(kegs.map((keg) => {
-      const { beerName, breweryName, abv } = keg.get();
+      const { beerName, breweryName, abv, notes } = keg.get();
       return db.Beer.create({
         name: beerName,
         breweryName,
         abv,
+        notes,
       })
       .then(beer => keg.update({
         beerId: beer.get('id'),
+        notes: '',
       }));
     })))
     .then(() => queryInterface.removeColumn('Kegs', 'beerName'))
