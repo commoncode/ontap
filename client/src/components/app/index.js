@@ -14,29 +14,33 @@ import ContentRouter from '../router';
 import Profile from '../profile';
 import Notifications from '../notifications';
 
-const AppComponent = props => (
-  <div className="container">
-    <Notifications />
-    <header className="app-header">
-      <h1><a href="/#/"><span>Comm</span>On Tap</a></h1>
-      <Profile {...props.profile} />
-    </header>
-    <nav className="app-nav">
-      <a href="/#/">Now On Tap</a>
-      <a href="/#/beers">Beers</a>
-      {props.profile && props.profile.data.admin && <a href="/#/kegs/new">Add Keg</a> }
-      {props.profile && props.profile.data.admin && <a href="/#/taps">Change Taps</a> }
-    </nav>
+const AppComponent = (props) => {
+  const isAdmin = props.profile && props.profile.data.admin;
 
-    <div className="app-content">
-      <ContentRouter {...props} />
+  return (
+    <div className="container">
+      <Notifications />
+      <header className="app-header">
+        <h1><a href="/#/"><span>Comm</span>On Tap</a></h1>
+        <Profile {...props.profile} />
+      </header>
+      <nav className="app-nav">
+        <a href="/#/">Now On Tap</a>
+        <a href="/#/beers">Beers</a>
+        {isAdmin && <a href="/#/kegs/new">Add Keg</a> }
+        {isAdmin && <a href="/#/taps">Change Taps</a> }
+      </nav>
+
+      <div className="app-content">
+        <ContentRouter {...props} />
+      </div>
+
+      <footer className="app-footer">
+        <a href="https://github.com/commoncode/ontap">github.com/commoncode/ontap</a>
+      </footer>
     </div>
-
-    <footer className="app-footer">
-      <a href="https://github.com/commoncode/ontap">github.com/commoncode/ontap</a>
-    </footer>
-  </div>
-);
+  );
+};
 
 AppComponent.propTypes = {
   profile: propTypes.profile,

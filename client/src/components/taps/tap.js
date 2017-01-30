@@ -44,9 +44,9 @@ const Dry = props => (
   <article className={classes(['tap', 'no-service'])}>
     <div className={classes(['tap-name'])}>
       {props.profile && props.profile.admin &&
-          <a href={`/#/taps/${props.model.id}`}>{props.model.name}</a>
-        }
-        {!props.profile || !props.profile.admin && props.model.name }
+        <a href={`/#/taps/${props.model.id}`}>{props.model.name}</a>
+      }
+      {!props.profile || !props.profile.admin && props.model.name }
     </div>
     <div className={classes(['keg'])}>
       <header>
@@ -58,6 +58,7 @@ const Dry = props => (
 
 Dry.propTypes = {
   model: propTypes.kegModel,
+  profile: propTypes.profile,
 };
 
 // switch Dry/Tap based on whether there's a Keg

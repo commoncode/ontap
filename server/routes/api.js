@@ -13,6 +13,7 @@ router.use(bodyParser.json());
 
 
 const safeUserAttributes = ['id', 'name', 'avatar'];
+const standardBeerAttributes = ['name', 'breweryName', 'notes', 'abv', 'ibu'];
 
 // log an error and send it to the client.
 // todo - strip info out of the errors to
@@ -29,7 +30,10 @@ function getOnTap(req, res) {
   db.Tap.findAll({
     include: [{
       model: db.Keg,
-      include: [db.Rating],
+      include: [db.Rating, {
+        model: db.Beer,
+        attributes: standardBeerAttributes,
+      }],
     }],
   }).then(taps => res.send(taps))
   .catch(err => logAndSendError(err, res));
@@ -39,13 +43,7 @@ function getAllKegs(req, res) {
   db.Keg.findAll({
     include: [db.Rating, db.Tap, {
       model: db.Beer,
-      attributes: [
-        'name',
-        'breweryName',
-        'notes',
-        'abv',
-        'ibu',
-      ],
+      attributes: standardBeerAttributes,
     }],
     order: [
       ['tapped', 'DESC'],
@@ -79,13 +77,7 @@ function getKegById(req, res) {
       include: [db.User],
     }, {
       model: db.Beer,
-      attributes: [
-        'name',
-        'breweryName',
-        'notes',
-        'abv',
-        'ibu',
-      ],
+      attributes: standardBeerAttributes,
     },
       db.Tap,
     ],
@@ -112,7 +104,12 @@ function updateKeg(req, res) {
       id,
     },
   })
-  .then(() => db.Keg.findById(req.params.id))
+  .then(() => db.Keg.findById(req.params.id, {
+    include: {
+      model: db.Beer,
+      attributes: standardBeerAttributes,
+    },
+  }))
   .then(keg => res.send(keg))
   .catch(err => logAndSendError(err, res));
 }

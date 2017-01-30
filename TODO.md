@@ -1,19 +1,12 @@
 # todo
 
-## architecture/design
-
-- kegs fk to beers
+## bugs
 
 
+## functionality
 
-## functionality:
-
-- kegedit component sync handling
-- tap list component
-
-- Use that recompose conditional thing for showing loaders
+- Universal handling of loaders (recompose/branch?)
 - Clientside validation for KegEdit component
-
 
 ## needs styling:
 

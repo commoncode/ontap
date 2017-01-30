@@ -12,7 +12,7 @@ import Tap from './tap';
 
 const classes = classnames.bind(styles);
 
-const CurrentTapsComponent = (props) => {
+const TapList = (props) => {
   const { taps, profile, sync } = props;
 
   return (
@@ -24,14 +24,14 @@ const CurrentTapsComponent = (props) => {
   );
 };
 
-CurrentTapsComponent.propTypes = {
+TapList.propTypes = {
   profile: propTypes.profile,
   taps: propTypes.taps,
   sync: propTypes.sync,
 };
 
 
-class CurrentTapsContainer extends React.Component {
+class TapListContainer extends React.Component {
   static getStores() {
     return [tapsStore];
   }
@@ -48,7 +48,7 @@ class CurrentTapsContainer extends React.Component {
 
   render() {
     return (
-      <CurrentTapsComponent
+      <TapList
         taps={this.state.taps.get('taps').toArray()}
         sync={this.state.taps.get('sync').toJSON()}
         {...this.props}
@@ -57,4 +57,4 @@ class CurrentTapsContainer extends React.Component {
   }
 }
 
-export default Container.create(CurrentTapsContainer);
+export default Container.create(TapListContainer);

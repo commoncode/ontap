@@ -16,6 +16,7 @@ class KegEdit extends React.Component {
     return {
       model: React.PropTypes.object,
       syncing: React.PropTypes.bool,
+      successHandler: React.PropTypes.func,
     };
   }
 
@@ -69,7 +70,6 @@ class KegEdit extends React.Component {
   }
 
   beerChangeHandler(beerId) {
-    console.log('bch ' + beerId);
     this.setState({
       model: Object.assign(this.state.model, {
         beerId,
@@ -78,12 +78,18 @@ class KegEdit extends React.Component {
   }
 
   saveAction() {
-    // if we've got an id, we're saving an existing beer
+    // if we've got an id, we're saving an existing keg
     // if we don't, we're adding a new one.
     if (this.props.model && this.props.model.id) {
-      return updateKeg(this.state.model);
+      return updateKeg(this.state.model)
+      .then(this.props.successHandler);
     }
-    return createKeg(this.state.model);
+
+    // new keg. create and redirect.
+    return createKeg(this.state.model)
+    .then((keg) => {
+      document.location.hash = `/kegs/${keg.id}/`;
+    });
   }
 
   render() {

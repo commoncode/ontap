@@ -18,6 +18,7 @@ class KegDetailStore extends ReduceStore {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   reduce(state, action) {
     const { type, data, error } = action;
 

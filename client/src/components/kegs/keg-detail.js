@@ -74,7 +74,7 @@ class KegDetail extends React.Component {
           </div>
         ) }
 
-        { editing && <KegEdit model={keg.model} />}
+        { editing && <KegEdit model={keg.model} successHandler={this.toggleEditing} />}
 
 
       </div>
