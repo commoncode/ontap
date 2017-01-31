@@ -12,7 +12,7 @@ const router = new Router();
 router.use(bodyParser.json());
 
 
-const safeUserAttributes = ['id', 'name', 'avatar'];
+const safeUserAttributes = ['id', 'name', 'avatar', 'admin'];
 const standardBeerAttributes = ['id', 'name', 'breweryName', 'notes', 'abv', 'ibu', 'variety'];
 
 // log an error and send it to the client.
@@ -128,6 +128,14 @@ function deleteKeg(req, res) {
   })
   .then(res.sendStatus(204))
   .catch(err => res.send(err.status));
+}
+
+function getAllUsers(req, res) {
+  db.User.findAll({
+    attributes: safeUserAttributes,
+  })
+  .then(users => res.json(users))
+  .catch(err => logAndSendError(err, res));
 }
 
 function getUserById(req, res) {
@@ -540,6 +548,7 @@ router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
 router.get('/kegs/:id', getKegById);
 router.get('/taps', getAllTaps);
 router.get('/taps/:id', getTapById);
+router.get('/users', getAllUsers);
 router.get('/users/:id', getUserById);
 router.get('/beers', getAllBeers);
 router.get('/beers/:id', getBeerById);
