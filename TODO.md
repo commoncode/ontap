@@ -2,8 +2,6 @@
 
 ## bugs
 
- - fix tap detail view
-
 
 ## functionality
 

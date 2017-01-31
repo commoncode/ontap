@@ -18,7 +18,9 @@ const BeerSummary = props => (
     <div className="beer-details">
 
       <div className="primary">
-        <h1 className="name">{props.name}</h1>
+        <h1 className="name">
+          <a href={`/#/beers/${props.id}/`}>{props.name}</a>
+        </h1>
         <h2 className="brewery-name">{props.breweryName}</h2>
         <h4 className="variety">{props.variety}</h4>
         <p className="notes">{props.notes}</p>

@@ -399,6 +399,7 @@ body {
 
   .beer-detail-view {
     .beer-details {
+
       .primary {
         flex: 0 0 100%;
       }
@@ -446,6 +447,10 @@ body {
   .beer-details {
     border-bottom: 1px solid $offWhite;
     margin-bottom: 2em;
+
+    .name a {
+      pointer-events: none; // disable link to current page
+    }
   }
 }
 
@@ -479,10 +484,15 @@ body {
     }
   }
 
-  .name {
+  .name a {
     margin: 0;
     font-size: 2rem;
     color: $darkBlue;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .brewery-name {

@@ -113,21 +113,23 @@ class KegEdit extends React.Component {
           value={notes}
         />
 
-        <label htmlFor="tapped">Date Tapped (YYYY-MM-DD)</label>
-        <input
-          name="tapped"
-          placeholder="tapped"
-          onChange={this.inputChangeHandler}
-          value={tapped}
-        />
+        {!isNew && <div>
+          <label htmlFor="tapped">Date Tapped (YYYY-MM-DD)</label>
+            <input
+              name="tapped"
+              placeholder="tapped"
+              onChange={this.inputChangeHandler}
+              value={tapped}
+            />
 
-        <label htmlFor="untapped">Date Untapped (YYYY-MM-DD)</label>
-        <input
-          name="untapped"
-          placeholder="untapped"
-          onChange={this.inputChangeHandler}
-          value={untapped}
-        />
+            <label htmlFor="untapped">Date Untapped (YYYY-MM-DD)</label>
+            <input
+              name="untapped"
+              placeholder="untapped"
+              onChange={this.inputChangeHandler}
+              value={untapped}
+            />
+        </div> }
 
         {!syncing ? <button onClick={this.saveAction}>Save</button> : <Loader />}
 

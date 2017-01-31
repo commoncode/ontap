@@ -13,7 +13,7 @@ router.use(bodyParser.json());
 
 
 const safeUserAttributes = ['id', 'name', 'avatar'];
-const standardBeerAttributes = ['name', 'breweryName', 'notes', 'abv', 'ibu', 'variety'];
+const standardBeerAttributes = ['id', 'name', 'breweryName', 'notes', 'abv', 'ibu', 'variety'];
 
 // log an error and send it to the client.
 // todo - strip info out of the errors to
