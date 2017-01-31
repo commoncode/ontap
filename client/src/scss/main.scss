@@ -398,7 +398,7 @@ body {
   }
 
   .beer-detail-view {
-    .beer-details {
+    .beer-summary-view {
 
       .primary {
         flex: 0 0 100%;
@@ -444,7 +444,7 @@ body {
 .beer-detail-view {
   padding: 24px;
 
-  .beer-details {
+  .beer-summary-view {
     border-bottom: 1px solid $offWhite;
     margin-bottom: 2em;
 
@@ -455,7 +455,7 @@ body {
 }
 
 // beer details. name, brewery, etc.
-.beer-details {
+.beer-summary-view {
   display: flex;
   flex-flow: row wrap;
 
@@ -484,14 +484,19 @@ body {
     }
   }
 
-  .name a {
+  .name {
     margin: 0;
     font-size: 2rem;
     color: $darkBlue;
-    text-decoration: none;
 
-    &:hover {
-      text-decoration: underline;
+    a {
+      font: inherit;
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
