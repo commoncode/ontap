@@ -4,6 +4,7 @@
 
 import dispatcher from '../dispatcher';
 import { fetcher } from './util';
+import { addNotification } from './notifications';
 
 
 export const fetchTaps = () => {
@@ -75,6 +76,8 @@ export const changeTap = ({ tapId, kegId = null, tapped = null, untapped = null 
       type: 'RECEIVE_CHANGE_TAP',
       data,
     });
+    addNotification('Changed the tap. 🍻');
+    return data;
   })
   .catch((error) => {
     dispatcher.dispatch({

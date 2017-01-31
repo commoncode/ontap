@@ -64,6 +64,11 @@ function getNewKegs(req, res) {
     // where: {
     //   tapped: null,
     // },
+    include: [{
+      model: db.Beer,
+      attributes: standardBeerAttributes,
+    },
+    ],
   })
   .then(kegs => kegs.filter(keg => !keg.get('tapped')))
   .then(kegs => res.json(kegs))
@@ -325,7 +330,13 @@ function getAllTaps(req, res) {
 
 function getTapById(req, res) {
   db.Tap.findById(req.params.id, {
-    include: [db.Keg],
+    include: [{
+      model: db.Keg,
+      include: [{
+        model: db.Beer,
+        attributes: standardBeerAttributes,
+      }],
+    }],
   })
   .then((tap) => {
     if (!tap) return res.sendStatus(404);
@@ -452,7 +463,13 @@ function changeKeg({ tapId, kegId, tapped, untapped }) {
       return Promise.all(updates);
     })
     .then(() => db.Tap.findById(tapId, {
-      include: db.Keg,
+      include: [{
+        model: db.Keg,
+        include: {
+          model: db.Beer,
+          attributes: standardBeerAttributes,
+        },
+      }],
     })));
   });
 }

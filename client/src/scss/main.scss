@@ -238,8 +238,22 @@ body {
   }
 }
 
+
+// tap change view
 .tap-change {
   padding: 24px;
+
+  .tap-change--tap-name {
+    color: $khaki;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  .tap-change--beer-name {
+    color: $darkBlue;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
 }
 
 .app-content > .keg-edit {

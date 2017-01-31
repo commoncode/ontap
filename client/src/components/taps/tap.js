@@ -55,7 +55,7 @@ const Dry = props => (
     </div>
     {props.profile && props.profile.admin &&
       <div className={classes(['tap-admin'])}>
-        <a href={`/#/taps/${props.id}/`}>Change Tap</a>
+        <a href={`/#/taps/${props.model.id}/`}>Change Tap</a>
       </div>
     }
   </article>
