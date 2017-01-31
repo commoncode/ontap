@@ -9,28 +9,31 @@ import classnames from 'classnames/bind';
 import renderComponent from 'recompose/renderComponent';
 
 import * as propTypes from '../../proptypes/';
+import { dayMonth } from '../../util/date';
 
-import Keg from '../kegs/keg';
 import styles from './taps.css';
 
 const classes = classnames.bind(styles);
 
 const Tap = (props) => {
   const { model, profile } = props;
-  const { name } = model;
+  const { name, id, Keg } = model;
+  const { Beer } = Keg;
   return (
-    <article className={`tap ${classes(['tap'])}`}>
+    <article className={`${classes(['tap'])}`}>
       <div className={classes(['tap-name'])}>
-        {profile && profile.admin &&
-          <a href={`/#/taps/${model.id}`}>{name}</a>
-        }
-        {!profile || !profile.admin && name }
+        {name}
       </div>
-      <div className={classes(['keg'])}>
-        <header>
-          <Keg {...model.Keg} />
-        </header>
+      <div className={classes(['tap-keg'])}>
+        <h2 className={classes(['beer-name'])}>{Beer.breweryName } - {Beer.name}</h2>
+        <p className={classes(['tapped-date'])}>Tapped {dayMonth(Keg.tapped)}</p>
       </div>
+
+      {profile && profile.admin &&
+        <div className={classes(['tap-admin'])}>
+          <a href={`/#/taps/${id}/`}>Change Tap</a>
+        </div>
+      }
     </article>
   );
 };
@@ -43,16 +46,18 @@ Tap.propTypes = {
 const Dry = props => (
   <article className={classes(['tap', 'no-service'])}>
     <div className={classes(['tap-name'])}>
-      {props.profile && props.profile.admin &&
-        <a href={`/#/taps/${props.model.id}`}>{props.model.name}</a>
-      }
-      {!props.profile || !props.profile.admin && props.model.name }
+      {props.model.name}
     </div>
-    <div className={classes(['keg'])}>
+    <div className={classes(['tap-keg'])}>
       <header>
         <h2 className={classes(['beer-name'])}>No Service</h2>
       </header>
     </div>
+    {props.profile && props.profile.admin &&
+      <div className={classes(['tap-admin'])}>
+        <a href={`/#/taps/${props.id}/`}>Change Tap</a>
+      </div>
+    }
   </article>
 );
 

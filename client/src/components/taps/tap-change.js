@@ -73,37 +73,44 @@ class TapChange extends React.Component {
       return <Loader />;
     }
 
+    const { Keg } = tap;
+    const { Beer } = Keg;
+
+
     return (
       <div className="tap-change">
         <h3>{tap.name}</h3>
 
         <h4>
-          {tap.Keg ? `${tap.Keg.beerName} by ${tap.Keg.breweryName}` : 'No Service'}
+          {tap.Keg ? `${Beer.breweryName} - ${Beer.name}` : 'No Service'}
         </h4>
 
 
         <h5>Change this Keg</h5>
 
-        <label htmlFor="kegId">Keg</label>
-        <select onChange={this.selectChangeHandler} value={kegId} name="kegId">
-          <option value="">No Service (Untap current keg)</option>
-          <option disabled="true">-----</option>
-          { kegs.map(keg => (
-            <option
-              key={keg.id}
-              value={keg.id}
-              disabled={keg.Tap}
-            >{keg.beerName}</option>
-          )) }
-        </select>
+        <div className="edit-form">
 
-        <label htmlFor="tapped">New Keg Tapped Date</label>
-        <input name="tapped" value={tapped} onChange={this.inputChangeHandler} />
+          <label htmlFor="kegId">Keg</label>
+          <select onChange={this.selectChangeHandler} value={kegId} name="kegId">
+            <option value="">No Service (Untap current keg)</option>
+            <option disabled="true">-----</option>
+            { kegs.map(keg => (
+              <option
+                key={keg.id}
+                value={keg.id}
+                disabled={keg.Tap}
+              >{keg.beerName}</option>
+            )) }
+          </select>
 
-        <label htmlFor="untapped">Old Keg Untapped Date</label>
-        <input name="untapped" value={untapped} onChange={this.inputChangeHandler} />
+          <label htmlFor="tapped">New Keg Tapped Date</label>
+          <input name="tapped" value={tapped} onChange={this.inputChangeHandler} />
 
-        <button onClick={this.saveAction}>Save</button>
+          <label htmlFor="untapped">Old Keg Untapped Date</label>
+          <input name="untapped" value={untapped} onChange={this.inputChangeHandler} />
+
+          <button onClick={this.saveAction}>Save</button>
+        </div>
 
       </div>
     );

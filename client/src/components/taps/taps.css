@@ -1,16 +1,7 @@
 .tap {
+  display: flex;
   padding: 24px 12px;
   border-bottom: 1px solid #BDD4DE;
-  background: #F2F2F2;
-}
-
-.tap .no-service {
-  font-style: italic;
-  font-weight: 400;
-}
-
-.tap.no-service {
-  opacity: 0.5;
 }
 
 .tap .tap-name {
@@ -18,63 +9,47 @@
   font-weight: 200;
   text-transform: uppercase;
   color: #6D7340;
+  flex: 1 0 0;
+  align-self: center;
+  padding: 0 24px;
 }
 
-.keg a, .tap a {
-  color: inherit;
-  text-decoration: none;
+.tap .tap-keg {
+  flex: 5 0 0;
 }
 
-.keg .beer-name {
-  color: #638BBF;
-  font-size: 1.5rem;
-  margin: 0;
+.tap .tap-admin {
+  flex: 1 0 0;
+  align-self: center;
 }
 
-.keg .brewery-name {
+.tap .tap-admin a {
+  display: block;
   color: #89BAD9;
-  font-size: 1.2rem;
-  margin: 0 0 0.5em;
-  font-weight: 400;
-}
-
-.keg .abv, .keg .ibu {
-  font-weight: 400;
-  font-size: 1.8rem;
-  color: #FC531F;
-  margin: 0 0 4px;
-}
-
-.keg .ibu {
-  font-weight: 400;
-  font-size: 12px;
-  color: #638BBF;
-  margin: 0;
-}
-
-.keg .tapped, .keg .untapped {
-  font-size: 12px;
-  margin: 0;
-  color: #638BBF;
-  white-space: nowrap;
-}
-
-.keg .std {
-  font-size: 40%;
-  white-space: nowrap;
-}
-
-.keg .notes {
-  margin: 1em 0 0;
-  font-size: 0.8em;
-  font-weight: 200;
-  white-space: pre-wrap;
-}
-
-.keg .now-on-tap {
-  color: #59596E;
-  font-weight: 600;
   font-size: 1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: right;
+  padding: 0 24px;
+}
+
+.tap .tap-admin a:hover {
+  text-decoration: underline;
+}
+
+.beer-name {
+  color: #638BBF;
+  font-size: 1.4rem;
+}
+
+.no-service .beer-name {
+  color: #89BAD9;
+}
+
+.tapped-date {
+  color: #436B9F;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .btn-edit {
@@ -84,51 +59,7 @@
   cursor: pointer;
 }
 
-.tap:nth-child(even){
-  background: #FAFAFA;
-}
 
-/* layout */
-
-.tap {
-  display: flex;
-}
-
-.tap .tap-name {
-  flex: 1 0 0;
-  align-self: center;
-  padding: 0 24px;
-}
-
-.tap .keg {
-  flex: 5 0 0;
-}
-
-.keg header {
-  display: flex;
-}
-
-.keg header .title {
-  flex: 2;
-}
-
-.keg header .meta {
-  flex: 1 0 0;
-  align-self: flex-start;
-  padding: 0 24px;
-  text-align: right;
-}
-
-.footer {
-  text-align: center;
-  font-size: 14px;
-  padding: 1em;
-  margin: 0;
-}
-
-.footer a {
-  color: #89BAD9;
-}
 
 @media (max-width: 600px) {
   .tap {
@@ -142,7 +73,7 @@
     margin: 0 0 1em;
   }
 
-  .tap .keg {
+  .tap .tap-keg {
     flex: 1;
   }
 }

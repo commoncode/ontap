@@ -2,15 +2,20 @@
 
 ## bugs
 
+ - fix tap detail view
+
 
 ## functionality
 
+- Break the beer detail votes into a sub component, move edit/delete beer buttons out
+- Add a beer detail kegs view (current/past kegs)
 - Universal handling of loaders (recompose/branch?)
 - Clientside validation for KegEdit component
 
 ## needs styling:
 
-- tap detail (change tap) view
+- tap detail view
+
 
 ## cleanup/refactor:
 

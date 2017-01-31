@@ -14,6 +14,7 @@ import * as propTypes from '../../proptypes';
 
 import Loader from '../loader/';
 import BeerEdit from './beer-edit';
+import BeerSummary from './beer-summary';
 import Avatar from '../generic/avatar';
 
 class BeerDetail extends React.Component {
@@ -63,25 +64,7 @@ class BeerDetail extends React.Component {
       <div>
         { fetching ? <Loader /> :
           <div className="beer-detail-view">
-            <div className="beer-details">
-              <div className="primary">
-                <h1 className="name">{model.name}</h1>
-                <h2 className="brewery-name">{model.breweryName}</h2>
-                <h4 className="variety">{model.variety}</h4>
-              </div>
-              <div className="meta">
-                <p>{model.abv ? `${model.abv}%` : '?'} ABV</p>
-                <p>{model.ibu ? model.ibu : '?'} IBU</p>
-                <Avatar {...model.addedByUser} size="40" />
-                {model.canBuy && (
-                  <div
-                    className="can-buy emoji-beers"
-                    title="Supplier confirmed for this beer"
-                  />
-                  )}
-              </div>
-              <p className="notes">{model.notes}</p>
-            </div>
+            <BeerSummary {...model} />
 
             <div className="beer-detail-votes">
               <div>

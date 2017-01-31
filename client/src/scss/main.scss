@@ -526,6 +526,37 @@ body {
 }
 
 
+.keg-summary-view {
+
+  display: flex;
+
+  .keg-summary {
+    flex: 3;
+  }
+
+  .keg-rating {
+    flex: 1;
+  }
+
+  .now-on-tap {
+    color: $lightBlue;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .tapped {
+    color: $darkBlue;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .notes {
+    font-weight: 200;
+    font-size: 1rem;
+    color: $khaki;
+  }
+}
 
 // buttons
 button {
