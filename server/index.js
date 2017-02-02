@@ -50,9 +50,12 @@ app.use(passport.session());
 // simulates a user being logged in.
 // set USER_ID to falsey to skip.
 app.use((req, res, next) => {
-  const USER_ID = 1;
-  if (!USER_ID) next();
-  db.User.findById(USER_ID)
+  const USER_ID = Number(process.env.SIMULATE_USER_ID) || null;
+  if (!USER_ID) {
+    return next();
+  }
+
+  return db.User.findById(USER_ID)
   .then((user) => {
     req.user = (user && user.get({ plain: true })) || null; // eslint-disable-line no-param-reassign
     next();
