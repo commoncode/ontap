@@ -12,7 +12,8 @@ const router = new Router();
 router.use(bodyParser.json());
 
 
-const safeUserAttributes = ['id', 'name', 'avatar'];
+const safeUserAttributes = ['id', 'name', 'avatar', 'admin'];
+const standardBeerAttributes = ['id', 'name', 'breweryName', 'notes', 'abv', 'ibu', 'variety'];
 
 // log an error and send it to the client.
 // todo - strip info out of the errors to
@@ -29,7 +30,10 @@ function getOnTap(req, res) {
   db.Tap.findAll({
     include: [{
       model: db.Keg,
-      include: [db.Rating],
+      include: [db.Rating, {
+        model: db.Beer,
+        attributes: standardBeerAttributes,
+      }],
     }],
   }).then(taps => res.send(taps))
   .catch(err => logAndSendError(err, res));
@@ -37,7 +41,10 @@ function getOnTap(req, res) {
 
 function getAllKegs(req, res) {
   db.Keg.findAll({
-    include: [db.Rating, db.Tap],
+    include: [db.Rating, db.Tap, {
+      model: db.Beer,
+      attributes: standardBeerAttributes,
+    }],
     order: [
       ['tapped', 'DESC'],
     ],
@@ -57,6 +64,11 @@ function getNewKegs(req, res) {
     // where: {
     //   tapped: null,
     // },
+    include: [{
+      model: db.Beer,
+      attributes: standardBeerAttributes,
+    },
+    ],
   })
   .then(kegs => kegs.filter(keg => !keg.get('tapped')))
   .then(kegs => res.json(kegs))
@@ -68,7 +80,12 @@ function getKegById(req, res) {
     include: [{
       model: db.Rating,
       include: [db.User],
-    }, db.Tap],
+    }, {
+      model: db.Beer,
+      attributes: standardBeerAttributes,
+    },
+      db.Tap,
+    ],
   })
   .then((keg) => {
     if (keg) return res.send(keg);
@@ -92,7 +109,12 @@ function updateKeg(req, res) {
       id,
     },
   })
-  .then(() => db.Keg.findById(req.params.id))
+  .then(() => db.Keg.findById(req.params.id, {
+    include: {
+      model: db.Beer,
+      attributes: standardBeerAttributes,
+    },
+  }))
   .then(keg => res.send(keg))
   .catch(err => logAndSendError(err, res));
 }
@@ -108,6 +130,14 @@ function deleteKeg(req, res) {
   .catch(err => res.send(err.status));
 }
 
+function getAllUsers(req, res) {
+  db.User.findAll({
+    attributes: safeUserAttributes,
+  })
+  .then(users => res.json(users))
+  .catch(err => logAndSendError(err, res));
+}
+
 function getUserById(req, res) {
   // todo - keep an eye on the performance of this
   db.User.findById(req.params.id, {
@@ -116,7 +146,11 @@ function getUserById(req, res) {
       attributes: ['id', 'value', 'updatedAt'],
       include: [{
         model: db.Keg,
-        attributes: ['id', 'beerName', 'breweryName'],
+        attributes: ['id'],
+        include: [{
+          model: db.Beer,
+          attributes: ['name', 'breweryName'],
+        }],
       }],
     }, {
       model: db.Vote,
@@ -160,6 +194,8 @@ function getBeerById(req, res) {
       model: db.User,
       as: 'addedByUser',
       attributes: safeUserAttributes,
+    }, {
+      model: db.Keg,
     }],
   })
   .then((beer) => {
@@ -302,7 +338,13 @@ function getAllTaps(req, res) {
 
 function getTapById(req, res) {
   db.Tap.findById(req.params.id, {
-    include: [db.Keg],
+    include: [{
+      model: db.Keg,
+      include: [{
+        model: db.Beer,
+        attributes: standardBeerAttributes,
+      }],
+    }],
   })
   .then((tap) => {
     if (!tap) return res.sendStatus(404);
@@ -429,7 +471,13 @@ function changeKeg({ tapId, kegId, tapped, untapped }) {
       return Promise.all(updates);
     })
     .then(() => db.Tap.findById(tapId, {
-      include: db.Keg,
+      include: [{
+        model: db.Keg,
+        include: {
+          model: db.Beer,
+          attributes: standardBeerAttributes,
+        },
+      }],
     })));
   });
 }
@@ -500,6 +548,7 @@ router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
 router.get('/kegs/:id', getKegById);
 router.get('/taps', getAllTaps);
 router.get('/taps/:id', getTapById);
+router.get('/users', getAllUsers);
 router.get('/users/:id', getUserById);
 router.get('/beers', getAllBeers);
 router.get('/beers/:id', getBeerById);

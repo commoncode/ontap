@@ -46,6 +46,15 @@ db.Tap.belongsTo(db.Keg, {
   foreignKey: 'kegId',
 });
 
+// keg has a single beer
+db.Beer.hasMany(db.Keg, {
+  foreignKey: 'beerId',
+  onDelete: 'CASCADE', // delete the beer, delete the kegs
+});
+db.Keg.belongsTo(db.Beer, {
+  foreignKey: 'beerId',
+});
+
 // kegs have ratings
 db.Keg.hasMany(db.Rating, {
   foreignKey: 'kegId',

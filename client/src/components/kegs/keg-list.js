@@ -122,7 +122,6 @@ class KegListContainer extends React.Component {
     // below, or should we override .getState() to actually
     // convert it then?
     // i don't know.
-    // OR maybe we just teach the components to use maps.
     return (
       <KegList
         kegs={this.state.kegsState.get('kegs').toArray()}

@@ -74,6 +74,7 @@ export function updateKeg(keg) {
       type: 'RECEIVE_UPDATE_KEG',
       data,
     });
+    return data;
   })
   .catch((error) => {
     dispatcher.dispatch({
@@ -102,6 +103,7 @@ export function createKeg(keg) {
       type: 'RECEIVE_CREATE_KEG',
       data,
     });
+    return data;
   })
   .catch((error) => {
     dispatcher.dispatch({

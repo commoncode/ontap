@@ -1,20 +1,20 @@
 /**
- * Keg Detail store.
- * State management for Keg Detail component.
+ * BeerSelect Store.
+ * A store for the BeerSelect view.
  */
 
 import { ReduceStore } from 'flux/utils';
 
 import dispatcher from '../dispatcher';
 
-class KegDetailStore extends ReduceStore {
+class BeerSelectStore extends ReduceStore {
+
   getInitialState() {
     return {
+      beers: [],
       fetching: false,
-      pushing: false,
-      editing: false,
+      fetched: false,
       error: null,
-      model: null,
     };
   }
 
@@ -24,21 +24,20 @@ class KegDetailStore extends ReduceStore {
 
     switch (type) {
 
-      case 'REQUEST_FETCH_KEG':
+      case 'REQUEST_FETCH_BEERS':
         return {
           fetching: true,
-          pushing: false,
+          fetched: false,
           error: null,
-          model: null,
+          beers: [],
         };
 
-      case 'RECEIVE_FETCH_KEG':
-      case 'RECEIVE_UPDATE_KEG':
+      case 'RECEIVE_FETCH_BEERS':
         return {
           fetching: false,
-          pushing: false,
+          fetched: true,
           error: error || null,
-          model: data || null,
+          beers: data || [],
         };
 
       default:
@@ -47,6 +46,4 @@ class KegDetailStore extends ReduceStore {
   }
 }
 
-// singleton, but you could actually have many.
-// would require the reducer to check against an id.
-export default new KegDetailStore(dispatcher);
+export default new BeerSelectStore(dispatcher);

@@ -11,7 +11,7 @@ import React from 'react';
 import KegDetail from './kegs/keg-detail';
 import KegEdit from './kegs/keg-edit';
 import KegList from './kegs/keg-list';
-import Taps from './taps';
+import TapList from './taps/tap-list';
 import TapChange from './taps/tap-change';
 import UserDetail from './users/user-detail';
 import BeerList from './beers/beer-list';
@@ -64,7 +64,7 @@ const routes = {
     }),
   },
   '/taps': {
-    component: Taps,
+    component: TapList,
     props: props => ({
       profile: props.profile.data,
     }),

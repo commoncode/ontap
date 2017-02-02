@@ -145,7 +145,7 @@ body {
 
   .profile-avatar {
     width: 45px;
-    height: auto;
+    height: 45px;
     border-radius: 5px;
     cursor: pointer;
     vertical-align: middle;
@@ -238,8 +238,22 @@ body {
   }
 }
 
+
+// tap change view
 .tap-change {
   padding: 24px;
+
+  .tap-change--tap-name {
+    color: $khaki;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  .tap-change--beer-name {
+    color: $darkBlue;
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
 }
 
 .app-content > .keg-edit {
@@ -384,7 +398,8 @@ body {
   }
 
   .beer-detail-view {
-    .beer-details {
+    .beer-summary-view {
+
       .primary {
         flex: 0 0 100%;
       }
@@ -429,14 +444,18 @@ body {
 .beer-detail-view {
   padding: 24px;
 
-  .beer-details {
+  .beer-summary-view {
     border-bottom: 1px solid $offWhite;
     margin-bottom: 2em;
+
+    .name a {
+      pointer-events: none; // disable link to current page
+    }
   }
 }
 
 // beer details. name, brewery, etc.
-.beer-details {
+.beer-summary-view {
   display: flex;
   flex-flow: row wrap;
 
@@ -469,6 +488,16 @@ body {
     margin: 0;
     font-size: 2rem;
     color: $darkBlue;
+
+    a {
+      font: inherit;
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .brewery-name {
@@ -526,6 +555,37 @@ body {
 }
 
 
+.keg-summary-view {
+
+  display: flex;
+
+  .keg-summary {
+    flex: 3;
+  }
+
+  .keg-rating {
+    flex: 1;
+  }
+
+  .now-on-tap {
+    color: $lightBlue;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .tapped {
+    color: $darkBlue;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .notes {
+    font-weight: 200;
+    font-size: 1rem;
+    color: $khaki;
+  }
+}
 
 // buttons
 button {
@@ -759,7 +819,7 @@ button {
     font-size: 1em;
   }
 
-  input, textarea {
+  input, textarea, select {
     line-height: 1em;
     border-radius: 4px;
     border: 1px solid #ddd;

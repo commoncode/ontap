@@ -58,9 +58,9 @@ class TapChange extends React.Component {
       kegId: numberOrNull(kegId),
     };
 
-    changeTap(payload)
+    return changeTap(payload)
     .then(() => {
-      console.log('done');
+      document.location.hash = '/taps/';
     });
   }
 
@@ -73,37 +73,40 @@ class TapChange extends React.Component {
       return <Loader />;
     }
 
+    const { Keg } = tap;
+
     return (
       <div className="tap-change">
-        <h3>{tap.name}</h3>
+        <h3 className="tap-change--tap-name">{tap.name}</h3>
 
-        <h4>
-          {tap.Keg ? `${tap.Keg.beerName} by ${tap.Keg.breweryName}` : 'No Service'}
+        <h4 className="tap-change--beer-name">
+          {Keg ? `${Keg.Beer.breweryName} - ${Keg.Beer.name}` : 'No Service'}
         </h4>
 
 
-        <h5>Change this Keg</h5>
+        <div className="edit-form">
 
-        <label htmlFor="kegId">Keg</label>
-        <select onChange={this.selectChangeHandler} value={kegId} name="kegId">
-          <option value="">No Service (Untap current keg)</option>
-          <option disabled="true">-----</option>
-          { kegs.map(keg => (
-            <option
-              key={keg.id}
-              value={keg.id}
-              disabled={keg.Tap}
-            >{keg.beerName}</option>
-          )) }
-        </select>
+          <label htmlFor="kegId">New Keg</label>
+          <select onChange={this.selectChangeHandler} value={kegId} name="kegId">
+            <option value="">None (Untap current keg)</option>
+            <option disabled="true">-----</option>
+            { kegs.map(keg => (
+              <option
+                key={keg.id}
+                value={keg.id}
+                disabled={keg.Tap}
+              >{keg.Beer.name} ({keg.Beer.breweryName})</option>
+            )) }
+          </select>
 
-        <label htmlFor="tapped">New Keg Tapped Date</label>
-        <input name="tapped" value={tapped} onChange={this.inputChangeHandler} />
+          <label htmlFor="tapped">New Keg Tapped Date (YYYY-MM-DD)</label>
+          <input name="tapped" value={tapped} onChange={this.inputChangeHandler} />
 
-        <label htmlFor="untapped">Old Keg Untapped Date</label>
-        <input name="untapped" value={untapped} onChange={this.inputChangeHandler} />
+          <label htmlFor="untapped">Old Keg Untapped Date (YYYY-MM-DD)</label>
+          <input name="untapped" value={untapped} onChange={this.inputChangeHandler} />
 
-        <button onClick={this.saveAction}>Save</button>
+          <button onClick={this.saveAction}>Save</button>
+        </div>
 
       </div>
     );
