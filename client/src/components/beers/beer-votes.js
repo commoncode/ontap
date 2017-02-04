@@ -40,7 +40,6 @@ class BeerVotes extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { beer, profile } = this.props;
     const myVote = beer.Votes.find(vote => vote.userId === profile.id);
 

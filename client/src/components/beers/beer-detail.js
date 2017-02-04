@@ -49,7 +49,7 @@ class BeerDetail extends React.Component {
         <div className="beer-detail-view">
           <BeerSummary {...model} />
           <BeerVotes beer={model} profile={profile.data} />
-          {false && <BeerKegs beer={model} /> }
+          <BeerKegs beer={model} profile={profile.data} />
 
           { isAdmin && (
             <div className="beer-actions">

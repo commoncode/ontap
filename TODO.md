@@ -5,7 +5,6 @@
 
 ## functionality
 
-- Finish and add the BeerKegs component
 - User management view
 - Clientside validation for KegEdit component
 

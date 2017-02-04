@@ -16,7 +16,7 @@ const KegSummary = props => (
     <div className="keg-summary">
       {props.Tap && (
         <p className="now-on-tap">
-          Pouring now on {props.Tap.name}.
+          Now on {props.Tap.name}.
         </p>
       )}
 

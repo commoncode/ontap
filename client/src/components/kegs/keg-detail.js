@@ -4,10 +4,10 @@ import { Container } from 'flux/utils';
 import kegDetailStore from '../../stores/keg-detail';
 import profileStore from '../../stores/profile';
 import { fetchKeg, deleteKeg } from '../../actions/kegs';
-import propTypes from '../../proptypes';
+import * as propTypes from '../../proptypes';
 
-import Keg from './keg';
 import KegRatingDetail from './keg-rating-detail';
+import KegSummary from './keg-summary';
 import KegEdit from './keg-edit';
 import Loader from '../loader/';
 import ErrorComponent from '../error' ;
@@ -24,6 +24,7 @@ class KegDetail extends React.Component {
     super();
     this.state = {
       editing: false,
+      beerDetails: false,
     };
 
     this.toggleEditing = this.toggleEditing.bind(this);
@@ -46,18 +47,17 @@ class KegDetail extends React.Component {
     const { editing } = this.state;
     const canEdit = profile.data && profile.data.admin;
 
+    if (keg.fetching) return <Loader />;
+    if (keg.error) return <ErrorComponent {...keg.error} />;
+
     return (
       <div className="keg-detail">
-        <ErrorComponent {...keg.error} />
+        <h2 className="keg-name">
+          Keg {keg.model.id}: {keg.model.Beer.name} ({keg.model.Beer.breweryName})
+        </h2>
 
-        { keg.fetching && <Loader />}
-
-        { keg.model && (
-          <div>
-            <Keg {...keg.model} profile={profile} />
-            <KegRatingDetail {...keg.model} profile={profile} />
-          </div>
-        ) }
+        <KegSummary {...keg.model} />
+        <KegRatingDetail {...keg.model} profile={profile} />
 
         { canEdit && (
           <div className="beer-actions">
