@@ -21,6 +21,7 @@ const BeerSummary = props => (
       </h1>
       <h2 className="brewery-name">{props.breweryName}</h2>
       <h4 className="variety">{props.variety}</h4>
+      <p className="unavailable">This beer is unavailable for order.</p>
       <p className="notes">{props.notes}</p>
     </div>
 
@@ -32,12 +33,6 @@ const BeerSummary = props => (
       </p> }
       { props.addedByUser &&
         <Avatar {...props.addedByUser} size="40" />
-      }
-      {props.canBuy &&
-        <div
-          className="can-buy emoji-beers"
-          title="Supplier confirmed for this beer"
-        />
       }
     </div>
   </div>
