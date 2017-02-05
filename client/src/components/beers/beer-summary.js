@@ -21,7 +21,7 @@ const BeerSummary = props => (
       </h1>
       <h2 className="brewery-name">{props.breweryName}</h2>
       <h4 className="variety">{props.variety}</h4>
-      <p className="unavailable">This beer is unavailable for order.</p>
+      {!props.canBuy && <p className="unavailable">This beer is unavailable for order.</p> }
       <p className="notes">{props.notes}</p>
     </div>
 
