@@ -1,5 +1,7 @@
 /**
- * Keg.
+ * KegListItem.
+ *
+ * Summary view of a Keg & Beer.
  */
 
 import React from 'react';

@@ -405,7 +405,10 @@ function rateKeg(req, res) {
   .then(() => {
     log.info(`${req.user.name} rated keg #${kegId} a ${value}`);
     return db.Keg.findById(kegId, {
-      include: [db.Rating],
+      include: [db.Rating, {
+        model: db.Beer,
+        attributes: standardBeerAttributes,
+      }],
     });
   })
   .then((keg) => {

@@ -25,9 +25,9 @@ const BeerSummary = props => (
     </div>
 
     <div className="meta">
-      <p>{props.abv ? `${props.abv}%` : '?'} ABV</p>
-      <p>{props.ibu ? props.ibu : '?'} IBU</p>
-      {props.abv && <p style={{ fontSize: '0.6em' }}>
+      <p className="abv">{props.abv ? `${props.abv}%` : '?'} ABV</p>
+      <p className="ibu">{props.ibu ? props.ibu : '?'} IBU</p>
+      {props.abv && <p className="sd">
         {props.standardDrinks } SD / pint
       </p> }
       { props.addedByUser &&

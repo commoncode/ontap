@@ -15,7 +15,7 @@ $offGrey: #EEEEEE;
 $offWhite: #F2F2F2;
 $brown: #59596E;
 $khaki: #6D7340;
-$highlight: #FC531F;
+$highlight: orange;
 
 @import '~normalize.css/normalize.css';
 
@@ -210,18 +210,21 @@ body {
     margin: 1em 0 0;
   }
 
-  .keg {
+  .keg-list-item {
     border-bottom: 1px solid $lightBlue;
     padding: 24px;
   }
 
-  .btn-new-keg {
-    display: block;
-    margin: 1em auto;
+  .beer-summary-view {
+    margin: 0 0 1em;
   }
 
-  .keg-edit {
-    padding: 20px;
+  // hide a few details
+  .beer-summary-view .notes,
+  .beer-summary-view .ibu,
+  .keg-summary-view .keg-rating
+  {
+    display: none;
   }
 }
 
@@ -235,6 +238,12 @@ body {
 
   .keg-rating {
     display: none; // hide this, show keg-rating-detail instead
+  }
+
+  .keg-name {
+    margin: 0 0 1em;
+    font-size: 2rem;
+    color: $darkBlue;
   }
 }
 
@@ -444,13 +453,13 @@ body {
 .beer-detail-view {
   padding: 24px;
 
-  .beer-summary-view {
+  .beer-summary-view, .beer-votes-view, .beer-kegs-list {
     border-bottom: 1px solid $offWhite;
     margin-bottom: 2em;
+  }
 
-    .name a {
-      pointer-events: none; // disable link to current page
-    }
+  .beer-summary-view .name a {
+    pointer-events: none; // disable link to current page
   }
 }
 
@@ -469,8 +478,12 @@ body {
     color: $lightBlue;
     text-align: right;
 
-    > * {
+    p {
       margin: 0 0 0.25em;
+    }
+
+    .sd {
+      font-size: 0.6em;
     }
 
     .avatar {
@@ -485,7 +498,7 @@ body {
   }
 
   .name {
-    margin: 0;
+    margin: 0 0 4px;
     font-size: 2rem;
     color: $darkBlue;
 
@@ -501,18 +514,17 @@ body {
   }
 
   .brewery-name {
-    margin: 0;
+    margin: 4px 0;
     font-size: 1.25rem;
     color: $lightBlue;
     font-weight: 400;
   }
 
   .variety {
-    margin: 0.5em 0 0;
+    margin: 4px 0 0;
     font-size: 1rem;
     color: $khaki;
-    font-weight: 200;
-    font-style: italic;
+    font-weight: 400;
   }
 
   .notes {
@@ -554,6 +566,50 @@ body {
   }
 }
 
+.beer-kegs-list {
+  padding: 0 0 2em;
+  font-size: 1rem;
+
+  .title {
+    color: $darkBlue;
+    font-size: 1.2rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: $lightBlue;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .list {
+
+    border: 1px solid #f2f2f2;
+    border-radius: 2px;
+
+    .list-item {
+
+      background: #fafafa;
+
+      &:nth-child(even){
+        background: $offWhite;
+      }
+
+      display: flex;
+      padding: 12px 16px;
+
+      .keg-title {
+        flex: 1 0 auto;
+      }
+
+      .keg-tapped {
+        flex: 4 0 auto;
+      }
+    }
+  }
+}
 
 .keg-summary-view {
 
@@ -568,7 +624,7 @@ body {
   }
 
   .now-on-tap {
-    color: $lightBlue;
+    color: $highlight;
     font-weight: 600;
     margin: 0;
   }

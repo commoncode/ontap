@@ -1,7 +1,8 @@
 /**
- * Kegs component/container
+ * KegList.
  *
- * List of all the Kegs.
+ * Lists all the Kegs; current, past, future.
+ * Used for 'Now on Tap' view.
  */
 
 import React from 'react';
@@ -11,7 +12,7 @@ import { fetchKegs } from '../../actions/kegs';
 import kegsStore from '../../stores/kegs';
 import * as propTypes from '../../proptypes/';
 
-import Keg from './keg';
+import KegListItem from './keg-list-item';
 import Loader from '../loader/';
 import ToggleButton from '../generic/toggle-button';
 
@@ -87,7 +88,7 @@ class KegList extends React.Component {
 
         )}
 
-        { kegs.filter(filters[activeFilterName]).map(keg => <Keg key={keg.id} {...keg} />) }
+        { kegs.filter(filters[activeFilterName]).map(keg => <KegListItem key={keg.id} {...keg} />) }
 
       </section>
     );
