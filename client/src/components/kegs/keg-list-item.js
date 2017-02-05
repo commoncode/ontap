@@ -22,7 +22,7 @@ const Keg = (props) => {
   const onTapClass = Tap ? 'on-tap' : '';
 
   return (
-    <div className={`keg ${classes(['keg', onTapClass])}`}>
+    <div className={`keg-list-item ${classes(['keg', onTapClass])}`}>
       <BeerSummary {...Beer} />
       <KegSummary {...props} />
     </div>
