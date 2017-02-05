@@ -1,15 +1,12 @@
 # todo
 
-## bugs
 
+- think about redoing ratings/votes...
 
 ## functionality
 
 - User management view
 - Clientside validation for KegEdit component
-
-## needs styling:
-
 
 ## cleanup/refactor:
 

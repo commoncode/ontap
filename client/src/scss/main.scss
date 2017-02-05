@@ -222,7 +222,8 @@ body {
   // hide a few details
   .beer-summary-view .notes,
   .beer-summary-view .ibu,
-  .keg-summary-view .keg-rating
+  .keg-summary-view .keg-rating,
+  .beer-summary-view .unavailable
   {
     display: none;
   }
@@ -272,6 +273,10 @@ body {
 // beer list view
 .beer-list-view {
   padding: 24px;
+
+  .beer-list-item.unavailable {
+    opacity: 0.75;
+  }
 
   .btn-add-beer {
     margin: 0 auto 2em;
@@ -525,6 +530,12 @@ body {
     font-size: 1rem;
     color: $khaki;
     font-weight: 400;
+  }
+
+  .unavailable {
+    font-size: 1rem;
+    font-weight: bold;
+    color: $khaki;
   }
 
   .notes {
