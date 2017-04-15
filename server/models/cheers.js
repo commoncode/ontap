@@ -4,20 +4,12 @@
  * thumbs up, thumbs down, thumbs none.
  */
 
-module.exports = (sequelize, DataTypes) => sequelize.define('Rating', {
+module.exports = (sequelize, DataTypes) => sequelize.define('Cheers', {
   id: {
     type: DataTypes.INTEGER,
     unique: true,
     primaryKey: true,
     autoIncrement: true,
-  },
-  value: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    validate: {
-      min: -1,
-      max: 1,
-    },
   },
   kegId: {
     type: DataTypes.INTEGER,
@@ -25,7 +17,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Rating', {
       model: 'Kegs',
       key: 'id',
     },
-    unique: 'kegAndUser', // unique-together
     allowNull: false,
   },
   userId: {
@@ -34,7 +25,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Rating', {
       model: 'Users',
       key: 'id',
     },
-    unique: 'kegAndUser',
     allowNull: false,
+  },
+  timestamp: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
 });

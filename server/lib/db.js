@@ -38,7 +38,7 @@ const loadModels = () => {
 
 loadModels();
 
-// tap has a single keg
+// A Tap has a Keg
 db.Keg.hasOne(db.Tap, {
   foreignKey: 'kegId',
 });
@@ -46,7 +46,7 @@ db.Tap.belongsTo(db.Keg, {
   foreignKey: 'kegId',
 });
 
-// keg has a single beer
+// A Keg has a Beer
 db.Beer.hasMany(db.Keg, {
   foreignKey: 'beerId',
   onDelete: 'CASCADE', // delete the beer, delete the kegs
@@ -55,31 +55,30 @@ db.Keg.belongsTo(db.Beer, {
   foreignKey: 'beerId',
 });
 
-// kegs have ratings
-db.Keg.hasMany(db.Rating, {
-  foreignKey: 'kegId',
-});
-db.Rating.belongsTo(db.Keg, {
-  foreignKey: 'kegId',
-});
-
-// ratings have users
-db.User.hasMany(db.Rating, {
-  foreignKey: 'userId',
-});
-db.Rating.belongsTo(db.User, {
-  foreignKey: 'userId',
-});
-
-// beers are added by a user
+// A Beer is added by a User
 db.User.hasOne(db.Beer, {
   foreignKey: 'addedBy',
   as: 'addedByUser',
 });
-
 db.Beer.belongsTo(db.User, {
   foreignKey: 'addedBy',
   as: 'addedByUser',
+});
+
+// Kegs have Cheers
+db.Keg.hasMany(db.Cheers, {
+  foreignKey: 'kegId',
+});
+db.Cheers.belongsTo(db.Keg, {
+  foreignKey: 'kegId',
+});
+
+// Cheers have Users
+db.User.hasMany(db.Cheers, {
+  foreignKey: 'userId',
+});
+db.Cheers.belongsTo(db.User, {
+  foreignKey: 'userId',
 });
 
 

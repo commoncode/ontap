@@ -30,7 +30,7 @@ function getOnTap(req, res) {
   db.Tap.findAll({
     include: [{
       model: db.Keg,
-      include: [db.Rating, {
+      include: [db.Cheers, {
         model: db.Beer,
         attributes: standardBeerAttributes,
       }],
@@ -41,7 +41,7 @@ function getOnTap(req, res) {
 
 function getAllKegs(req, res) {
   db.Keg.findAll({
-    include: [db.Rating, db.Tap, {
+    include: [db.Cheers, db.Tap, {
       model: db.Beer,
       attributes: standardBeerAttributes,
     }],
@@ -78,7 +78,7 @@ function getNewKegs(req, res) {
 function getKegById(req, res) {
   db.Keg.findById(req.params.id, {
     include: [{
-      model: db.Rating,
+      model: db.Cheers,
       include: [db.User],
     }, {
       model: db.Beer,
@@ -142,7 +142,7 @@ function getUserById(req, res) {
   // todo - keep an eye on the performance of this
   db.User.findById(req.params.id, {
     include: [{
-      model: db.Rating,
+      model: db.Cheers,
       attributes: ['id', 'value', 'updatedAt'],
       include: [{
         model: db.Keg,
@@ -288,7 +288,7 @@ function rateKeg(req, res) {
   // if the rating already exists for this user
   // on this keg, then we need to update it.
   // otherwise we create it.
-  return db.Rating.findOrCreate({
+  return db.Cheers.findOrCreate({
     where: {
       kegId,
       userId,
@@ -313,7 +313,7 @@ function rateKeg(req, res) {
   .then(() => {
     log.info(`${req.user.name} rated keg #${kegId} a ${value}`);
     return db.Keg.findById(kegId, {
-      include: [db.Rating, {
+      include: [db.Cheers, {
         model: db.Beer,
         attributes: standardBeerAttributes,
       }],
