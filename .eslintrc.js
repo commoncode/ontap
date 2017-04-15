@@ -7,9 +7,9 @@ module.exports = {
     "extends": "airbnb",
     "plugins": [
         "react",
-        "jsx-a11y",
         "import"
     ],
+    "parser": "babel-eslint", // support for decorators etc
     "rules": {
       // disable these two until the resolver is configured
       // so it understands paths relative to __dirname
@@ -17,5 +17,6 @@ module.exports = {
       "import/no-unresolved": 0,
 
       "react/jsx-filename-extension": 0, // todo - get this enabled
+      "jsx-a11y/no-static-element-interactions": 0,
     }
 };

@@ -64,10 +64,12 @@ app.use((req, res, next) => {
 
 
 // routes
-app.use('/public/', express.static('public'));
+app.use('/assets', express.static('client/dist'));
 app.use(express.static('client/dist'));
 app.use('/api/v1/', apiRouter);
 app.use(passportRouter);
+// todo - this one's just for the favicon, figure out how to push it into the webpack workflow
+app.use('/public', express.static('public'));
 
 // listen up
 const server = http.Server(app); // eslint-disable-line new-cap
