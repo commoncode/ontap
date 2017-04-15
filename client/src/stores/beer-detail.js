@@ -20,6 +20,7 @@ class BeerDetailStore extends ReduceStore {
 
   reduce(state, action) {
     const { type, data, error } = action;
+    if (error) console.error(error);
 
     switch (type) {
 
@@ -49,22 +50,6 @@ class BeerDetailStore extends ReduceStore {
           error: error || null,
           model: data || null,
         };
-
-      case 'RECEIVE_VOTE_FOR_BEER':
-      case 'RECEIVE_UNVOTE_FOR_BEER':
-        // payload is the new votes array
-        return Object.assign({}, state, {
-          model: Object.assign({}, state.model, {
-            Votes: data,
-          }),
-        });
-
-      case 'RECEIVE_CLEAR_VOTES':
-        return Object.assign({}, state, {
-          model: Object.assign({}, state.model, {
-            Votes: [],
-          }),
-        });
 
       case 'TOGGLE_EDIT_BEER':
         return Object.assign({}, state, {

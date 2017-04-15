@@ -15,7 +15,6 @@ import * as propTypes from '../../proptypes';
 import Loader from '../loader/';
 import BeerEdit from './beer-edit';
 import BeerSummary from './beer-summary';
-import BeerVotes from './beer-votes';
 import BeerKegs from './beer-kegs';
 
 class BeerDetail extends React.Component {
@@ -48,7 +47,6 @@ class BeerDetail extends React.Component {
       <div>
         <div className="beer-detail-view">
           <BeerSummary {...model} />
-          <BeerVotes beer={model} profile={profile.data} />
           <BeerKegs beer={model} profile={profile.data} />
 
           { isAdmin && (

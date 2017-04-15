@@ -15,7 +15,8 @@
     "test": "mocha --reporter dot server/test",
     "watch": "pack -r -m -w --src client/src --main main.js -o client/dist --proxy 4000",
     "migrate": "sequelize db:migrate",
-    "migrate:undo": "sequelize db:migrate:undo"
+    "migrate:undo": "sequelize db:migrate:undo",
+    "sequelize": "sequelize"
   },
   "repository": {
     "type": "git",

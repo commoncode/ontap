@@ -152,13 +152,6 @@ function getUserById(req, res) {
           attributes: ['name', 'breweryName'],
         }],
       }],
-    }, {
-      model: db.Vote,
-      attributes: ['id', 'beerId'],
-      include: [{
-        model: db.Beer,
-        attributes: ['id', 'name', 'breweryName'],
-      }],
     }],
     attributes: safeUserAttributes,
   })
@@ -171,26 +164,14 @@ function getUserById(req, res) {
 }
 
 function getAllBeers(req, res) {
-  db.Beer.findAll({
-    include: [db.Vote],
-  })
+  db.Beer.findAll()
   .then(rows => res.send(rows))
   .catch(err => logAndSendError(err, res));
 }
 
 function getBeerById(req, res) {
-  // bit of nesting happening here
-  // todo - graphql
-  // get the votes and their users,
-  // and get the user who added the beer.
   db.Beer.findById(req.params.id, {
     include: [{
-      model: db.Vote,
-      include: {
-        model: db.User,
-        attributes: safeUserAttributes,
-      },
-    }, {
       model: db.User,
       as: 'addedByUser',
       attributes: safeUserAttributes,
@@ -211,9 +192,7 @@ function createBeer(req, res) {
   });
 
   db.Beer.create(props)
-  .then(beer => db.Beer.findById(beer.id, {
-    include: [db.Vote],
-  }))
+  .then(beer => db.Beer.findById(beer.id))
   .then(beer => res.send(beer))
   .catch((err) => {
     // sequelize validation error
@@ -233,9 +212,7 @@ function updateBeer(req, res) {
       id,
     },
   })
-  .then(() => db.Beer.findById(req.params.id, {
-    include: [db.Vote],
-  }))
+  .then(() => db.Beer.findById(req.params.id))
   .then(keg => res.send(keg))
   .catch(err => logAndSendError(err, res));
 }
@@ -245,75 +222,6 @@ function deleteBeer(req, res) {
   db.Beer.destroy({
     where: {
       id,
-    },
-  })
-  .then(() => res.sendStatus(204))
-  .catch(err => logAndSendError(err, res));
-}
-
-// vote for a beer
-function voteForBeer(req, res) {
-  if (!req.user || !req.user.id) {
-    return res.sendStatus(401);
-  }
-
-  const beerId = req.params.id;
-  const userId = req.user.id;
-
-  return db.Vote.findOrCreate({
-    where: {
-      beerId,
-      userId,
-    },
-  })
-  .then(() => db.Vote.findAll({ // return all votes
-    where: {
-      beerId,
-    },
-    include: [{
-      model: db.User,
-      attribues: safeUserAttributes,
-    }],
-  }))
-  .then(votes => res.send(votes))
-  .catch(err => logAndSendError(err, res));
-}
-
-// revoke my existing vote for a beer
-function revokeVote(req, res) {
-  if (!req.user || !req.user.id) {
-    return res.sendStatus(401);
-  }
-
-  const beerId = req.params.id;
-  const userId = req.user.id;
-
-  return db.Vote.destroy({
-    where: {
-      beerId,
-      userId,
-    },
-  })
-  .then(() => db.Vote.findAll({ // return all votes
-    where: {
-      beerId,
-    },
-    include: [{
-      model: db.User,
-      attribues: safeUserAttributes,
-    }],
-  }))
-  .then(votes => res.send(votes))
-  .catch(err => logAndSendError(err, res));
-}
-
-// clear all the votes for a beer
-function clearVotes(req, res) {
-  const beerId = req.params.id;
-
-  return db.Vote.destroy({
-    where: {
-      beerId,
     },
   })
   .then(() => res.sendStatus(204))
@@ -562,8 +470,6 @@ router.use(usersOnly);
 
 router.put('/kegs/:id/rate', rateKeg);
 router.post('/beers', createBeer);
-router.put('/beers/:id/vote', voteForBeer);
-router.delete('/beers/:id/vote', revokeVote);
 
 
 // admins only for all endpoints below this middleware
@@ -576,7 +482,6 @@ router.post('/taps', createTap);
 router.post('/taps/:id/keg', changeKegHandler);
 router.delete('/taps/:id', deleteTap);
 router.put('/beers/:id', updateBeer);
-router.post('/beers/:id/clearvotes', clearVotes);
 router.delete('/beers/:id', deleteBeer);
 
 module.exports = router;

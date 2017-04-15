@@ -82,23 +82,6 @@ db.Beer.belongsTo(db.User, {
   as: 'addedByUser',
 });
 
-// beers have votes
-db.Beer.hasMany(db.Vote, {
-  foreignKey: 'beerId',
-  onDelete: 'CASCADE', // delete the beer, delete the votes
-});
-db.Vote.belongsTo(db.Beer, {
-  foreignKey: 'beerId',
-});
-
-// votes have users
-db.User.hasMany(db.Vote, {
-  foreignKey: 'userId',
-});
-db.Vote.belongsTo(db.User, {
-  foreignKey: 'userId',
-});
-
 
 sequelize.sync().then(() => {
   logger.info('sequelize db synced');

@@ -321,7 +321,7 @@ body {
     flex: 2 1 0;
   }
 
-  .meta, .votes {
+  .meta {
     flex: 1 1 0;
   }
 
@@ -364,17 +364,6 @@ body {
     }
   }
 
-  .votes {
-    justify-content: flex-end;
-    display: flex;
-
-    .btn-vote, .btn-unvote {
-      padding: 0.25em;
-      font-size: 0.7em;
-      display: inline;
-      margin-right: 2em;
-    }
-  }
 }
 
 
@@ -404,10 +393,6 @@ body {
 
     .meta {
       display: none;
-    }
-
-    .votes {
-      margin: 1em 0 0;
     }
   }
 
@@ -458,7 +443,7 @@ body {
 .beer-detail-view {
   padding: 24px;
 
-  .beer-summary-view, .beer-votes-view, .beer-kegs-list {
+  .beer-summary-view, .beer-kegs-list {
     border-bottom: 1px solid $offWhite;
     margin-bottom: 2em;
   }
@@ -557,23 +542,6 @@ body {
 
   button + button {
     margin-left: 0.5em;
-  }
-}
-
-.beer-detail-votes {
-  button {
-    margin: 0 0 1em;
-    font-size: 1rem;
-  }
-
-  .beer-vote-total {
-    width: 60px;
-    height: 60px;
-    font-size: 34px;
-    line-height: 60px;
-    display: inline-block;
-    vertical-align: top;
-    margin: 0 1em 0 0;
   }
 }
 
