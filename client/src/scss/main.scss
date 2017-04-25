@@ -237,10 +237,6 @@ body {
     margin-bottom: 3em;
   }
 
-  .keg-rating {
-    display: none; // hide this, show keg-rating-detail instead
-  }
-
   .keg-name {
     margin: 0 0 1em;
     font-size: 2rem;
@@ -621,6 +617,74 @@ body {
     color: $khaki;
   }
 }
+
+
+.keg-summary__cheers {
+  display: flex;
+  align-items: center;
+
+  .icon {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+  }
+
+  .count {
+    font-size: 36px;
+    margin: 0;
+    padding-left: 16px;
+    color: $darkBlue;
+    cursor: pointer;
+  }
+}
+
+.cheers-modal {
+  position: fixed;
+  background: rgba(255, 255, 255, 0.3);
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  .cheers-modal__contents {
+    width: 320px;
+    max-width: 96%;
+    margin: 5% auto;
+    cursor: auto;
+    border: 1px solid $darkBlue;
+    background: white;
+    box-shadow: 0 0 24px $darkBlue;
+    padding: 36px;
+    text-align: center;
+
+    .cheers-modal__contents__title  {
+      margin: 0 0 24px;
+      font-size: 20px;
+      color: $brown;
+    }
+
+    .cheers-modal__contents__button  {
+      width: 240px;
+      height: 240px;
+      max-width: 100%;
+      max-height: auto;
+      border: 10px solid $lightBlue;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        border-color: $highlight;
+      }
+
+    }
+
+
+
+  }
+
+
+}
+
 
 // buttons
 button {
