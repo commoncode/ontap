@@ -273,47 +273,26 @@ function deleteTap(req, res) {
 }
 
 /**
- * Rate a Keg.
- * Users can give a Keg a +1, 0 or -1.
+ * Cheers a Keg.
+ * In future, consider rate limiting maybe?
+ * Probably doesn't matter.
  */
-function rateKeg(req, res) {
+function cheersKeg(req, res) {
   if (!req.user || !req.user.id) {
     return res.status(401).send();
   }
 
   const kegId = req.params.id;
   const userId = req.user.id;
-  const value = req.body.value;
 
-  // if the rating already exists for this user
-  // on this keg, then we need to update it.
-  // otherwise we create it.
-  return db.Cheers.findOrCreate({
-    where: {
-      kegId,
-      userId,
-    },
-    defaults: {
-      value,
-    },
-  })
-  .then((result) => {
-    const [instance, created] = result;
-
-    // instance is newly created, return it.
-    if (created) {
-      return instance;
-    }
-
-    // instance pre-exists, update and send.
-    return instance.update({
-      value,
-    });
+  return db.Cheers.create({
+    kegId,
+    userId,
   })
   .then(() => {
-    log.info(`${req.user.name} rated keg #${kegId} a ${value}`);
+    log.info(`${req.user.name} cheers'd keg #${kegId}`);
     return db.Keg.findById(kegId, {
-      include: [db.Cheers, {
+      include: [db.Cheers, db.Tap, {
         model: db.Beer,
         attributes: standardBeerAttributes,
       }],
@@ -468,7 +447,7 @@ router.get('/beers/:id', getBeerById);
 // guests can't use endpoints below this middleware
 router.use(usersOnly);
 
-router.put('/kegs/:id/rate', rateKeg);
+router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
 
 
