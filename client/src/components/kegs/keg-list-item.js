@@ -11,7 +11,6 @@ import styles from '../taps/taps.css';
 
 import * as propTypes from '../../proptypes';
 
-
 import KegSummary from './keg-summary';
 import BeerSummary from '../beers/beer-summary';
 

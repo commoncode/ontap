@@ -4,7 +4,7 @@ import { Container } from 'flux/utils';
 import userDetailStore from '../../stores/user-detail';
 import profileStore from '../../stores/profile';
 import { fetchUser } from '../../actions/users';
-import propTypes from '../../proptypes';
+import * as propTypes from '../../proptypes';
 
 import User from './user';
 import Loader from '../loader/';

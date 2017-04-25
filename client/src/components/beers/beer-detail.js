@@ -20,7 +20,7 @@ import BeerKegs from './beer-kegs';
 class BeerDetail extends React.Component {
   static propTypes() {
     return {
-      beer: propTypes.beer,
+      beer: propTypes.beerModel,
       profile: propTypes.profile,
     };
   }

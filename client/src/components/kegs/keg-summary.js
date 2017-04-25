@@ -9,7 +9,7 @@ import { kegModel } from '../../proptypes';
 
 import { dayMonth } from '../../util/date';
 
-import KegRating from './keg-rating';
+import KegSummaryCheers from './keg-summary-cheers';
 
 const KegSummary = props => (
   <div className="keg-summary-view">
@@ -34,7 +34,7 @@ const KegSummary = props => (
       }
     </div>
 
-    <KegRating ratings={props.Ratings} kegId={props.id} />
+    <KegSummaryCheers {...props} />
 
 
   </div>

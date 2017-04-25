@@ -50,7 +50,7 @@ class KegList extends React.Component {
   }
 
   render() {
-    const { kegs, sync } = this.props;
+    const { kegs, sync, profile} = this.props;
     const { activeFilterName } = this.state;
 
     return (
@@ -88,7 +88,7 @@ class KegList extends React.Component {
 
         )}
 
-        { kegs.filter(filters[activeFilterName]).map(keg => <KegListItem key={keg.id} {...keg} />) }
+        { kegs.filter(filters[activeFilterName]).map(keg => <KegListItem key={keg.id} {...keg} profile={profile} />) }
 
       </section>
     );
