@@ -41,6 +41,13 @@ export const kegModel = React.PropTypes.shape({
   untapped: React.PropTypes.string, // date?
 });
 
+export const cheersModel = React.PropTypes.shape({
+  id: React.PropTypes.number,
+  kegId: React.PropTypes.number,
+  userId: React.PropTypes.number,
+  timestamp: React.PropTypes.string, // date?
+});
+
 export const ratingModel = React.PropTypes.shape({
   value: React.PropTypes.number,
   kegId: React.PropTypes.number,
