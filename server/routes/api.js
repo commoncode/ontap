@@ -177,6 +177,7 @@ function getBeerById(req, res) {
       attributes: safeUserAttributes,
     }, {
       model: db.Keg,
+      include: [db.Cheers],
     }],
   })
   .then((beer) => {
