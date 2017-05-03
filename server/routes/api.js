@@ -285,25 +285,45 @@ function cheersKeg(req, res) {
   const kegId = req.params.id;
   const userId = req.user.id;
 
-  return db.Cheers.create({
-    kegId,
-    userId,
+
+  // can only cheers a keg that's currently tapped
+  // todo - sure about this?
+  // maybe only kegs that have been tapped at some point
+  return db.Keg.findById(kegId, {
+    include: [{
+      model: db.Tap,
+      where: {
+        id: {
+          $ne: null,
+        },
+      },
+    }],
   })
-  .then(() => {
-    log.info(`${req.user.name} cheers'd keg #${kegId}`);
-    return db.Keg.findById(kegId, {
-      include: [db.Cheers, db.Tap, {
-        model: db.Beer,
-        attributes: standardBeerAttributes,
-      }],
+  .then((matchingKeg) => {
+    if (!matchingKeg) {
+      return res.status(400).send(new Error('Keg is not currently tapped, cannot Cheers'));
+    }
+
+    return db.Cheers.create({
+      kegId,
+      userId,
+    })
+    .then(() => {
+      log.info(`${req.user.name} cheers'd keg #${kegId}`);
+      return db.Keg.findById(kegId, {
+        include: [db.Cheers, db.Tap, {
+          model: db.Beer,
+          attributes: standardBeerAttributes,
+        }],
+      });
+    })
+    .then((keg) => {
+      res.send(keg.get());
+    })
+    .catch((err) => {
+      log.error(err);
+      res.status(500).send(err);
     });
-  })
-  .then((keg) => {
-    res.send(keg.get());
-  })
-  .catch((err) => {
-    log.error(err);
-    res.status(500).send(err);
   });
 }
 
