@@ -1,10 +1,16 @@
 # todo
 
 
-- think about redoing ratings/votes...
+## bugs, issues
 
-## functionality
+-
 
+
+## new features, improvements
+
+- Cheers
+  - Display total Cheers and also unique-user Cheers
+  - Cheers detail view? Who/when
 - User management view
 - Clientside validation for KegEdit component
 

@@ -30,7 +30,7 @@ function getOnTap(req, res) {
   db.Tap.findAll({
     include: [{
       model: db.Keg,
-      include: [db.Rating, {
+      include: [db.Cheers, {
         model: db.Beer,
         attributes: standardBeerAttributes,
       }],
@@ -41,7 +41,7 @@ function getOnTap(req, res) {
 
 function getAllKegs(req, res) {
   db.Keg.findAll({
-    include: [db.Rating, db.Tap, {
+    include: [db.Cheers, db.Tap, {
       model: db.Beer,
       attributes: standardBeerAttributes,
     }],
@@ -78,7 +78,7 @@ function getNewKegs(req, res) {
 function getKegById(req, res) {
   db.Keg.findById(req.params.id, {
     include: [{
-      model: db.Rating,
+      model: db.Cheers,
       include: [db.User],
     }, {
       model: db.Beer,
@@ -142,8 +142,8 @@ function getUserById(req, res) {
   // todo - keep an eye on the performance of this
   db.User.findById(req.params.id, {
     include: [{
-      model: db.Rating,
-      attributes: ['id', 'value', 'updatedAt'],
+      model: db.Cheers,
+      attributes: ['id', 'kegId', 'timestamp'],
       include: [{
         model: db.Keg,
         attributes: ['id'],
@@ -151,13 +151,6 @@ function getUserById(req, res) {
           model: db.Beer,
           attributes: ['name', 'breweryName'],
         }],
-      }],
-    }, {
-      model: db.Vote,
-      attributes: ['id', 'beerId'],
-      include: [{
-        model: db.Beer,
-        attributes: ['id', 'name', 'breweryName'],
       }],
     }],
     attributes: safeUserAttributes,
@@ -171,31 +164,20 @@ function getUserById(req, res) {
 }
 
 function getAllBeers(req, res) {
-  db.Beer.findAll({
-    include: [db.Vote],
-  })
+  db.Beer.findAll()
   .then(rows => res.send(rows))
   .catch(err => logAndSendError(err, res));
 }
 
 function getBeerById(req, res) {
-  // bit of nesting happening here
-  // todo - graphql
-  // get the votes and their users,
-  // and get the user who added the beer.
   db.Beer.findById(req.params.id, {
     include: [{
-      model: db.Vote,
-      include: {
-        model: db.User,
-        attributes: safeUserAttributes,
-      },
-    }, {
       model: db.User,
       as: 'addedByUser',
       attributes: safeUserAttributes,
     }, {
       model: db.Keg,
+      include: [db.Cheers],
     }],
   })
   .then((beer) => {
@@ -211,9 +193,7 @@ function createBeer(req, res) {
   });
 
   db.Beer.create(props)
-  .then(beer => db.Beer.findById(beer.id, {
-    include: [db.Vote],
-  }))
+  .then(beer => db.Beer.findById(beer.id))
   .then(beer => res.send(beer))
   .catch((err) => {
     // sequelize validation error
@@ -233,9 +213,7 @@ function updateBeer(req, res) {
       id,
     },
   })
-  .then(() => db.Beer.findById(req.params.id, {
-    include: [db.Vote],
-  }))
+  .then(() => db.Beer.findById(req.params.id))
   .then(keg => res.send(keg))
   .catch(err => logAndSendError(err, res));
 }
@@ -245,75 +223,6 @@ function deleteBeer(req, res) {
   db.Beer.destroy({
     where: {
       id,
-    },
-  })
-  .then(() => res.sendStatus(204))
-  .catch(err => logAndSendError(err, res));
-}
-
-// vote for a beer
-function voteForBeer(req, res) {
-  if (!req.user || !req.user.id) {
-    return res.sendStatus(401);
-  }
-
-  const beerId = req.params.id;
-  const userId = req.user.id;
-
-  return db.Vote.findOrCreate({
-    where: {
-      beerId,
-      userId,
-    },
-  })
-  .then(() => db.Vote.findAll({ // return all votes
-    where: {
-      beerId,
-    },
-    include: [{
-      model: db.User,
-      attribues: safeUserAttributes,
-    }],
-  }))
-  .then(votes => res.send(votes))
-  .catch(err => logAndSendError(err, res));
-}
-
-// revoke my existing vote for a beer
-function revokeVote(req, res) {
-  if (!req.user || !req.user.id) {
-    return res.sendStatus(401);
-  }
-
-  const beerId = req.params.id;
-  const userId = req.user.id;
-
-  return db.Vote.destroy({
-    where: {
-      beerId,
-      userId,
-    },
-  })
-  .then(() => db.Vote.findAll({ // return all votes
-    where: {
-      beerId,
-    },
-    include: [{
-      model: db.User,
-      attribues: safeUserAttributes,
-    }],
-  }))
-  .then(votes => res.send(votes))
-  .catch(err => logAndSendError(err, res));
-}
-
-// clear all the votes for a beer
-function clearVotes(req, res) {
-  const beerId = req.params.id;
-
-  return db.Vote.destroy({
-    where: {
-      beerId,
     },
   })
   .then(() => res.sendStatus(204))
@@ -365,58 +274,57 @@ function deleteTap(req, res) {
 }
 
 /**
- * Rate a Keg.
- * Users can give a Keg a +1, 0 or -1.
+ * Cheers a Keg.
+ * In future, consider rate limiting maybe?
+ * Probably doesn't matter.
  */
-function rateKeg(req, res) {
+function cheersKeg(req, res) {
   if (!req.user || !req.user.id) {
     return res.status(401).send();
   }
 
   const kegId = req.params.id;
   const userId = req.user.id;
-  const value = req.body.value;
 
-  // if the rating already exists for this user
-  // on this keg, then we need to update it.
-  // otherwise we create it.
-  return db.Rating.findOrCreate({
-    where: {
-      kegId,
-      userId,
-    },
-    defaults: {
-      value,
-    },
+
+  // can only cheers a keg that's currently tapped
+  // todo - sure about this?
+  // maybe only kegs that have been tapped at some point
+  return db.Keg.findById(kegId, {
+    include: [{
+      model: db.Tap,
+      where: {
+        id: {
+          $ne: null,
+        },
+      },
+    }],
   })
-  .then((result) => {
-    const [instance, created] = result;
-
-    // instance is newly created, return it.
-    if (created) {
-      return instance;
+  .then((matchingKeg) => {
+    if (!matchingKeg) {
+      return res.status(400).send(new Error('Keg is not currently tapped, cannot Cheers'));
     }
 
-    // instance pre-exists, update and send.
-    return instance.update({
-      value,
+    return db.Cheers.create({
+      kegId,
+      userId,
+    })
+    .then(() => {
+      log.info(`${req.user.name} cheers'd keg #${kegId}`);
+      return db.Keg.findById(kegId, {
+        include: [db.Cheers, db.Tap, {
+          model: db.Beer,
+          attributes: standardBeerAttributes,
+        }],
+      });
+    })
+    .then((keg) => {
+      res.send(keg.get());
+    })
+    .catch((err) => {
+      log.error(err);
+      res.status(500).send(err);
     });
-  })
-  .then(() => {
-    log.info(`${req.user.name} rated keg #${kegId} a ${value}`);
-    return db.Keg.findById(kegId, {
-      include: [db.Rating, {
-        model: db.Beer,
-        attributes: standardBeerAttributes,
-      }],
-    });
-  })
-  .then((keg) => {
-    res.send(keg.get());
-  })
-  .catch((err) => {
-    log.error(err);
-    res.status(500).send(err);
   });
 }
 
@@ -560,10 +468,8 @@ router.get('/beers/:id', getBeerById);
 // guests can't use endpoints below this middleware
 router.use(usersOnly);
 
-router.put('/kegs/:id/rate', rateKeg);
+router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
-router.put('/beers/:id/vote', voteForBeer);
-router.delete('/beers/:id/vote', revokeVote);
 
 
 // admins only for all endpoints below this middleware
@@ -576,7 +482,6 @@ router.post('/taps', createTap);
 router.post('/taps/:id/keg', changeKegHandler);
 router.delete('/taps/:id', deleteTap);
 router.put('/beers/:id', updateBeer);
-router.post('/beers/:id/clearvotes', clearVotes);
 router.delete('/beers/:id', deleteBeer);
 
 module.exports = router;

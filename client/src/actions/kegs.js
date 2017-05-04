@@ -113,34 +113,31 @@ export function createKeg(keg) {
   });
 }
 
-// rate a keg
-export function rateKeg(kegId, value) {
+// cheers a keg
+export function cheersKeg(kegId) {
   dispatcher.dispatch({
-    type: 'REQUEST_RATE_KEG',
+    type: 'REQUEST_CHEERS_KEG',
     kegId,
   });
 
-  return fetcher(`/api/v1/kegs/${kegId}/rate`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      value,
-    }),
+  return fetcher(`/api/v1/kegs/${kegId}/cheers`, {
+    method: 'POST',
   })
   .then((data) => {
-    addNotification('Cheers, homeslice.');
+    addNotification('Cheers!');
     dispatcher.dispatch({
-      type: 'RECEIVE_RATE_KEG',
+      type: 'RECEIVE_CHEERS_KEG',
       kegId,
       data,
     });
   })
   .catch((error) => {
     if (error.isClean && error.code === 401) {
-      addNotification('Please log in to rate beers');
+      addNotification('Please log in to cheers');
     }
 
     dispatcher.dispatch({
-      type: 'RECEIVE_RATE_KEG',
+      type: 'RECEIVE_CHEERS_KEG',
       kegId,
       error,
     });

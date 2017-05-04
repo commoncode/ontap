@@ -47,6 +47,7 @@ const routes = {
     props: (props, params) => ({
       kegId: Number(params[0]),
       key: params[0],
+      profile: props.profile.data,
     }),
   },
   '/kegs': {

@@ -1,22 +1,22 @@
 /**
- * vote model.
- * users can vote for a beer.
+ * rating model.
+ * users can rate a keg.
+ * thumbs up, thumbs down, thumbs none.
  */
 
-module.exports = (sequelize, DataTypes) => sequelize.define('Vote', {
+module.exports = (sequelize, DataTypes) => sequelize.define('Cheers', {
   id: {
     type: DataTypes.INTEGER,
     unique: true,
     primaryKey: true,
     autoIncrement: true,
   },
-  beerId: {
+  kegId: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'Beers',
+      model: 'Kegs',
       key: 'id',
     },
-    unique: 'beerAndUser', // unique-together
     allowNull: false,
   },
   userId: {
@@ -25,7 +25,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Vote', {
       model: 'Users',
       key: 'id',
     },
-    unique: 'beerAndUser',
     allowNull: false,
+  },
+  timestamp: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
   },
 });

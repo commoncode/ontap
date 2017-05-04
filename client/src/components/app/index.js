@@ -21,7 +21,7 @@ const AppComponent = (props) => {
     <div className="container">
       <Notifications />
       <header className="app-header">
-        <h1><a href="/#/"><span>Comm</span>On Tap</a></h1>
+        <h1><a href="/#/">On Tap</a></h1>
         <Profile {...props.profile} />
       </header>
       <nav className="app-nav">

@@ -87,9 +87,6 @@ class BeerList extends React.Component {
       return searchString.match(new RegExp(filterQuery, 'gi'));
     });
 
-    // most votes first
-    const sortedBeers = queryFilteredBeers.sort((a, b) => b.Votes.length - a.Votes.length);
-
     return (
       <div>
         <section className="beer-list-view">
@@ -130,7 +127,7 @@ class BeerList extends React.Component {
           </div>
 
           <section className="beer-list">
-            { sortedBeers.map(beer => (
+            { queryFilteredBeers.map(beer => (
               <BeerListItem key={beer.id} profile={profile} {...beer} />)
             ) }
           </section>

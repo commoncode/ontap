@@ -33,30 +33,39 @@ const BeerKegs = (props) => {
       <h3 className="title">Kegs of {props.beer.name}</h3>
 
       <div className="list">
-        { Kegs.map(keg => (
-          <div className="list-item">
-            <span className="keg-title">
-              Keg {keg.id}
-            </span>
+        { Kegs.map((keg) => {
+          const cheersCount = keg.Cheers.length;
+          const uniqueCheersCount = new Set(keg.Cheers.map(k => k.userId)).size;
+          return (
+            <div className="list-item">
+              <span className="keg-tapped">
+                <a href={`/#/kegs/${keg.id}/`}>
+                  {keg.tapped ?
+                    `Tapped ${dayMonth(keg.tapped)}`
+                    : 'Not yet tapped'
+                  }
 
-            <span className="keg-tapped">
-              {keg.tapped ?
-                `${dayMonth(keg.tapped)}`
-                : 'Not yet tapped'
-              }
+                  {keg.tapped && keg.untapped ?
+                    ` - ${dayMonth(keg.untapped)} (${daysDiff(keg.tapped, keg.untapped)} days)`
+                    : ''
+                  }
+                </a>
+              </span>
 
-              {keg.tapped && keg.untapped ?
-                ` - ${dayMonth(keg.untapped)} (${daysDiff(keg.tapped, keg.untapped)} days)`
-                : ''
-              }
-            </span>
-
-            {isAdmin && <div className="keg-actions">
-              <a href={`/#/kegs/${keg.id}/`}>Edit</a>
-            </div>}
-
-          </div>
-        )) }
+              <span className="keg-cheers">
+                <icon
+                  className="icon emoji-beers"
+                  style={{
+                    height: '24px',
+                    width: '24px',
+                    marginRight: '12px',
+                  }}
+                />
+                { cheersCount } Cheers from { uniqueCheersCount } user{ uniqueCheersCount !== 1 && 's'}
+              </span>
+            </div>
+          );
+        }) }
       </div>
     </div>
   );

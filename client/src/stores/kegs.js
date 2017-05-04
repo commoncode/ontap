@@ -34,6 +34,7 @@ class KegMapStore extends ReduceStore {
   // eslint-disable-next-line class-methods-use-this
   reduce(state, action) {
     const { type, data, error } = action;
+    if (error) console.error(error);
 
     switch (type) {
 
@@ -52,7 +53,7 @@ class KegMapStore extends ReduceStore {
           error: error || null,
         })).set('kegs', kegsToMap(data));
 
-      case 'RECEIVE_RATE_KEG':
+      case 'RECEIVE_CHEERS_KEG':
         // todo - handle this.
         if (error) return state;
 

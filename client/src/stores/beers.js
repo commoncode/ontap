@@ -43,6 +43,7 @@ class BeerMapStore extends ReduceStore {
   // eslint-disable-next-line class-methods-use-this
   reduce(state, action) {
     const { type, data, error } = action;
+    if (error) console.error(error);
 
     switch (type) {
 
@@ -76,22 +77,6 @@ class BeerMapStore extends ReduceStore {
           .setIn(['beers', data.id], data)
           .setIn(['create', 'showForm'], false)
           .setIn(['create', 'syncing'], false);
-
-      case 'RECEIVE_VOTE_FOR_BEER':
-      case 'RECEIVE_UNVOTE_FOR_BEER': {
-        if (error) {
-          // todo - handle this
-          return state;
-        }
-
-        // payload is the Votes array
-        // so just overwrite that
-        const beer = state.getIn(['beers', action.beerId]);
-        return state.setIn(['beers', action.beerId], {
-          ...beer,
-          Votes: data,
-        });
-      }
 
       case 'SHOW_ADD_BEER':
         return state.setIn(['create', 'showForm'], true);
