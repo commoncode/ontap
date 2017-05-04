@@ -6,7 +6,7 @@ import profileStore from '../../stores/profile';
 import { fetchKeg, deleteKeg } from '../../actions/kegs';
 import * as propTypes from '../../proptypes';
 
-import KegRatingDetail from './keg-rating-detail';
+import KegDetailCheers from './keg-detail-cheers';
 import KegSummary from './keg-summary';
 import KegEdit from './keg-edit';
 import Loader from '../loader/';
@@ -57,7 +57,7 @@ class KegDetail extends React.Component {
         </h2>
 
         <KegSummary {...keg.model} />
-        <KegRatingDetail {...keg.model} profile={profile} />
+        <KegDetailCheers {...keg.model} profile={profile} />
 
         { canEdit && (
           <div className="beer-actions">

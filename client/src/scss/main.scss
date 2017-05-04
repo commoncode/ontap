@@ -242,6 +242,26 @@ body {
     font-size: 2rem;
     color: $darkBlue;
   }
+
+  .keg-summary {
+    margin: 0 0 48px;
+  }
+}
+
+.keg-detail-cheers {
+
+  .keg-detail-cheers__list-item {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      background: #fdfdfd;
+      padding: 4px 12px;
+      border-radius: 4px;
+
+      &:nth-of-type(even) {
+        background: #fafafa;
+      }
+  }
 }
 
 
@@ -802,8 +822,8 @@ button {
 }
 
 
-// keg rating detail
-.keg-rating-detail {
+// keg detail cheers list
+.keg-detail-cheers {
   h3 {
     color: $darkBlue;
     font-size: 1.5rem;
