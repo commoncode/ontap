@@ -28,10 +28,16 @@ export default (props) => {
       </header>
 
       <section className="user-detail-cheers">
-        <h3>{firstName} has Cheers'd {uniqueCheersCount} beer{uniqueCheersCount !== 1 && 's'} {props.Cheers.length} time{props.Cheers.length !== 1 && 's'}.</h3>
-        <div className="cheers-list">
-          {props.Cheers.map(cheers => <Cheers {...cheers} key={cheers.id} />)}
-        </div>
+        {props.Cheers.length ? (
+          <div>
+            <h3>{firstName} has Cheers'd {uniqueCheersCount} beer{uniqueCheersCount !== 1 && 's'} {props.Cheers.length} time{props.Cheers.length !== 1 && 's'}.</h3>
+            <div className="cheers-list">
+              {props.Cheers.map(cheers => <Cheers {...cheers} key={cheers.id} />)}
+            </div>
+          </div>
+        ) : (
+          <h3>{firstName} hasn't Cheers'd any beers. Better pour them a pint.</h3>
+        )}
       </section>
     </div>
   );
