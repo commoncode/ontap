@@ -1,4 +1,15 @@
-[{
+/**
+ * These are the Ratings from the old production db, where
+ * the user gave a +1.
+ *
+ * Obviously will only work with a copy of the prod dataset
+ * where the kegs/users exist.
+ *
+ * # npm run db-cli
+ * # copy-paste
+ */
+
+db.Cheers.bulkCreate([{
   kegId: 1,
   userId: 1,
   createdAt: new Date('2016-11-15 00:50:21.697 +00:00'),
@@ -285,3 +296,6 @@
   updatedAt: new Date('2017-01-10 08:06:10.726 +00:00'),
   timestamp: new Date('2017-01-10 08:06:10.726 +00:00'),
 }]
+)
+.then(function(response) { console.log(response); })
+.catch(function(error) { console.error(error); });
