@@ -10,10 +10,6 @@ import Avatar from '../generic/avatar';
 
 export default class KegDetailCheers extends React.Component {
 
-  static propTypes = {
-    Cheers: Object,
-  }
-
   render() {
     const { Cheers } = this.props;
     const uniqueCheersCount = new Set(Cheers.map(k => k.userId)).size;
