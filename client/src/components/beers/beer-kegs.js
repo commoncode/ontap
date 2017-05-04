@@ -39,25 +39,30 @@ const BeerKegs = (props) => {
           return (
             <div className="list-item">
               <span className="keg-tapped">
-                {keg.tapped ?
-                  `Tapped ${dayMonth(keg.tapped)}`
-                  : 'Not yet tapped'
-                }
+                <a href={`/#/kegs/${keg.id}/`}>
+                  {keg.tapped ?
+                    `Tapped ${dayMonth(keg.tapped)}`
+                    : 'Not yet tapped'
+                  }
 
-                {keg.tapped && keg.untapped ?
-                  ` - ${dayMonth(keg.untapped)} (${daysDiff(keg.tapped, keg.untapped)} days)`
-                  : ''
-                }
+                  {keg.tapped && keg.untapped ?
+                    ` - ${dayMonth(keg.untapped)} (${daysDiff(keg.tapped, keg.untapped)} days)`
+                    : ''
+                  }
+                </a>
               </span>
 
               <span className="keg-cheers">
+                <icon
+                  className="icon emoji-beers"
+                  style={{
+                    height: '24px',
+                    width: '24px',
+                    marginRight: '12px',
+                  }}
+                />
                 { cheersCount } Cheers from { uniqueCheersCount } user{ uniqueCheersCount > 1 && 's'}
               </span>
-
-              {isAdmin && <div className="keg-actions">
-                <a href={`/#/kegs/${keg.id}/`}>Edit</a>
-              </div>}
-
             </div>
           );
         }) }

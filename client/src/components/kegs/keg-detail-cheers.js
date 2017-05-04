@@ -10,6 +10,10 @@ import Avatar from '../generic/avatar';
 
 export default class KegDetailCheers extends React.Component {
 
+  static propTypes = {
+    Cheers: Object,
+  }
+
   render() {
     const { Cheers } = this.props;
     const uniqueCheersCount = new Set(Cheers.map(k => k.userId)).size;
@@ -18,12 +22,11 @@ export default class KegDetailCheers extends React.Component {
 
       <div className="keg-detail-cheers">
 
-        <h3>{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount.length > 1 && 's'}:</h3>
+        <h3>{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount !==  1 && 's'}:</h3>
 
-
-        <div className="keg-detail-cheers__list">
+        <div className="cheers-list">
           {Cheers.map(cheers => (
-            <div className="keg-detail-cheers__list-item">
+            <div className="cheers-list-item" key={cheers.id}>
               <Avatar {...cheers.User} size={30} />
               <span>
                 <b>{cheers.User.name}</b> at {moment(cheers.timestamp).format('h:mma')}
