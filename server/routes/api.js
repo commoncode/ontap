@@ -143,7 +143,7 @@ function getUserById(req, res) {
   db.User.findById(req.params.id, {
     include: [{
       model: db.Cheers,
-      attributes: ['id', 'value', 'updatedAt'],
+      attributes: ['id', 'kegId', 'timestamp'],
       include: [{
         model: db.Keg,
         attributes: ['id'],
