@@ -61,7 +61,7 @@ const BeerKegs = (props) => {
                     marginRight: '12px',
                   }}
                 />
-                { cheersCount } Cheers from { uniqueCheersCount } user{ uniqueCheersCount > 1 && 's'}
+                { cheersCount } Cheers from { uniqueCheersCount } user{ uniqueCheersCount !== 1 && 's'}
               </span>
             </div>
           );
