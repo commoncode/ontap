@@ -53,7 +53,7 @@ class KegDetail extends React.Component {
     return (
       <div className="keg-detail">
         <h2 className="keg-name">
-          Keg {keg.model.id}: {keg.model.Beer.name} ({keg.model.Beer.breweryName})
+          Keg {keg.model.id}: <a href={`/#/beers/${keg.model.Beer.id}/`}>{keg.model.Beer.name}</a> by {keg.model.Beer.breweryName}
         </h2>
 
         <KegSummary {...keg.model} />
