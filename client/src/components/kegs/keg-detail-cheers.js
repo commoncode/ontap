@@ -18,21 +18,25 @@ export default class KegDetailCheers extends React.Component {
 
       <div className="keg-detail-cheers">
 
-        <h3>{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount !==  1 && 's'}:</h3>
+        { Cheers.length ? (
+          <div>
+            <h3>{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount !==  1 && 's'}:</h3>
+            <div className="cheers-list">
+              {Cheers.map(cheers => (
+                <div className="cheers-list-item" key={cheers.id}>
+                  <Avatar {...cheers.User} size={30} />
+                  <span>
+                    <b>{cheers.User.name}</b> at {moment(cheers.timestamp).format('h:mma')}
+                    {` on ${moment(cheers.timestamp).format('MMMM Do, YYYY')}`}
+                  </span>
 
-        <div className="cheers-list">
-          {Cheers.map(cheers => (
-            <div className="cheers-list-item" key={cheers.id}>
-              <Avatar {...cheers.User} size={30} />
-              <span>
-                <b>{cheers.User.name}</b> at {moment(cheers.timestamp).format('h:mma')}
-                {` on ${moment(cheers.timestamp).format('MMMM Do, YYYY')}`}
-              </span>
-
-            </div>)
-          )}
-        </div>
-
+                </div>)
+              )}
+            </div>
+          </div>
+        ) : (
+          <h3>Nobody's Cheers'd this Keg. Bummer.</h3>
+        )}
       </div>
     );
   }
