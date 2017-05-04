@@ -79,7 +79,10 @@ function getKegById(req, res) {
   db.Keg.findById(req.params.id, {
     include: [{
       model: db.Cheers,
-      include: [db.User],
+      include: [{
+        model: db.User,
+        attributes: safeUserAttributes,
+      }],
     }, {
       model: db.Beer,
       attributes: standardBeerAttributes,
