@@ -11,7 +11,7 @@ import profileActions from '../../actions/profile';
 import * as propTypes from '../../proptypes/';
 
 import ContentRouter from '../router';
-import Profile from '../profile';
+import HeaderProfile from '../profile/profile-header';
 import Notifications from '../notifications';
 
 const AppComponent = (props) => {
@@ -22,7 +22,7 @@ const AppComponent = (props) => {
       <Notifications />
       <header className="app-header">
         <h1><a href="/#/">On Tap</a></h1>
-        <Profile {...props.profile} />
+        <HeaderProfile {...props.profile} />
       </header>
       <nav className="app-nav">
         <a href="/#/">Now On Tap</a>
