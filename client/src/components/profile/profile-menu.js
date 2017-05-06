@@ -2,7 +2,9 @@ import React from 'react';
 
 import * as propTypes from '../../proptypes/';
 
-class Profile extends React.Component {
+class ProfileMenu extends React.Component {
+  static propTypes: propTypes.profile
+
   constructor() {
     super();
     this.state = {
@@ -36,6 +38,7 @@ class Profile extends React.Component {
               onClick={this.toggle}
             />
             <div className={`profile-menu ${showMenu && 'show'}`}>
+              <a href="/#/profile">My Profile</a>
               <a href="/logout">Sign Out</a>
             </div>
           </div>
@@ -49,8 +52,6 @@ class Profile extends React.Component {
       </div>
     );
   }
-};
+}
 
-Profile.propTypes = propTypes.profile;
-
-export default Profile;
+export default ProfileMenu;
