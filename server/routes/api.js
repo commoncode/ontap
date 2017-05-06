@@ -13,6 +13,7 @@ router.use(bodyParser.json());
 
 
 const safeUserAttributes = ['id', 'name', 'avatar', 'admin'];
+const adminUserAttributes = [...safeUserAttributes, 'email'];
 const standardBeerAttributes = ['id', 'name', 'breweryName', 'notes', 'abv', 'ibu', 'variety'];
 
 // log an error and send it to the client.
@@ -156,7 +157,7 @@ function getUserById(req, res) {
         }],
       }],
     }],
-    attributes: safeUserAttributes,
+    attributes: req.user.admin ? adminUserAttributes : safeUserAttributes,
   })
   .then((user) => {
     if (!user) return res.sendStatus(400);
