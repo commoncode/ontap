@@ -4,6 +4,7 @@
 
 import dispatcher from '../dispatcher';
 import { fetcher } from './util';
+import { addNotification } from './notifications';
 
 
 // fetch one user
@@ -48,5 +49,34 @@ export function fetchUsers() {
       type: 'RECEIVE_FETCH_USERS',
       error,
     });
+  });
+}
+
+// update a user
+export function updateUser(id, props) {
+  dispatcher.dispatch({
+    type: 'REQUEST_UPDATE_USER',
+    id,
+  });
+
+  return fetcher(`/api/v1/users/${id}`, {
+    method: 'POST',
+    body: JSON.stringify(props),
+  })
+  .then((data) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_UPDATE_USER',
+      data,
+    });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_UPDATE_USER',
+      error,
+    });
+
+    addNotification(error.message);
+
+    throw error; // rethrow for the caller of the action to catch
   });
 }

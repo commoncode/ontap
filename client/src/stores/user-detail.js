@@ -16,7 +16,7 @@ class UserDetailStore extends ReduceStore {
     };
   }
 
-  reduce(state, action) {
+  reduce(state, action) { // eslint-disable-line class-methods-use-this
     const { type, data, error } = action;
 
     switch (type) {
@@ -33,6 +33,25 @@ class UserDetailStore extends ReduceStore {
           fetching: false,
           error: error || null,
           model: data || null,
+        };
+
+      case 'RECEIVE_UPDATE_USER':
+        if (error) {
+          return {
+            fetching: false,
+            error,
+            model: state.model,
+          };
+        }
+
+        if (data.id !== state.model.id) {
+          return state;
+        }
+
+        return {
+          fetching: false,
+          error: null,
+          model: Object.assign(state.model, data),
         };
 
       default:

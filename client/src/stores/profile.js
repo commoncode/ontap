@@ -11,7 +11,6 @@ import dispatcher from '../dispatcher';
 // initial state
 const initialState = {
   fetching: false,
-  fetched: false,
   error: null,
   data: {},
 };
@@ -21,7 +20,7 @@ class ProfileStore extends ReduceStore {
     return initialState;
   }
 
-  reduce(state, action) {
+  reduce(state, action) { // eslint-disable-line class-methods-use-this
     const { type, data, error } = action;
 
     switch (type) {
@@ -29,18 +28,37 @@ class ProfileStore extends ReduceStore {
       case 'REQUEST_FETCH_PROFILE':
         return {
           fetching: true,
-          fetched: false,
-          error: null,
           data: {},
+          error: null,
         };
 
       case 'RECEIVE_FETCH_PROFILE':
         return {
           fetching: false,
-          fetched: true,
-          error,
           data: data || {},
+          error,
         };
+
+      // update user modifies the profile if it's you
+      case 'RECEIVE_UPDATE_USER': {
+        if (error) {
+          return {
+            fetching: false,
+            data: state.data,
+            error,
+          };
+        }
+
+        if (data.id !== state.data.id) {
+          return state;
+        }
+
+        return {
+          fetching: false,
+          error: null,
+          data,
+        };
+      }
 
       default:
         return state;
