@@ -4,6 +4,7 @@
 
 const Router = require('express').Router;
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 
 const db = require('lib/db');
 const log = require('lib/logger');
@@ -167,6 +168,36 @@ function getUserById(req, res) {
   .catch(err => logAndSendError(err, res));
 }
 
+
+function updateUser(req, res) {
+  // to update a user, you have to be logged in
+  // as that user or as an admin.
+  const id = Number(req.params.id);
+
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+
+  if (!req.user.admin && req.user.id !== id) {
+    return res.sendStatus(403);
+  }
+
+  const props = _.pick(req.body, ['name', 'email']);
+
+  if (req.user.admin && _.has(req.body, 'admin')) {
+    props.admin = req.body.admin;
+  }
+
+  return db.User.update(props, {
+    where: {
+      id,
+    },
+  })
+  .then(() => db.User.findById(id))
+  .then(user => res.send(user))
+  .catch(error => logAndSendError(error, res));
+}
+
 function getAllBeers(req, res) {
   db.Beer.findAll()
   .then(rows => res.send(rows))
@@ -218,7 +249,7 @@ function updateBeer(req, res) {
     },
   })
   .then(() => db.Beer.findById(req.params.id))
-  .then(keg => res.send(keg))
+  .then(beer => res.send(beer))
   .catch(err => logAndSendError(err, res));
 }
 
@@ -474,6 +505,7 @@ router.use(usersOnly);
 
 router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
+router.post('/users/:id', updateUser);
 
 
 // admins only for all endpoints below this middleware
