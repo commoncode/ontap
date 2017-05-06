@@ -1,6 +1,7 @@
 /**
  * AutoLoader.
- * Enhancer
+ * Utility for displaying a Loader conditionally instead
+ * of a component.
  */
 
 import { branch, renderComponent } from 'recompose';

@@ -2,6 +2,9 @@ import React from 'react';
 
 import * as propTypes from '../../proptypes/';
 
+import autoNull from '../loader/auto-null';
+
+
 class ProfileMenu extends React.Component {
   static propTypes: propTypes.profile
 
@@ -23,9 +26,6 @@ class ProfileMenu extends React.Component {
   render() {
     const { props } = this;
     const { showMenu } = this.state;
-
-    // wait until it's fetched
-    if (!props.fetched) return null;
 
     return (
       <div className="profile">
@@ -54,4 +54,4 @@ class ProfileMenu extends React.Component {
   }
 }
 
-export default ProfileMenu;
+export default autoNull(props => !props.data.id)(ProfileMenu);
