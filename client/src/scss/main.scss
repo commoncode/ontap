@@ -724,13 +724,8 @@ body {
       &:hover {
         border-color: $highlight;
       }
-
     }
-
-
-
   }
-
 
 }
 
@@ -749,6 +744,10 @@ button {
   &:hover {
     border: 1px solid #bbb;
   }
+}
+
+button + button {
+  margin-left: 0.5em;
 }
 
 // button group
@@ -1008,6 +1007,11 @@ button {
 // crud forms
 .edit-form {
   font-size: 1.2rem;
+
+  fieldset {
+    border: none;
+    padding: 0;
+  }
 
   h1 {
     color: #638BBF;

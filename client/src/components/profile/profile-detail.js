@@ -20,4 +20,3 @@ const ProfileDetail = autoLoader(props => !props.profile.id)(props => (
 
 
 export default ProfileDetail;
-
