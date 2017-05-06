@@ -27,6 +27,7 @@ const AppComponent = (props) => {
       <nav className="app-nav">
         <a href="/#/">Now On Tap</a>
         <a href="/#/beers">Beers</a>
+        <a href="/#/users">Users</a>
         {isAdmin && <a href="/#/kegs/new">Add Keg</a> }
         {isAdmin && <a href="/#/taps">Change Taps</a> }
       </nav>
