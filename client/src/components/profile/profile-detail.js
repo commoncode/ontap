@@ -7,20 +7,24 @@
 
 import React from 'react';
 
-import autoLoader from '../loader/auto-loader';
 import { fetchProfileCheers } from '../../actions/profile';
 
 import User from '../users/user';
 import UserCheers from '../users/user-cheers';
+import Loader from '../loader';
 
 
 class ProfileDetail extends React.Component {
   componentWillMount() {
-    setTimeout(() => fetchProfileCheers(), 0);
+    fetchProfileCheers();
   }
 
   render() {
     const { props } = this;
+
+    // we can't use autoloader here because there's a dispatch call
+    // in componentWillMount, which would result in a dispatch-within-a-dispatch.
+    if (!props.profile.id) return <Loader />;
 
     return (
       <div className="profile-detail user-detail">
@@ -34,4 +38,4 @@ class ProfileDetail extends React.Component {
   }
 }
 
-export default autoLoader(props => !props.profile.id)(ProfileDetail);
+export default ProfileDetail;
