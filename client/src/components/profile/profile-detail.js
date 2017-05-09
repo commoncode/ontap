@@ -7,16 +7,31 @@
 
 import React from 'react';
 
-import User from '../users/user';
-
 import autoLoader from '../loader/auto-loader';
+import { fetchProfileCheers } from '../../actions/profile';
+
+import User from '../users/user';
+import UserCheers from '../users/user-cheers';
 
 
-const ProfileDetail = autoLoader(props => !props.profile.id)(props => (
-  <div className="profile-detail user-detail">
-    <User {...props.profile} profile={props.profile} Cheers={[]} />
-  </div>
-));
+class ProfileDetail extends React.Component {
+  componentWillMount() {
+    setTimeout(() => fetchProfileCheers(), 0);
+  }
 
+  render() {
+    const { props } = this;
 
-export default ProfileDetail;
+    return (
+      <div className="profile-detail user-detail">
+        <User {...props.profile} profile={props.profile} Cheers={[]} />
+
+        {props.profile.Cheers && (
+          <UserCheers Cheers={props.profile.Cheers} User={props.profile} />
+        )}
+      </div>
+    );
+  }
+}
+
+export default autoLoader(props => !props.profile.id)(ProfileDetail);

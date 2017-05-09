@@ -5,9 +5,10 @@ import userDetailStore from '../../stores/user-detail';
 import profileStore from '../../stores/profile';
 import { fetchUser } from '../../actions/users';
 import * as propTypes from '../../proptypes';
+import autoLoader from '../loader/auto-loader';
 
 import User from './user';
-import autoLoader from '../loader/auto-loader';
+import UserCheers from './user-cheers';
 
 
 const UserDetail = autoLoader(props => props.user.fetching)((props) => {
@@ -17,6 +18,7 @@ const UserDetail = autoLoader(props => props.user.fetching)((props) => {
   return (
     <div className="user-detail">
       <User {...model} profile={profile.data} />
+      <UserCheers Cheers={model.Cheers} User={model} />
     </div>
   );
 });
