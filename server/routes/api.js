@@ -312,8 +312,6 @@ function deleteTap(req, res) {
 
 /**
  * Cheers a Keg.
- * In future, consider rate limiting maybe?
- * Probably doesn't matter.
  */
 function cheersKeg(req, res) {
   if (!req.user || !req.user.id) {
@@ -323,23 +321,16 @@ function cheersKeg(req, res) {
   const kegId = req.params.id;
   const userId = req.user.id;
 
-
-  // can only cheers a keg that's currently tapped
-  // todo - sure about this?
-  // maybe only kegs that have been tapped at some point
   return db.Keg.findById(kegId, {
-    include: [{
-      model: db.Tap,
-      where: {
-        id: {
-          $ne: null,
-        },
+    where: {
+      tapped: {
+        $ne: null,
       },
-    }],
+    },
   })
   .then((matchingKeg) => {
     if (!matchingKeg) {
-      return res.status(400).send(new Error('Keg is not currently tapped, cannot Cheers'));
+      return res.sendStatus(404);
     }
 
     return db.Cheers.create({

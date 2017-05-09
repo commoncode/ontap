@@ -9,6 +9,7 @@
 - Breweries model
 - Improve for mobile!
 - Clientside validation for KegEdit component
+- Prevent Cheersing a yet-to-be-tapped keg. Requires fixing the default Invalid Date issue on the Keg.
 
 
 ## cleanup/refactor:
