@@ -2,10 +2,7 @@ import React from 'react';
 
 import * as propTypes from '../../proptypes/';
 
-import autoNull from '../loader/auto-null';
-
-
-class ProfileMenu extends React.Component {
+export default class ProfileMenu extends React.Component {
   static propTypes: propTypes.profile
 
   constructor() {
@@ -53,5 +50,3 @@ class ProfileMenu extends React.Component {
     );
   }
 }
-
-export default autoNull(props => !props.data.id)(ProfileMenu);
