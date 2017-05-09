@@ -7,11 +7,11 @@ import React from 'react';
 import { Container } from 'flux/utils';
 
 import profileStore from '../../stores/profile';
-import profileActions from '../../actions/profile';
+import { fetchProfile } from '../../actions/profile';
 import * as propTypes from '../../proptypes/';
 
 import ContentRouter from '../router';
-import Profile from '../profile';
+import ProfileMenu from '../profile/profile-menu';
 import Notifications from '../notifications';
 
 const AppComponent = (props) => {
@@ -22,11 +22,12 @@ const AppComponent = (props) => {
       <Notifications />
       <header className="app-header">
         <h1><a href="/#/">On Tap</a></h1>
-        <Profile {...props.profile} />
+        <ProfileMenu {...props.profile} />
       </header>
       <nav className="app-nav">
         <a href="/#/">Now On Tap</a>
         <a href="/#/beers">Beers</a>
+        <a href="/#/users">Users</a>
         {isAdmin && <a href="/#/kegs/new">Add Keg</a> }
         {isAdmin && <a href="/#/taps">Change Taps</a> }
       </nav>
@@ -61,8 +62,7 @@ class AppContainer extends React.Component {
   }
 
   componentWillMount() {
-    // hit the APIs
-    profileActions.fetchProfile();
+    fetchProfile();
   }
 
   render() {
@@ -73,6 +73,7 @@ class AppContainer extends React.Component {
     );
   }
 }
+
 
 const container = Container.create(AppContainer);
 export default container;

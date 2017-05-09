@@ -5,52 +5,28 @@ import userDetailStore from '../../stores/user-detail';
 import profileStore from '../../stores/profile';
 import { fetchUser } from '../../actions/users';
 import * as propTypes from '../../proptypes';
+import autoLoader from '../loader/auto-loader';
 
 import User from './user';
-import Loader from '../loader/';
+import UserCheers from './user-cheers';
 
 
-class UserDetail extends React.Component {
-  static propTypes() {
-    return {
-      user: propTypes.profile,
-      profile: propTypes.profile,
-    };
-  }
+const UserDetail = autoLoader(props => props.user.fetching)((props) => {
+  const { user, profile } = props;
+  const { model } = user;
 
-  constructor() {
-    super();
-    this.state = {
-      editing: false,
-    };
+  return (
+    <div className="user-detail">
+      <User {...model} profile={profile.data} />
+      <UserCheers Cheers={model.Cheers} User={model} />
+    </div>
+  );
+});
 
-    this.toggleEditing = this.toggleEditing.bind(this);
-  }
-
-  toggleEditing() {
-    this.setState({
-      editing: !this.state.editing,
-    });
-  }
-
-  render() {
-    const { user } = this.props;
-    const { model } = user;
-
-    return (
-      <div className="user-detail">
-        { user.fetching && <Loader />}
-
-        { !user.fetching && !model && '404!' }
-
-        { model && <User {...model} /> }
-
-
-
-      </div>
-    );
-  }
-}
+UserDetail.propTypes = {
+  user: propTypes.profile,
+  profile: propTypes.profile,
+};
 
 class UserDetailContainer extends React.Component {
   static propTypes() {

@@ -3,18 +3,17 @@
 
 ## bugs, issues
 
--
-
 
 ## new features, improvements
 
-- Cheers
-  - Display total Cheers and also unique-user Cheers
-  - Cheers detail view? Who/when
-- User management view
+- Breweries model
+- Improve for mobile!
 - Clientside validation for KegEdit component
+
 
 ## cleanup/refactor:
 
 - consolidate the CSS; probably remove the modules because they're shit.
-- Universal handling of loaders (recompose/branch?)
+- Implement autoLoader everywhere we're using Loader
+- Consistent patterns for all of the stores
+- Make the CRUD forms all implement EditForm component

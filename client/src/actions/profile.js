@@ -4,32 +4,39 @@
  */
 
 import dispatcher from '../dispatcher';
+import { fetcher } from './util';
 
-const profileActions = {
 
-  // find out who we are
-  fetchProfile() {
-    dispatcher.dispatch({
-      type: 'REQUEST_FETCH_PROFILE',
-    });
+// find out who we are
+export function fetchProfile() {
+  dispatcher.dispatch({
+    type: 'REQUEST_FETCH_PROFILE',
+  });
 
-    return fetch('/whoami', {
-      credentials: 'same-origin',
-    })
-    .then(res => res.json())
-    .then((data) => {
-      dispatcher.dispatch({
-        type: 'RECEIVE_FETCH_PROFILE',
-        data,
-      });
-    })
-    .catch((error) => {
-      dispatcher.dispatch({
-        type: 'RECEIVE_FETCH_PROFILE',
-        error,
-      });
-    });
-  },
-};
+  return fetcher('/api/v1/whoami')
+  .then(data => dispatcher.dispatch({
+    type: 'RECEIVE_FETCH_PROFILE',
+    data,
+  }))
+  .catch(error => dispatcher.dispatch({
+    type: 'RECEIVE_FETCH_PROFILE',
+    error,
+  }));
+}
 
-export default profileActions;
+// fetch the Cheers for our profile.
+export function fetchProfileCheers() {
+  dispatcher.dispatch({
+    type: 'REQUEST_FETCH_PROFILE_CHEERS',
+  });
+
+  return fetcher('/api/v1/whoami/cheers')
+  .then(data => dispatcher.dispatch({
+    type: 'RECEIVE_FETCH_PROFILE_CHEERS',
+    data,
+  }))
+  .catch(error => dispatcher.dispatch({
+    type: 'RECEIVE_FETCH_PROFILE_CHEERS',
+    error,
+  }));
+}

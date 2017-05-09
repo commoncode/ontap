@@ -172,6 +172,10 @@ body {
         color: white;
         font-size: 1rem;
         margin-left: 1em;
+
+        &:hover, &:focus {
+          text-decoration: underline;
+        }
       }
 
     }
@@ -290,9 +294,15 @@ body {
 }
 
 
+// view. applied to most root components.
+.view {
+  padding: 24px;
+}
+
+
+
 // tap change view
 .tap-change {
-  padding: 24px;
 
   .tap-change--tap-name {
     color: $khaki;
@@ -307,13 +317,8 @@ body {
   }
 }
 
-.app-content > .keg-edit {
-  padding: 24px;
-}
-
 // beer list view
 .beer-list-view {
-  padding: 24px;
 
   .beer-list-item.unavailable {
     opacity: 0.75;
@@ -719,13 +724,8 @@ body {
       &:hover {
         border-color: $highlight;
       }
-
     }
-
-
-
   }
-
 
 }
 
@@ -744,6 +744,10 @@ button {
   &:hover {
     border: 1px solid #bbb;
   }
+}
+
+button + button {
+  margin-left: 0.5em;
 }
 
 // button group
@@ -874,6 +878,21 @@ button {
 
     h2 {
       order: 1;
+
+      .btn-edit-user {
+        display: block;
+        margin: 8px 0 0;
+        font-size: 14px;
+        color: $darkerBlue;
+
+        a {
+          cursor: pointer;
+
+          &:hover, &:focus {
+            text-decoration: underline;
+          }
+        }
+      }
     }
 
     .avatar {
@@ -914,6 +933,47 @@ button {
   }
 }
 
+// user list
+
+.user-list__list {
+
+  .user-list__list-item {
+    display: block;
+    text-decoration: none;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding: 4px 8px;
+    cursor: pointer;
+    color: $darkerBlue;
+
+    &:nth-child(even) {
+      background: #fafafa;
+    }
+
+    &:hover{
+      background: $lightBlue;
+      color: white;
+    }
+
+    span {
+      flex: 1;
+    }
+
+    .user-list__list-item__admin {
+      flex: 0;
+      font-size: 16px;
+      color: skyblue;
+    }
+
+
+
+  }
+
+}
+
+
 // notifications
 
 .notifications {
@@ -947,6 +1007,11 @@ button {
 // crud forms
 .edit-form {
   font-size: 1.2rem;
+
+  fieldset {
+    border: none;
+    padding: 0;
+  }
 
   h1 {
     color: #638BBF;

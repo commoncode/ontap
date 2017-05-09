@@ -4,6 +4,7 @@
 
 const Router = require('express').Router;
 const bodyParser = require('body-parser');
+const _ = require('lodash');
 
 const db = require('lib/db');
 const log = require('lib/logger');
@@ -13,6 +14,7 @@ router.use(bodyParser.json());
 
 
 const safeUserAttributes = ['id', 'name', 'avatar', 'admin'];
+const adminUserAttributes = [...safeUserAttributes, 'email'];
 const standardBeerAttributes = ['id', 'name', 'breweryName', 'notes', 'abv', 'ibu', 'variety'];
 
 // log an error and send it to the client.
@@ -156,7 +158,7 @@ function getUserById(req, res) {
         }],
       }],
     }],
-    attributes: safeUserAttributes,
+    attributes: req.user.admin ? adminUserAttributes : safeUserAttributes,
   })
   .then((user) => {
     if (!user) return res.sendStatus(400);
@@ -164,6 +166,36 @@ function getUserById(req, res) {
     return res.send(user);
   })
   .catch(err => logAndSendError(err, res));
+}
+
+
+function updateUser(req, res) {
+  // to update a user, you have to be logged in
+  // as that user or as an admin.
+  const id = Number(req.params.id);
+
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+
+  if (!req.user.admin && req.user.id !== id) {
+    return res.sendStatus(403);
+  }
+
+  const props = _.pick(req.body, ['name', 'email']);
+
+  if (req.user.admin && _.has(req.body, 'admin')) {
+    props.admin = req.body.admin;
+  }
+
+  return db.User.update(props, {
+    where: {
+      id,
+    },
+  })
+  .then(() => db.User.findById(id))
+  .then(user => res.send(user))
+  .catch(error => logAndSendError(error, res));
 }
 
 function getAllBeers(req, res) {
@@ -217,7 +249,7 @@ function updateBeer(req, res) {
     },
   })
   .then(() => db.Beer.findById(req.params.id))
-  .then(keg => res.send(keg))
+  .then(beer => res.send(beer))
   .catch(err => logAndSendError(err, res));
 }
 
@@ -456,6 +488,36 @@ function simulateCommonCodeInternet(req, res, next) {
 }
 router.use(simulateCommonCodeInternet);
 
+
+// return the currently logged-in user
+function getProfile(req, res) {
+  res.send(req.user || {});
+}
+
+function getProfileCheers(req, res) {
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+
+  const userId = req.user.id;
+
+  return db.Cheers.findAll({
+    include: [{
+      model: db.Keg,
+      attributes: ['id'],
+      include: [{
+        model: db.Beer,
+        attributes: ['name', 'breweryName'],
+      }],
+    }],
+    where: {
+      userId,
+    },
+  })
+  .then(cheers => res.send(cheers))
+  .catch(error => logAndSendError(error, res));
+}
+
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
 router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
@@ -466,6 +528,8 @@ router.get('/users', getAllUsers);
 router.get('/users/:id', getUserById);
 router.get('/beers', getAllBeers);
 router.get('/beers/:id', getBeerById);
+router.get('/whoami', getProfile);
+router.get('/whoami/cheers', getProfileCheers);
 
 
 // guests can't use endpoints below this middleware
@@ -473,6 +537,7 @@ router.use(usersOnly);
 
 router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
+router.post('/users/:id', updateUser);
 
 
 // admins only for all endpoints below this middleware

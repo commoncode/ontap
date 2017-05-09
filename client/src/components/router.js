@@ -14,6 +14,8 @@ import KegList from './kegs/keg-list';
 import TapList from './taps/tap-list';
 import TapChange from './taps/tap-change';
 import UserDetail from './users/user-detail';
+import UserList from './users/user-list';
+import ProfileDetail from './profile/profile-detail';
 import BeerList from './beers/beer-list';
 import BeerDetail from './beers/beer-detail';
 
@@ -78,6 +80,12 @@ const routes = {
       key: params[0],
     }),
   },
+  '/users': {
+    component: UserList,
+    props: props => ({
+      profile: props.profile.data,
+    }),
+  },
   '/beers/!': {
     component: BeerDetail,
     props: (props, params) => ({
@@ -90,6 +98,12 @@ const routes = {
     props: (props, params, queryParams) => ({
       profile: props.profile.data,
       queryParams,
+    }),
+  },
+  '/profile': {
+    component: ProfileDetail,
+    props: props => ({
+      profile: props.profile.data,
     }),
   },
 };

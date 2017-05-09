@@ -5,11 +5,13 @@
  */
 
 import React from 'react';
+import autobind from 'autobind-decorator';
 
 import { updateKeg, createKeg } from '../../actions/kegs';
 import Loader from '../loader/';
 import BeerSelect from '../beers/beer-select';
 
+@autobind
 class KegEdit extends React.Component {
 
   static propTypes() {
@@ -35,11 +37,6 @@ class KegEdit extends React.Component {
         beerId: null,
       }, props.model),
     };
-
-    this.inputChangeHandler = this.inputChangeHandler.bind(this);
-    this.checkboxChangeHandler = this.checkboxChangeHandler.bind(this);
-    this.saveAction = this.saveAction.bind(this);
-    this.beerChangeHandler = this.beerChangeHandler.bind(this);
   }
 
   // i think this potentially could cause headaches.
