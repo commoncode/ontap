@@ -44,7 +44,7 @@ class UserDetailStore extends ReduceStore {
           };
         }
 
-        if (data.id !== state.model.id) {
+        if (!state.model || (data.id !== state.model.id)) {
           return state;
         }
 

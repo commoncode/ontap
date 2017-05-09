@@ -91,12 +91,6 @@ router.get('/logout', (req, res) => {
 });
 
 
-// tell the user who they are.
-router.get('/whoami', (req, res) => {
-  res.send(req.user || {});
-});
-
-
 module.exports = {
   router,
 };

@@ -7,7 +7,7 @@ import React from 'react';
 import { Container } from 'flux/utils';
 
 import profileStore from '../../stores/profile';
-import profileActions from '../../actions/profile';
+import { fetchProfile } from '../../actions/profile';
 import * as propTypes from '../../proptypes/';
 
 import ContentRouter from '../router';
@@ -62,8 +62,7 @@ class AppContainer extends React.Component {
   }
 
   componentWillMount() {
-    // hit the APIs
-    profileActions.fetchProfile();
+    fetchProfile();
   }
 
   render() {

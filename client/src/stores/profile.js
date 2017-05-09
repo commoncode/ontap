@@ -36,7 +36,24 @@ class ProfileStore extends ReduceStore {
         return {
           fetching: false,
           data: data || {},
-          error,
+          error: error || null,
+        };
+
+      case 'RECEIVE_FETCH_PROFILE_CHEERS':
+        if (error) {
+          return {
+            fetching: state.fetching,
+            data: state.data,
+            error,
+          };
+        }
+
+        return {
+          fetching: state.fetching,
+          data: Object.assign({}, state.data, {
+            Cheers: data,
+          }),
+          error: null,
         };
 
       // update user modifies the profile if it's you
@@ -56,7 +73,9 @@ class ProfileStore extends ReduceStore {
         return {
           fetching: false,
           error: null,
-          data,
+          data: Object.assign(data, {
+            Cheers: state.data.Cheers, // don't clobber Cheers
+          }),
         };
       }
 

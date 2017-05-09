@@ -488,6 +488,36 @@ function simulateCommonCodeInternet(req, res, next) {
 }
 router.use(simulateCommonCodeInternet);
 
+
+// return the currently logged-in user
+function getProfile(req, res) {
+  res.send(req.user || {});
+}
+
+function getProfileCheers(req, res) {
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+
+  const userId = req.user.id;
+
+  return db.Cheers.findAll({
+    include: [{
+      model: db.Keg,
+      attributes: ['id'],
+      include: [{
+        model: db.Beer,
+        attributes: ['name', 'breweryName'],
+      }],
+    }],
+    where: {
+      userId,
+    },
+  })
+  .then(cheers => res.send(cheers))
+  .catch(error => logAndSendError(error, res));
+}
+
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
 router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
@@ -498,6 +528,8 @@ router.get('/users', getAllUsers);
 router.get('/users/:id', getUserById);
 router.get('/beers', getAllBeers);
 router.get('/beers/:id', getBeerById);
+router.get('/whoami', getProfile);
+router.get('/whoami/cheers', getProfileCheers);
 
 
 // guests can't use endpoints below this middleware
