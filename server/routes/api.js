@@ -200,6 +200,35 @@ function updateUser(req, res) {
   .catch(error => logAndSendError(error, res));
 }
 
+function deleteUser(req, res) {
+  // to delete a user you have to be logged in
+  // as that user or as an admin.
+  const id = Number(req.params.id);
+
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+
+  if (!req.user.admin && req.user.id !== id) {
+    return res.sendStatus(403);
+  }
+
+  return db.User.destroy({
+    where: {
+      id,
+    },
+  })
+  .then((numDestroyed) => {
+    // if you were that user, log out
+    if (req.user.id === id) {
+      req.session.destroy();
+    }
+
+    res.sendStatus(numDestroyed ? 202 : 404);
+  })
+  .catch(error => logAndSendError(error, res));
+}
+
 function getAllBeers(req, res) {
   db.Beer.findAll()
   .then(rows => res.send(rows))
@@ -531,6 +560,7 @@ router.use(usersOnly);
 router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
 router.post('/users/:id', updateUser);
+router.delete('/users/:id', deleteUser);
 
 
 // admins only for all endpoints below this middleware
