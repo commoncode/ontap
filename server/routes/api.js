@@ -144,6 +144,8 @@ function getAllUsers(req, res) {
 }
 
 function getUserById(req, res) {
+  const isAdmin = !!(req.user && req.user.admin);
+
   // todo - keep an eye on the performance of this
   db.User.findById(req.params.id, {
     include: [{
@@ -158,7 +160,7 @@ function getUserById(req, res) {
         }],
       }],
     }],
-    attributes: req.user.admin ? adminUserAttributes : safeUserAttributes,
+    attributes: isAdmin ? adminUserAttributes : safeUserAttributes,
   })
   .then((user) => {
     if (!user) return res.sendStatus(400);
