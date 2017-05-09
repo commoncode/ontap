@@ -3,14 +3,13 @@
 
 ## bugs, issues
 
-- Profile view doesn't show Cheers because they don't get passed from /whoami
-
 
 ## new features, improvements
 
-- User management
-- Clientside validation for KegEdit component
+- Breweries model
 - Improve for mobile!
+- Clientside validation for KegEdit component
+
 
 ## cleanup/refactor:
 
