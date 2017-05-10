@@ -1053,6 +1053,32 @@ button + button {
     margin: 0 1em 1.5em 0;
   }
 
+  .edit-form__delete {
+    color: $highlight;
+    margin: 24px 0;
+
+    a {
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: bold;
+      color: #c22;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    a + a {
+      margin-left: 12px;
+      font-weight: inherit;
+    }
+  }
+
+}
+
+.user-edit {
+  border-bottom: 1px solid #ccc;
+  margin: 0 0 48px;
 }
 
 // list view search box

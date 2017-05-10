@@ -80,3 +80,28 @@ export function updateUser(id, props) {
     throw error; // rethrow for the caller of the action to catch
   });
 }
+
+export function deleteUser(id) {
+  dispatcher.dispatch({
+    type: 'REQUEST_DELETE_USER',
+    id,
+  });
+
+  return fetcher(`/api/v1/users/${id}`, {
+    method: 'DELETE',
+  })
+  .then(() => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_DELETE_USER',
+      id,
+    });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_DELETE_USER',
+      error,
+    });
+
+    throw error; // rethrow for action caller
+  });
+}

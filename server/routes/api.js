@@ -131,7 +131,7 @@ function deleteKeg(req, res) {
       id,
     },
   })
-  .then(res.sendStatus(204))
+  .then(res.status(202).send({}))
   .catch(err => res.send(err.status));
 }
 
@@ -224,7 +224,7 @@ function deleteUser(req, res) {
       req.session.destroy();
     }
 
-    res.sendStatus(numDestroyed ? 202 : 404);
+    res.status(numDestroyed ? 202 : 404).send({});
   })
   .catch(error => logAndSendError(error, res));
 }
@@ -291,7 +291,7 @@ function deleteBeer(req, res) {
       id,
     },
   })
-  .then(() => res.sendStatus(204))
+  .then(() => res.status(202).send({}))
   .catch(err => logAndSendError(err, res));
 }
 

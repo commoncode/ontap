@@ -3,11 +3,17 @@ import autobind from 'autobind-decorator';
 
 import EditForm from '../generic/edit-form';
 
-import { updateUser } from '../../actions/users';
+import { updateUser, deleteUser } from '../../actions/users';
 
 
 @autobind
 class UserEdit extends EditForm {
+
+  constructor(props) {
+    super(props);
+
+    this.state.showDelete = false;
+  }
 
   save(evt) {
     evt.preventDefault();
@@ -22,9 +28,28 @@ class UserEdit extends EditForm {
     .then(this.props.reset);
   }
 
+  toggleDelete() {
+    this.setState({
+      showDelete: !this.state.showDelete,
+    });
+  }
+
+  deleteUser() {
+    // delete the user, redirect appropriately
+    deleteUser(this.props.model.id)
+    .then(() => {
+      if (this.props.isCurrentUser) {
+        document.location = '/logout';
+      } else {
+        document.location.hash = '/users/';
+      }
+    });
+  }
+
   render() {
     const { state } = this;
-    const { isAdmin } = this.props;
+    const { isAdmin, isCurrentUser } = this.props;
+    const { showDelete } = this.state;
 
     return (
       <div className="user-edit edit-form">
@@ -61,6 +86,17 @@ class UserEdit extends EditForm {
           <button onClick={this.props.reset}>Cancel</button>
 
         </form>
+
+        <div className="edit-form__delete">
+          <a className="btn-delete" onClick={this.toggleDelete}>
+            Delete { isCurrentUser ? 'my account' : 'this user' }
+          </a>
+          { showDelete && (
+            <a className="btn-delete-confirm" onClick={this.deleteUser}>I am serious, do it.</a>
+          ) }
+        </div>
+
+
       </div>
     );
   }

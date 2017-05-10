@@ -44,7 +44,12 @@ class UserSummary extends React.Component {
         </header>
 
         {editing && (
-          <UserEdit model={props} isAdmin={isAdmin} reset={this.toggleEdit} />
+          <UserEdit
+            model={props}
+            isAdmin={isAdmin}
+            isCurrentUser={isCurrentUser}
+            reset={this.toggleEdit}
+          />
         )}
       </div>
     );
