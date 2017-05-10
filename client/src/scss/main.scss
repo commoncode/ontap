@@ -235,7 +235,6 @@ body {
 
 
 .keg-detail {
-  padding: 24px;
 
   .keg {
     margin-bottom: 3em;
@@ -298,7 +297,6 @@ body {
 .view {
   padding: 24px;
 }
-
 
 
 // tap change view
@@ -487,7 +485,6 @@ body {
 
 // beer detail view
 .beer-detail-view {
-  padding: 24px;
 
   .beer-summary-view, .beer-kegs-list {
     border-bottom: 1px solid $offWhite;
@@ -746,6 +743,16 @@ button {
   }
 }
 
+button.alt {
+  background: $lightBlue;
+  color: white;
+  border: 1px solid $darkerBlue;
+
+  &:hover {
+    background: $darkBlue;
+  }
+}
+
 button + button {
   margin-left: 0.5em;
 }
@@ -901,8 +908,6 @@ button + button {
       width: 110px;
     }
   }
-
-  padding: 24px;
 
   h2 {
     color: $darkBlue;

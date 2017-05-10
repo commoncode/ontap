@@ -89,7 +89,7 @@ class BeerList extends React.Component {
 
     return (
       <div>
-        <section className="beer-list-view">
+        <section className="beer-list-view view">
           <header className="page-header">
             <h1 className="page-title">Beers.</h1>
           </header>

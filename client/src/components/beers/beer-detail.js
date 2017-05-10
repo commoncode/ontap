@@ -45,7 +45,7 @@ class BeerDetail extends React.Component {
 
     return (
       <div>
-        <div className="beer-detail-view">
+        <div className="beer-detail-view view">
           <BeerSummary {...model} />
           <BeerKegs beer={model} profile={profile.data} />
 

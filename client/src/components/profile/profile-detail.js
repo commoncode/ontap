@@ -27,7 +27,7 @@ class ProfileDetail extends React.Component {
     if (!props.profile.id) return <Loader />;
 
     return (
-      <div className="profile-detail user-detail">
+      <div className="profile-detail user-detail view">
         <User {...props.profile} profile={props.profile} Cheers={[]} />
 
         {props.profile.Cheers && (

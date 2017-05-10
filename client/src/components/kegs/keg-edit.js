@@ -95,7 +95,7 @@ class KegEdit extends React.Component {
     const isNew = !this.props.model || !this.props.model.id;
 
     return (
-      <div className="keg-edit edit-form">
+      <div className="keg-edit edit-form view">
 
         {isNew && <h1>Add a New Keg</h1>}
 

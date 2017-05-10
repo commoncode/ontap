@@ -16,7 +16,7 @@ const UserDetail = autoLoader(props => props.user.fetching)((props) => {
   const { model } = user;
 
   return (
-    <div className="user-detail">
+    <div className="user-detail view">
       <User {...model} profile={profile.data} />
       <UserCheers Cheers={model.Cheers} User={model} />
     </div>
