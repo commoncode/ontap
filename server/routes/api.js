@@ -547,11 +547,8 @@ function deleteProfile(req, res) {
     },
   })
   .then(() => {
-    // if you were that user, log out
-    if (req.user.id === id) {
-      req.session.destroy();
-    }
-    return res.sendStatus(204);
+    req.session.destroy();
+    res.sendStatus(204);
   })
   .catch(error => logAndSendError(error, res));
 }
