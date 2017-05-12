@@ -76,7 +76,11 @@ class TapChange extends React.Component {
     const { Keg } = tap;
 
     return (
-      <div className="tap-change">
+      <div className="tap-change view">
+        <header className="page-header">
+          <h1 className="page-title">Change a Tap.</h1>
+        </header>
+
         <h3 className="tap-change--tap-name">{tap.name}</h3>
 
         <h4 className="tap-change--beer-name">
