@@ -3,28 +3,35 @@ import autobind from 'autobind-decorator';
 
 import EditForm from '../generic/edit-form';
 
-import { updateUser } from '../../actions/users';
-
-
 @autobind
 class UserEdit extends EditForm {
 
+  constructor(props) {
+    super(props);
+
+    this.state.showDelete = false;
+  }
+
   save(evt) {
     evt.preventDefault();
-    const { id } = this.props.model;
-    const { name, email, admin } = this.state.model;
+    this.props.save(this.state.model);
+  }
 
-    updateUser(id, {
-      name,
-      email,
-      admin,
-    })
-    .then(this.props.reset);
+  delete(evt) {
+    evt.preventDefault();
+    this.props.delete(this.props.model.id);
+  }
+
+  toggleDelete() {
+    this.setState({
+      showDelete: !this.state.showDelete,
+    });
   }
 
   render() {
     const { state } = this;
-    const { isAdmin } = this.props;
+    const { isAdmin, isCurrentUser } = this.props;
+    const { showDelete } = this.state;
 
     return (
       <div className="user-edit edit-form">
@@ -61,6 +68,17 @@ class UserEdit extends EditForm {
           <button onClick={this.props.reset}>Cancel</button>
 
         </form>
+
+        <div className="edit-form__delete">
+          <a className="btn-delete" onClick={this.toggleDelete}>
+            Delete { isCurrentUser ? 'my account' : 'this user' }
+          </a>
+          { showDelete && (
+            <a className="btn-delete-confirm" onClick={this.delete}>I am serious, do it.</a>
+          ) }
+        </div>
+
+
       </div>
     );
   }

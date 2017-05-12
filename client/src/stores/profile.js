@@ -56,28 +56,22 @@ class ProfileStore extends ReduceStore {
           error: null,
         };
 
-      // update user modifies the profile if it's you
-      case 'RECEIVE_UPDATE_USER': {
+      case 'RECEIVE_UPDATE_PROFILE':
         if (error) {
           return {
-            fetching: false,
+            fetching: null,
             data: state.data,
             error,
           };
         }
 
-        if (data.id !== state.data.id) {
-          return state;
-        }
-
+        // extend current state so we don't overwrite
+        // other props like Cheers
         return {
           fetching: false,
           error: null,
-          data: Object.assign(data, {
-            Cheers: state.data.Cheers, // don't clobber Cheers
-          }),
+          data: Object.assign({}, state.data, data),
         };
-      }
 
       default:
         return state;

@@ -7,7 +7,7 @@ import { fetchUser } from '../../actions/users';
 import * as propTypes from '../../proptypes';
 import autoLoader from '../loader/auto-loader';
 
-import User from './user';
+import UserSummary from './user-summary';
 import UserCheers from './user-cheers';
 
 
@@ -16,8 +16,8 @@ const UserDetail = autoLoader(props => props.user.fetching)((props) => {
   const { model } = user;
 
   return (
-    <div className="user-detail">
-      <User {...model} profile={profile.data} />
+    <div className="user-detail view">
+      <UserSummary {...model} profile={profile.data} />
       <UserCheers Cheers={model.Cheers} User={model} />
     </div>
   );

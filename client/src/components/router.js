@@ -104,6 +104,7 @@ const routes = {
     component: ProfileDetail,
     props: props => ({
       profile: props.profile.data,
+      fetching: props.profile.fetching,
     }),
   },
 };

@@ -60,7 +60,7 @@ export function updateUser(id, props) {
   });
 
   return fetcher(`/api/v1/users/${id}`, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(props),
   })
   .then((data) => {
@@ -78,5 +78,30 @@ export function updateUser(id, props) {
     addNotification(error.message);
 
     throw error; // rethrow for the caller of the action to catch
+  });
+}
+
+export function deleteUser(id) {
+  dispatcher.dispatch({
+    type: 'REQUEST_DELETE_USER',
+    id,
+  });
+
+  return fetcher(`/api/v1/users/${id}`, {
+    method: 'DELETE',
+  })
+  .then(() => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_DELETE_USER',
+      id,
+    });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_DELETE_USER',
+      error,
+    });
+
+    throw error; // rethrow for action caller
   });
 }

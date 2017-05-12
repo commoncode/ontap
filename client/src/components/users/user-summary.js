@@ -2,6 +2,7 @@ import React from 'react';
 import autobind from 'autobind-decorator';
 
 import * as propTypes from '../../proptypes';
+import { updateUser, deleteUser } from '../../actions/users';
 
 import UserEdit from './user-edit';
 
@@ -21,6 +22,22 @@ class UserSummary extends React.Component {
     });
   }
 
+  save(props) {
+    updateUser(props.id, props)
+    .then(() => {
+      this.setState({
+        editing: false,
+      });
+    });
+  }
+
+  delete(id) { // eslint-disable-line class-methods-use-this
+    deleteUser(id)
+    .then(() => {
+      document.location.hash = '/#/users';
+    });
+  }
+
   render() {
     const { props } = this;
     const { profile } = props;
@@ -30,7 +47,7 @@ class UserSummary extends React.Component {
     const isAdmin = !!profile.admin;
 
     return (
-      <div>
+      <div className="user-summary">
         <header>
           <h2>
             {props.name}
@@ -44,7 +61,14 @@ class UserSummary extends React.Component {
         </header>
 
         {editing && (
-          <UserEdit model={props} isAdmin={isAdmin} reset={this.toggleEdit} />
+          <UserEdit
+            model={props}
+            isAdmin={isAdmin}
+            isCurrentUser={isCurrentUser}
+            reset={this.toggleEdit}
+            save={this.save}
+            delete={this.delete}
+          />
         )}
       </div>
     );

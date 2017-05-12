@@ -51,7 +51,7 @@ class KegDetail extends React.Component {
     if (keg.error) return <ErrorComponent {...keg.error} />;
 
     return (
-      <div className="keg-detail">
+      <div className="keg-detail view">
         <h2 className="keg-name">
           Keg {keg.model.id}: <a href={`/#/beers/${keg.model.Beer.id}/`}>{keg.model.Beer.name}</a> by {keg.model.Beer.breweryName}
         </h2>
