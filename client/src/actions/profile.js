@@ -13,7 +13,7 @@ export function fetchProfile() {
     type: 'REQUEST_FETCH_PROFILE',
   });
 
-  return fetcher('/api/v1/whoami')
+  return fetcher('/api/v1/profile')
   .then(data => dispatcher.dispatch({
     type: 'RECEIVE_FETCH_PROFILE',
     data,
@@ -30,13 +30,50 @@ export function fetchProfileCheers() {
     type: 'REQUEST_FETCH_PROFILE_CHEERS',
   });
 
-  return fetcher('/api/v1/whoami/cheers')
+  return fetcher('/api/v1/profile/cheers')
   .then(data => dispatcher.dispatch({
     type: 'RECEIVE_FETCH_PROFILE_CHEERS',
     data,
   }))
   .catch(error => dispatcher.dispatch({
     type: 'RECEIVE_FETCH_PROFILE_CHEERS',
+    error,
+  }));
+}
+
+export function updateProfile(props) {
+  dispatcher.dispatch({
+    type: 'REQUEST_UPDATE_PROFILE',
+  });
+
+  return fetcher('/api/v1/profile', {
+    method: 'PUT',
+    body: JSON.stringify(props),
+  })
+  .then(data => dispatcher.dispatch({
+    type: 'RECEIVE_UPDATE_PROFILE',
+    data,
+  }))
+  .catch(error => dispatcher.dispatch({
+    type: 'RECEIVE_UPDATE_PROFILE',
+    error,
+  }));
+}
+
+export function deleteProfile() {
+  dispatcher.dispatch({
+    type: 'REQUEST_DELETE_PROFILE',
+  });
+
+  return fetcher('/api/v1/profile', {
+    method: 'DELETE',
+  })
+  .then(data => dispatcher.dispatch({
+    type: 'RECEIVE_DELETE_PROFILE',
+    data,
+  }))
+  .catch(error => dispatcher.dispatch({
+    type: 'RECEIVE_DELETE_PROFILE',
     error,
   }));
 }

@@ -3,7 +3,6 @@
 
 ## bugs, issues
 
-
 ## new features, improvements
 
 - Breweries model
@@ -14,7 +13,7 @@
 
 ## cleanup/refactor:
 
-- consolidate the CSS; probably remove the modules because they're shit.
+- a CSS styleguide would be nice
 - Implement autoLoader everywhere we're using Loader
 - Consistent patterns for all of the stores
 - Make the CRUD forms all implement EditForm component

@@ -131,7 +131,7 @@ function deleteKeg(req, res) {
       id,
     },
   })
-  .then(res.status(202).send({}))
+  .then(res.sendStatus(204))
   .catch(err => res.send(err.status));
 }
 
@@ -172,46 +172,28 @@ function getUserById(req, res) {
 
 
 function updateUser(req, res) {
-  // to update a user, you have to be logged in
-  // as that user or as an admin.
-  const id = Number(req.params.id);
+  const id = req.params.id;
+  const props = _.pick(req.body, ['name', 'email', 'admin']);
 
-  if (!req.user) {
-    return res.sendStatus(401);
-  }
-
-  if (!req.user.admin && req.user.id !== id) {
-    return res.sendStatus(403);
-  }
-
-  const props = _.pick(req.body, ['name', 'email']);
-
-  if (req.user.admin && _.has(req.body, 'admin')) {
-    props.admin = req.body.admin;
-  }
-
-  return db.User.update(props, {
+  db.User.update(props, {
     where: {
       id,
     },
   })
-  .then(() => db.User.findById(id))
-  .then(user => res.send(user))
+  .then((numUpdated) => {
+    if (numUpdated) {
+      return db.User.findById(id)
+      .then(user => res.send(user));
+    }
+
+    return res.status(404).send({});
+  })
   .catch(error => logAndSendError(error, res));
 }
 
+
 function deleteUser(req, res) {
-  // to delete a user you have to be logged in
-  // as that user or as an admin.
-  const id = Number(req.params.id);
-
-  if (!req.user) {
-    return res.sendStatus(401);
-  }
-
-  if (!req.user.admin && req.user.id !== id) {
-    return res.sendStatus(403);
-  }
+  const id = req.params.id;
 
   return db.User.destroy({
     where: {
@@ -223,8 +205,7 @@ function deleteUser(req, res) {
     if (req.user.id === id) {
       req.session.destroy();
     }
-
-    res.status(numDestroyed ? 202 : 404).send({});
+    return res.status(numDestroyed ? 204 : 404).send({});
   })
   .catch(error => logAndSendError(error, res));
 }
@@ -291,7 +272,7 @@ function deleteBeer(req, res) {
       id,
     },
   })
-  .then(() => res.status(202).send({}))
+  .then(() => res.sendStatus(204))
   .catch(err => logAndSendError(err, res));
 }
 
@@ -511,11 +492,12 @@ function simulateCommonCodeInternet(req, res, next) {
 router.use(simulateCommonCodeInternet);
 
 
-// return the currently logged-in user
+// return the current User
 function getProfile(req, res) {
   res.send(req.user || {});
 }
 
+// return Cheers for the current user
 function getProfileCheers(req, res) {
   if (!req.user) {
     return res.sendStatus(401);
@@ -540,6 +522,40 @@ function getProfileCheers(req, res) {
   .catch(error => logAndSendError(error, res));
 }
 
+// update current user
+function updateProfile(req, res) {
+  const id = req.user.id;
+  const props = _.pick(req.body, ['name', 'email']);
+
+  return db.User.update(props, {
+    where: {
+      id,
+    },
+  })
+  .then(() => db.User.findById(id))
+  .then(user => res.send(user))
+  .catch(error => logAndSendError(error, res));
+}
+
+// delete current user
+function deleteProfile(req, res) {
+  const id = req.user.id;
+
+  return db.User.destroy({
+    where: {
+      id,
+    },
+  })
+  .then(() => {
+    // if you were that user, log out
+    if (req.user.id === id) {
+      req.session.destroy();
+    }
+    return res.sendStatus(204);
+  })
+  .catch(error => logAndSendError(error, res));
+}
+
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
 router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
@@ -550,8 +566,7 @@ router.get('/users', getAllUsers);
 router.get('/users/:id', getUserById);
 router.get('/beers', getAllBeers);
 router.get('/beers/:id', getBeerById);
-router.get('/whoami', getProfile);
-router.get('/whoami/cheers', getProfileCheers);
+router.get('/profile', getProfile);
 
 
 // guests can't use endpoints below this middleware
@@ -559,8 +574,9 @@ router.use(usersOnly);
 
 router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
-router.post('/users/:id', updateUser);
-router.delete('/users/:id', deleteUser);
+router.get('/profile/cheers', getProfileCheers);
+router.put('/profile', updateProfile);
+router.delete('/profile', deleteProfile);
 
 
 // admins only for all endpoints below this middleware
@@ -574,5 +590,7 @@ router.post('/taps/:id/keg', changeKegHandler);
 router.delete('/taps/:id', deleteTap);
 router.put('/beers/:id', updateBeer);
 router.delete('/beers/:id', deleteBeer);
+router.put('/users/:id', updateUser);
+router.delete('/users/:id', deleteUser);
 
 module.exports = router;

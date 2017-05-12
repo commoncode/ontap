@@ -183,7 +183,16 @@ body {
 
 }
 
+.profile-unauthenticated {
+  p {
+    color: $darkerBlue;
+    font-size: 18px;
+  }
 
+  a {
+    color: $lightBlue;
+  }
+}
 
 
 // App Content
@@ -875,8 +884,8 @@ button + button {
 }
 
 
-// user detail
-.user-detail {
+// user summary
+.user-summary {
 
   header {
     display: flex;
@@ -949,7 +958,7 @@ button + button {
     display: flex;
     align-items: center;
     font-size: 20px;
-    padding: 4px 8px;
+    padding: 8px;
     cursor: pointer;
     color: $darkerBlue;
 
@@ -964,6 +973,10 @@ button + button {
 
     span {
       flex: 1;
+    }
+
+    .avatar img {
+      display: block;
     }
 
     .user-list__list-item__admin {

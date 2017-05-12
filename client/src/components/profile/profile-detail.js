@@ -9,7 +9,7 @@ import React from 'react';
 
 import { fetchProfileCheers } from '../../actions/profile';
 
-import User from '../users/user';
+import ProfileSummary from './profile-summary';
 import UserCheers from '../users/user-cheers';
 import Loader from '../loader';
 
@@ -24,11 +24,23 @@ class ProfileDetail extends React.Component {
 
     // we can't use autoloader here because there's a dispatch call
     // in componentWillMount, which would result in a dispatch-within-a-dispatch.
-    if (!props.profile.id) return <Loader />;
+    if (props.profile.fetching) return <Loader />;
+
+    // you're not logged in
+    if (!props.profile.id) {
+      return (
+        <div className="profile-unauthenticated view">
+          <p>You have to <a href="/login">Login with Google</a> to view your Profile.</p>
+        </div>
+      );
+    }
 
     return (
       <div className="profile-detail user-detail view">
-        <User {...props.profile} profile={props.profile} Cheers={[]} />
+        <header className="page-header">
+          <h1 className="page-title">Your Profile.</h1>
+        </header>
+        <ProfileSummary {...props.profile} profile={props.profile} Cheers={[]} />
 
         {props.profile.Cheers && (
           <UserCheers Cheers={props.profile.Cheers} User={props.profile} />

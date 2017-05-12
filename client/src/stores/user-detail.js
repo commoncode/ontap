@@ -51,7 +51,7 @@ class UserDetailStore extends ReduceStore {
         return {
           fetching: false,
           error: null,
-          model: Object.assign(state.model, data),
+          model: Object.assign({}, state.model, data),
         };
 
       default:

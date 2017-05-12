@@ -3,9 +3,6 @@ import autobind from 'autobind-decorator';
 
 import EditForm from '../generic/edit-form';
 
-import { updateUser, deleteUser } from '../../actions/users';
-
-
 @autobind
 class UserEdit extends EditForm {
 
@@ -17,32 +14,17 @@ class UserEdit extends EditForm {
 
   save(evt) {
     evt.preventDefault();
-    const { id } = this.props.model;
-    const { name, email, admin } = this.state.model;
+    this.props.save(this.state.model);
+  }
 
-    updateUser(id, {
-      name,
-      email,
-      admin,
-    })
-    .then(this.props.reset);
+  delete(evt) {
+    evt.preventDefault();
+    this.props.delete(this.props.model.id);
   }
 
   toggleDelete() {
     this.setState({
       showDelete: !this.state.showDelete,
-    });
-  }
-
-  deleteUser() {
-    // delete the user, redirect appropriately
-    deleteUser(this.props.model.id)
-    .then(() => {
-      if (this.props.isCurrentUser) {
-        document.location = '/logout';
-      } else {
-        document.location.hash = '/users/';
-      }
     });
   }
 
@@ -92,7 +74,7 @@ class UserEdit extends EditForm {
             Delete { isCurrentUser ? 'my account' : 'this user' }
           </a>
           { showDelete && (
-            <a className="btn-delete-confirm" onClick={this.deleteUser}>I am serious, do it.</a>
+            <a className="btn-delete-confirm" onClick={this.delete}>I am serious, do it.</a>
           ) }
         </div>
 

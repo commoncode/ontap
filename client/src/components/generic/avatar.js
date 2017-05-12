@@ -13,6 +13,10 @@ const Avatar = props => (
         alt={props.name}
         title={props.name}
         src={`${props.avatar}?size=${props.size || 60}`}
+        style={{
+          width: `${props.size || 60}px`,
+          height: `${props.size || 60}px`,
+        }}
       />
     </a>
   </div>

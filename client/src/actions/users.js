@@ -60,7 +60,7 @@ export function updateUser(id, props) {
   });
 
   return fetcher(`/api/v1/users/${id}`, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(props),
   })
   .then((data) => {
