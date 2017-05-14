@@ -38,10 +38,16 @@ function printRows(rows) {
   return console.log(rows.map(row => row.get()));
 }
 
+// print the result of a .query() to the console
+function printQuery(result) {
+  return console.log(result[0]);
+}
+
 // add context to the REPL
 r.context = Object.assign(r.context, {
   db,
   makeAdmin,
   seed,
   printRows,
+  printQuery,
 });
