@@ -26,6 +26,10 @@ const db = require('lib/db');
 const app = express();
 
 
+db.sequelize.sync().then(() => {
+  logger.info('sequelize models synced');
+});
+
 // log all requests
 app.use(morgan('dev', {
   stream: logger.morganStream,

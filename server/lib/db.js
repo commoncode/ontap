@@ -20,7 +20,6 @@ const sequelize = new Sequelize(null, null, null, {
 
 const db = {
   sequelize,
-  Sequelize,
 };
 
 // import our model files
@@ -80,11 +79,5 @@ db.User.hasMany(db.Cheers, {
 db.Cheers.belongsTo(db.User, {
   foreignKey: 'userId',
 });
-
-
-sequelize.sync().then(() => {
-  logger.info('sequelize db synced');
-});
-
 
 module.exports = db;
