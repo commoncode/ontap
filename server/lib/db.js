@@ -54,6 +54,15 @@ db.Keg.belongsTo(db.Beer, {
   foreignKey: 'beerId',
 });
 
+// A Beer has a Brewery
+db.Brewery.hasMany(db.Beer, {
+  foreignKey: 'breweryId',
+  onDelete: 'CASCADE', // delete the brewery, delete the beers
+});
+db.Beer.belongsTo(db.Brewery, {
+  foreignKey: 'breweryId',
+});
+
 // A Beer is added by a User
 db.User.hasOne(db.Beer, {
   foreignKey: 'addedBy',
