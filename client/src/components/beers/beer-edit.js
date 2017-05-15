@@ -55,7 +55,6 @@ export default class BeerEdit extends React.Component {
   }
 
   breweryChangeHandler(breweryId) {
-    console.log('breweryChangeHandler', breweryId);
     this.setState({
       model: Object.assign(this.state.model, {
         breweryId,

@@ -11,10 +11,9 @@ class BeerSelectStore extends ReduceStore {
 
   getInitialState() {
     return {
-      beers: [],
       fetching: false,
-      fetched: false,
       error: null,
+      models: [],
     };
   }
 
@@ -27,17 +26,15 @@ class BeerSelectStore extends ReduceStore {
       case 'REQUEST_FETCH_BEERS':
         return {
           fetching: true,
-          fetched: false,
           error: null,
-          beers: [],
+          models: [],
         };
 
       case 'RECEIVE_FETCH_BEERS':
         return {
           fetching: false,
-          fetched: true,
           error: error || null,
-          beers: data || [],
+          models: data || [],
         };
 
       default:
