@@ -25,7 +25,7 @@ const Tap = (props) => {
         {name}
       </div>
       <div className={classes(['tap-keg'])}>
-        <h2 className={classes(['beer-name'])}>{Beer.breweryName } - {Beer.name}</h2>
+        <h2 className={classes(['beer-name'])}>{Beer.name} ({Beer.Brewery.name})</h2>
         <p className={classes(['tapped-date'])}>Tapped {dayMonth(Keg.tapped)}</p>
       </div>
 

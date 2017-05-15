@@ -15,7 +15,7 @@ const BeerListItem = (props) => {
         <h4 className="name">
           <a href={`/#/beers/${beer.id}/`}>{beer.name || 'unnamed'}</a>
           &nbsp;
-          {beer.breweryName && <span>({beer.breweryName})</span>}
+          {beer.Brewery && <span>({beer.Brewery.name})</span>}
         </h4>
         {beer.variety && <h5 className="variety">{beer.variety}</h5>}
       </header>

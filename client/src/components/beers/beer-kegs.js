@@ -37,7 +37,7 @@ const BeerKegs = (props) => {
           const cheersCount = keg.Cheers.length;
           const uniqueCheersCount = new Set(keg.Cheers.map(k => k.userId)).size;
           return (
-            <div className="list-item">
+            <div className="list-item" key={keg.id}>
               <span className="keg-tapped">
                 <a href={`/#/kegs/${keg.id}/`}>
                   {keg.tapped ?

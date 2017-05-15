@@ -8,7 +8,7 @@ const UserCheersItem = props => (
   <div className="cheers-list-item">
     <span>
       <a href={`/#/kegs/${props.Keg.id}/`}>
-        <b>{props.Keg.Beer.name}</b> by {props.Keg.Beer.breweryName}
+        <b>{props.Keg.Beer.name}</b> by {props.Keg.Beer.Brewery.name}
       </a>
     </span>
     <span>

@@ -19,7 +19,7 @@ const BeerSummary = props => (
       <h1 className="name">
         <a href={`/#/beers/${props.id}/`}>{props.name}</a>
       </h1>
-      <h2 className="brewery-name">{props.breweryName}</h2>
+      <h2 className="brewery-name">{props.Brewery.name}</h2>
       <h4 className="variety">{props.variety}</h4>
       {!props.canBuy && <p className="unavailable">This beer is unavailable for order.</p> }
       <p className="notes">{props.notes}</p>

@@ -33,8 +33,6 @@ export const profile = React.PropTypes.shape({
 
 // keg model from the API.
 export const kegModel = React.PropTypes.shape({
-  beerName: React.PropTypes.string,
-  breweryName: React.PropTypes.string,
   abv: React.PropTypes.number,
   notes: React.PropTypes.string,
   tapped: React.PropTypes.string, // date?
@@ -57,11 +55,19 @@ export const ratingModel = React.PropTypes.shape({
 export const beerModel = React.PropTypes.shape({
   id: React.PropTypes.number,
   name: React.PropTypes.string,
-  breweryName: React.PropTypes.string,
   abv: React.PropTypes.number,
   ibu: React.PropTypes.number,
   variety: React.PropTypes.string,
   notes: React.PropTypes.string,
+  canBuy: React.PropTypes.bool,
+});
+
+export const breweryModel = React.PropTypes.shape({
+  id: React.PropTypes.number,
+  name: React.PropTypes.string,
+  location: React.PropTypes.string,
+  description: React.PropTypes.string,
+  adminNotes: React.PropTypes.string,
   canBuy: React.PropTypes.bool,
 });
 

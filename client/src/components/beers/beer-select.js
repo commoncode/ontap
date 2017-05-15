@@ -1,6 +1,6 @@
 /**
  * BeerSelect component.
- * Select a Beer from a dropdown.
+ * Select a Beer from a dropdown of all beers.
  */
 
 import React from 'react';
@@ -51,7 +51,7 @@ class BeerSelect extends React.Component {
         <select onChange={this.changeHandler} value={value}>
           <option value={-1} disabled>Select a beer...</option>
           { beers.map(beer => (
-            <option key={beer.id} value={beer.id}>{beer.breweryName}: {beer.name}</option>
+            <option key={beer.id} value={beer.id}>{beer.Brewery.name}: {beer.name}</option>
           )) }
         </select>
 

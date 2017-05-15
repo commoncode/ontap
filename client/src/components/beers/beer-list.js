@@ -179,7 +179,8 @@ class BeerListContainer extends React.Component {
     // and handle Immutables...?
     return (
       <BeerList
-        beers={this.state.beersState.get('beers').toArray()}
+        // .breweryName gets normalised onto beer for searchability
+        beers={this.state.beersState.get('beers').toArray().map(beer => Object.assign({}, beer, { breweryName: beer.Brewery.name }))}
         sync={this.state.beersState.get('sync').toJSON()}
         create={this.state.beersState.get('create').toJSON()}
         {...this.props}

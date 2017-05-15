@@ -84,7 +84,7 @@ class TapChange extends React.Component {
         <h3 className="tap-change--tap-name">{tap.name}</h3>
 
         <h4 className="tap-change--beer-name">
-          {Keg ? `${Keg.Beer.breweryName} - ${Keg.Beer.name}` : 'No Service'}
+          {Keg ? `${Keg.Beer.Brewery.name} - ${Keg.Beer.name}` : 'No Service'}
         </h4>
 
 
@@ -99,7 +99,7 @@ class TapChange extends React.Component {
                 key={keg.id}
                 value={keg.id}
                 disabled={keg.Tap}
-              >{keg.Beer.name} ({keg.Beer.breweryName})</option>
+              >{keg.Beer.name} ({keg.Beer.Brewery.name})</option>
             )) }
           </select>
 
