@@ -256,7 +256,7 @@ function getBeerById(req, res) {
       model: db.Keg,
       attributes: kegAttributesPublic,
       include: [cheersInclude],
-    }],
+    }, breweryInclude],
   })
   .then((beer) => {
     if (!beer) return res.sendStatus(404);
@@ -295,6 +295,7 @@ function updateBeer(req, res) {
   })
   .then(() => db.Beer.findById(req.params.id, {
     attributes: beerAttributesPublic,
+    include: [breweryInclude],
   }))
   .then(beer => res.send(beer))
   .catch(err => logAndSendError(err, res));
@@ -487,33 +488,6 @@ function changeKegHandler(req, res) {
   });
 }
 
-
-// auth middleware.
-
-// prevent guests from hitting endpoints
-function usersOnly(req, res, next) {
-  if (!req.user) {
-    return res.status(401).send();
-  }
-  return next();
-}
-
-// prevent non-admins from hitting endpoints.
-function adminsOnly(req, res, next) {
-  if (!req.user || !req.user.admin) {
-    return res.status(403).send();
-  }
-  return next();
-}
-
-// simulate a slow connection.
-// change the timeout to make it work.
-function simulateCommonCodeInternet(req, res, next) {
-  setTimeout(next, 0);
-}
-router.use(simulateCommonCodeInternet);
-
-
 // return the current User
 function getProfile(req, res) {
   res.send(req.user || {});
@@ -528,14 +502,8 @@ function getProfileCheers(req, res) {
   const userId = req.user.id;
 
   return db.Cheers.findAll({
-    include: [{
-      model: db.Keg,
-      attributes: ['id'],
-      include: [{
-        model: db.Beer,
-        attributes: ['name', 'breweryName'],
-      }],
-    }],
+    attributes: cheersAttributesPublic,
+    include: [kegWithBeerInclude],
     where: {
       userId,
     },
@@ -554,7 +522,9 @@ function updateProfile(req, res) {
       id,
     },
   })
-  .then(() => db.User.findById(id))
+  .then(() => db.User.findById(id, {
+    attributes: userAttributesAdmin,
+  }))
   .then(user => res.send(user))
   .catch(error => logAndSendError(error, res));
 }
@@ -595,6 +565,33 @@ function getBreweryById(req, res) {
   })
   .catch(error => logAndSendError(error, res));
 }
+
+
+// auth middleware.
+
+// prevent guests from hitting endpoints
+function usersOnly(req, res, next) {
+  if (!req.user) {
+    return res.status(401).send();
+  }
+  return next();
+}
+
+// prevent non-admins from hitting endpoints.
+function adminsOnly(req, res, next) {
+  if (!req.user || !req.user.admin) {
+    return res.status(403).send();
+  }
+  return next();
+}
+
+// simulate a slow connection.
+// change the timeout to make it work.
+function simulateCommonCodeInternet(req, res, next) {
+  setTimeout(next, 0);
+}
+router.use(simulateCommonCodeInternet);
+
 
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
