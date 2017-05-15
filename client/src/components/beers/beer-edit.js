@@ -5,14 +5,16 @@
  */
 
 import React from 'react';
+import autobind from 'autobind-decorator';
 
 import { updateBeer, createBeer } from '../../actions/beers';
 
 import Loader from '../loader';
+import BrewerySelect from '../breweries/brewery-select';
 
 const defaultValues = {
   name: '',
-  breweryName: '',
+  breweryId: null,
   variety: '',
   abv: '',
   ibu: '',
@@ -20,6 +22,7 @@ const defaultValues = {
   notes: '',
 };
 
+@autobind
 export default class BeerEdit extends React.Component {
   constructor(props) {
     super();
@@ -33,9 +36,6 @@ export default class BeerEdit extends React.Component {
       },
     };
 
-    this.inputChangeHandler = this.inputChangeHandler.bind(this);
-    this.checkboxChangeHandler = this.checkboxChangeHandler.bind(this);
-    this.saveAction = this.saveAction.bind(this);
   }
 
   inputChangeHandler(evt) {
@@ -54,6 +54,15 @@ export default class BeerEdit extends React.Component {
     });
   }
 
+  breweryChangeHandler(breweryId) {
+    console.log('breweryChangeHandler', breweryId);
+    this.setState({
+      model: Object.assign(this.state.model, {
+        breweryId,
+      }),
+    });
+  }
+
   saveAction() {
     if (this.props.model && this.props.model.id) {
       return updateBeer(this.state.model);
@@ -62,7 +71,7 @@ export default class BeerEdit extends React.Component {
   }
 
   render() {
-    const { name, breweryName, abv, ibu, variety, notes, canBuy } = this.state.model;
+    const { name, breweryId, abv, ibu, variety, notes, canBuy } = this.state.model;
     const { syncing } = this.props;
 
     const isNew = !this.props.model || !this.props.model.id;
@@ -81,13 +90,8 @@ export default class BeerEdit extends React.Component {
           value={name}
         />
 
-        <label htmlFor="breweryName">Brewery Name</label>
-        <input
-          name="breweryName"
-          placeholder="Yeastie Boys"
-          onChange={this.inputChangeHandler}
-          value={breweryName}
-        />
+        <label htmlFor="breweryId">Brewery</label>
+        <BrewerySelect onChange={this.breweryChangeHandler} value={breweryId} />
 
         <label htmlFor="variety">Variety</label>
         <input

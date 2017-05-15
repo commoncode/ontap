@@ -20,7 +20,6 @@ class BeerDetailStore extends ReduceStore {
 
   reduce(state, action) {
     const { type, data, error } = action;
-    if (error) console.error(error);
 
     switch (type) {
 
@@ -43,12 +42,24 @@ class BeerDetailStore extends ReduceStore {
         };
 
       case 'RECEIVE_UPDATE_BEER':
+        if (error) {
+          return {
+            fetching: false,
+            pushing: false,
+            editing: true,
+            error,
+            model: state.model,
+          };
+        }
+
+        // merge updates into current state,
+        // API will only return what it needs to.
         return {
           fetching: false,
           pushing: false,
-          editing: !!error,
-          error: error || null,
-          model: data || null,
+          editing: false,
+          error: null,
+          model: Object.assign({}, state.model, data),
         };
 
       case 'TOGGLE_EDIT_BEER':
