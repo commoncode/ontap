@@ -17,7 +17,7 @@ router.use(bodyParser.json());
 const userAttributesPublic = ['id', 'name', 'avatar', 'admin'];
 const userAttributesAdmin = [...userAttributesPublic, 'email'];
 const beerAttributesPublic = ['id', 'name', 'breweryId', 'notes', 'abv', 'ibu', 'variety'];
-const breweryAttributesPublic = ['id', 'name', 'location', 'description', 'canBuy'];
+const breweryAttributesPublic = ['id', 'name', 'web', 'location', 'description', 'canBuy'];
 const breweryAttributesAdmin = [...breweryAttributesPublic, 'adminNotes'];
 const kegAttributesPublic = ['id', 'tapped', 'untapped', 'notes', 'beerId'];
 const tapAttributesPublic = ['id', 'name', 'kegId'];
@@ -566,6 +566,32 @@ function getBreweryById(req, res) {
   .catch(error => logAndSendError(error, res));
 }
 
+function updateBrewery(req, res) {
+  const id = req.params.id;
+  db.Brewery.update(req.body, {
+    where: {
+      id,
+    },
+  })
+  .then(() => db.Brewery.findById(req.params.id, {
+    attributes: breweryAttributesAdmin,
+  }))
+  .then(brewery => res.send(brewery))
+  .catch(err => logAndSendError(err, res));
+}
+
+function deleteBrewery(req, res) {
+  const id = req.params.id;
+  db.Brewery.destroy({
+    where: {
+      id,
+    },
+  })
+  .then(() => res.sendStatus(204))
+  .catch(err => logAndSendError(err, res));
+}
+
+
 
 // auth middleware.
 
@@ -631,5 +657,7 @@ router.put('/beers/:id', updateBeer);
 router.delete('/beers/:id', deleteBeer);
 router.put('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
+router.put('/breweries/:id', updateBrewery);
+router.delete('/breweries/:id', deleteBrewery);
 
 module.exports = router;

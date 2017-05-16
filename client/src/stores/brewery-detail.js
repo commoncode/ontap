@@ -31,6 +31,16 @@ class BreweryDetailStore extends ReduceStore {
           model: data || null,
         };
 
+      case 'RECEIVE_UPDATE_BREWERY':
+        return {
+          fetching: false,
+          error: error || null,
+          model: {
+            ...state.model,
+            ...(data || {}),
+          },
+        };
+
       default:
         return state;
     }

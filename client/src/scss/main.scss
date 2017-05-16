@@ -36,6 +36,11 @@ body {
   color: $brown;
 }
 
+.pre-wrap {
+  white-space: pre-wrap;
+}
+
+
 .container {
   display: block;
   height: 100vh;
