@@ -16,20 +16,27 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Brewery', {
   },
   location: {
     type: DataTypes.STRING,
-    allowNull: true,
+    defaultValue: '',
+    allowNull: false,
+  },
+  web: {
+    type: DataTypes.STRING,
+    defaultValue: '',
+    allowNull: false,
   },
   description: {
     type: DataTypes.STRING,
-    allowNull: true,
+    defaultValue: '',
+    allowNull: false,
   },
   adminNotes: {
     type: DataTypes.STRING,
-    allowNull: true,
+    defaultValue: '',
+    allowNull: false,
   },
   canBuy: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
-    allowNull: false,
   },
 }, {
   freezeTableName: true,
