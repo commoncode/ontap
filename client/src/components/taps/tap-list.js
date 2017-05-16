@@ -1,4 +1,5 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import classnames from 'classnames/bind';
 import { Container } from 'flux/utils';
 
@@ -25,9 +26,9 @@ const TapList = (props) => {
 };
 
 TapList.propTypes = {
-  profile: propTypes.profile,
-  taps: propTypes.taps,
-  sync: propTypes.sync,
+  profile: reactPropTypes.shape(propTypes.profile),
+  taps: reactPropTypes.arrayOf(reactPropTypes.shape(propTypes.tapModel)),
+  sync: reactPropTypes.shape(propTypes.sync),
 };
 
 

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import tapChangeStore from '../../stores/tap-change';
@@ -121,7 +122,7 @@ class TapChange extends React.Component {
 class TapChangeContainer extends React.Component {
   static propTypes() {
     return {
-      tapId: React.PropTypes.number,
+      tapId: reactPropTypes.number,
     };
   }
 

@@ -75,6 +75,6 @@ class UserSummary extends React.Component {
   }
 }
 
-UserSummary.propTypes = propTypes.profileModel;
+UserSummary.propTypes = propTypes.userModel;
 
 export default UserSummary;

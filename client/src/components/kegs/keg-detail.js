@@ -1,4 +1,5 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import kegDetailStore from '../../stores/keg-detail';
@@ -85,7 +86,7 @@ class KegDetail extends React.Component {
 class KegDetailContainer extends React.Component {
   static propTypes() {
     return {
-      kegId: React.PropTypes.number,
+      kegId: reactPropTypes.number,
     };
   }
 

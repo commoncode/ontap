@@ -1,4 +1,5 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import { fetchBrewery } from '../../actions/breweries';
@@ -37,7 +38,7 @@ class BreweryDetailContainer extends React.Component {
 
   static propTypes() {
     return {
-      breweryId: React.PropTypes.number,
+      breweryId: reactPropTypes.number,
     };
   }
 

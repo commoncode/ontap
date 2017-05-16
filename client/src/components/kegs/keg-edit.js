@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 
 import { updateKeg, createKeg } from '../../actions/kegs';
@@ -16,9 +17,9 @@ class KegEdit extends React.Component {
 
   static propTypes() {
     return {
-      model: React.PropTypes.object,
-      syncing: React.PropTypes.bool,
-      successHandler: React.PropTypes.func,
+      model: reactPropTypes.object,
+      syncing: reactPropTypes.bool,
+      successHandler: reactPropTypes.func,
     };
   }
 

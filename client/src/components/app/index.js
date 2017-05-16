@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import profileStore from '../../stores/profile';
@@ -45,7 +46,7 @@ const AppComponent = (props) => {
 };
 
 AppComponent.propTypes = {
-  profile: React.PropTypes.shape(propTypes.userModel),
+  profile: reactPropTypes.shape(propTypes.userModel),
 };
 
 // flux-utils container to bind stores to our components.

@@ -1,4 +1,5 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import userListStore from '../../stores/user-list';
@@ -39,8 +40,8 @@ const UserList = (props) => {
 };
 
 UserList.propTypes = {
-  profile: propTypes.profileModel,
-  users: React.PropTypes.arrayOf(propTypes.profileModel),
+  profile: reactPropTypes.shape(propTypes.userModel),
+  users: reactPropTypes.arrayOf(reactPropTypes.shape(propTypes.userModel)),
 };
 
 class UserListContainer extends React.Component {

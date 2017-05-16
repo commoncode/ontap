@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import * as propTypes from '../../proptypes';
-
 import notificationsStore from '../../stores/notifications';
 import { removeNotification } from '../../actions/notifications';
 
@@ -31,7 +31,7 @@ const NotificationsComponent = props => (
 );
 
 NotificationsComponent.propTypes = {
-  notifications: propTypes.notifications,
+  notifications: reactPropTypes.arrayOf(propTypes.notificationModel),
 };
 
 class NotificationsContainer extends React.Component {

@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import { fetchKegs } from '../../actions/kegs';
@@ -50,7 +51,7 @@ class KegList extends React.Component {
   }
 
   render() {
-    const { kegs, sync, profile} = this.props;
+    const { kegs, sync, profile } = this.props;
     const { activeFilterName } = this.state;
 
     return (
@@ -96,8 +97,9 @@ class KegList extends React.Component {
 }
 
 KegList.propTypes = {
-  kegs: propTypes.kegs,
-  sync: propTypes.sync,
+  kegs: reactPropTypes.arrayOf(reactPropTypes.shape(propTypes.kegModel)),
+  sync: reactPropTypes.shape(propTypes.sync),
+  profile: reactPropTypes.shape(propTypes.userModel),
 };
 
 

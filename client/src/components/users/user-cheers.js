@@ -1,4 +1,5 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import moment from 'moment';
 
 import * as propTypes from '../../proptypes';
@@ -18,10 +19,7 @@ const UserCheersItem = props => (
   </div>
 );
 
-UserCheersItem.propTypes = {
-  Keg: propTypes.kegModel,
-  ...propTypes.cheersModel,
-};
+UserCheersItem.propTypes = propTypes.cheersModel;
 
 
 const UserCheers = (props) => {
@@ -45,8 +43,8 @@ const UserCheers = (props) => {
 };
 
 UserCheers.propTypes = {
-  User: propTypes.profileModel,
-  Cheers: propTypes.cheersModel,
+  User: reactPropTypes.shape(propTypes.userModel),
+  Cheers: reactPropTypes.arrayOf(reactPropTypes.shape(propTypes.cheersModel)),
 };
 
 export default UserCheers;

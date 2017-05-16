@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import branch from 'recompose/branch';
 import classnames from 'classnames/bind';
 import renderComponent from 'recompose/renderComponent';
@@ -39,8 +40,8 @@ const Tap = (props) => {
 };
 
 Tap.propTypes = {
-  model: propTypes.kegModel,
-  profile: propTypes.profile,
+  model: reactPropTypes.shape(propTypes.kegModel),
+  profile: reactPropTypes.shape(propTypes.profile),
 };
 
 const Dry = props => (
@@ -62,8 +63,8 @@ const Dry = props => (
 );
 
 Dry.propTypes = {
-  model: propTypes.kegModel,
-  profile: propTypes.profile,
+  model: reactPropTypes.shape(propTypes.kegModel),
+  profile: reactPropTypes.shape(propTypes.profile),
 };
 
 // switch Dry/Tap based on whether there's a Keg

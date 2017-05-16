@@ -5,9 +5,10 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 
 import { dayMonth, daysDiff } from '../../util/date';
-import { beerModel, profileModel } from '../../proptypes';
+import { beerModel, userModel } from '../../proptypes';
 
 const BeerKegs = (props) => {
   const { Kegs } = props.beer;
@@ -73,8 +74,8 @@ const BeerKegs = (props) => {
 
 
 BeerKegs.propTypes = {
-  beer: beerModel,
-  profile: profileModel,
+  beer: reactPropTypes.shape(beerModel),
+  profile: reactPropTypes.shape(userModel),
 };
 
 export default BeerKegs;
