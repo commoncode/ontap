@@ -3,6 +3,9 @@
 
 ## bugs, issues
 
+- cascade deletes aren't working, check them all.
+  - brewery -> beer
+  - beer -> keg
 - 'value prop on input should not be null'
   - models with strings should probably be NOT NULL, default to empty string
   - make sure we handle dates properly
