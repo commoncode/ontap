@@ -19,8 +19,17 @@ class EditForm extends React.Component {
     super(props);
 
     this.state = {
-      model: Object.assign({}, props.model),
+      showDelete: false,
+      model: {
+        ...props.model,
+      },
     };
+  }
+
+  toggleDelete() {
+    this.setState({
+      showDelete: !this.state.showDelete,
+    });
   }
 
   // handle change to an input, textarea

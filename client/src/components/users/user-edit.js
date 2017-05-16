@@ -6,12 +6,6 @@ import EditForm from '../generic/edit-form';
 @autobind
 class UserEdit extends EditForm {
 
-  constructor(props) {
-    super(props);
-
-    this.state.showDelete = false;
-  }
-
   save(evt) {
     evt.preventDefault();
     this.props.save(this.state.model);
@@ -20,12 +14,6 @@ class UserEdit extends EditForm {
   delete(evt) {
     evt.preventDefault();
     this.props.delete(this.props.model.id);
-  }
-
-  toggleDelete() {
-    this.setState({
-      showDelete: !this.state.showDelete,
-    });
   }
 
   render() {
