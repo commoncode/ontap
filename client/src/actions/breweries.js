@@ -4,8 +4,6 @@
 
 import dispatcher from '../dispatcher';
 import { fetcher } from './util';
-// import { addNotification } from './notifications';
-
 
 // fetch all breweries
 export function fetchBreweries() {
@@ -23,6 +21,30 @@ export function fetchBreweries() {
   .catch((error) => {
     dispatcher.dispatch({
       type: 'RECEIVE_FETCH_BREWERIES',
+      error,
+    });
+  });
+}
+
+// fetch a single brewery
+export function fetchBrewery(id) {
+  dispatcher.dispatch({
+    type: 'REQUEST_FETCH_BREWERY',
+    id,
+  });
+
+  return fetcher(`/api/v1/breweries/${id}`)
+  .then((data) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_FETCH_BREWERY',
+      id,
+      data,
+    });
+  })
+  .catch((error) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_FETCH_BREWERY',
+      id,
       error,
     });
   });

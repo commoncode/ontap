@@ -18,6 +18,8 @@ import UserList from './users/user-list';
 import ProfileDetail from './profile/profile-detail';
 import BeerList from './beers/beer-list';
 import BeerDetail from './beers/beer-detail';
+import BreweryList from './breweries/brewery-list';
+import BreweryDetail from './breweries/brewery-detail';
 
 
 // define your routes.
@@ -105,6 +107,20 @@ const routes = {
     props: props => ({
       profile: props.profile.data,
       fetching: props.profile.fetching,
+    }),
+  },
+  '/breweries/!': {
+    component: BreweryDetail,
+    props: (props, params) => ({
+      profile: props.profile.data,
+      breweryId: Number(params[0]),
+      key: params[0],
+    }),
+  },
+  '/breweries': {
+    component: BreweryList,
+    props: props => ({
+      profile: props.profile.data,
     }),
   },
 };
