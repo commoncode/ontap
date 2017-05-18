@@ -13,6 +13,7 @@
 
 ## new features, improvements
 
+- Use the emoji-tick icon for "canBuy" consistently
 - Improve for mobile (UI overhaul would be nice)
 - Prevent Cheersing a yet-to-be-tapped keg. Requires fixing the default Invalid Date issue on the Keg.
 - cheersKeg() in api should just return the new Cheers and the KegId, not the kitchen sink

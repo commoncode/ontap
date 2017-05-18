@@ -845,6 +845,11 @@ button + button {
   background-image: url('../images/emoji-beers.svg')
 }
 
+.emoji-tick {
+  @extend .emoji;
+  background-image: url('../images/emoji-tick.svg');
+}
+
 // rate kegs
 .keg-rating {
   display: flex;
