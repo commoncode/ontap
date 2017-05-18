@@ -395,6 +395,63 @@ body {
 }
 
 
+.brewery-detail {
+
+  .brewery-detail__url {
+    font-size: 20px;
+    margin: 0 0 0.5em;
+
+    a {
+      text-decoration: none;
+      color: $lightBlue;
+
+      &:hover, &:focus {
+        text-decoration: underline;
+        color: $darkBlue;
+      }
+    }
+  }
+
+  .page-subtitle {
+    line-height: 20px;
+
+    .icon-canbuy {
+      width: 20px;
+      height: 20px;
+      vertical-align: top;
+    }
+
+    span + .icon-canbuy {
+      margin-left: 12px;
+    }
+  }
+
+  .brewery-detail__description {
+    width: 100%;
+    font-weight: 400;
+    font-size: 1.2rem;
+    white-space: pre-wrap;
+    margin: 0 0 2em;
+  }
+
+  .brewery-detail__admin-notes {
+    width: 100%;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: $khaki;
+
+    b {
+      display: block;
+      font-weight: bold;
+      margin: 0 0 0.25em;
+    }
+  }
+
+  .brewery-detail__details {
+    border-bottom: 1px solid #f2f2f2;
+  }
+}
+
 // responsiveness
 @media (max-width: 600px) {
 

@@ -47,6 +47,7 @@ class BreweryEdit extends EditForm {
             name="web"
             value={state.model.web}
             onChange={this.inputChangeHandler}
+            placeholder="brewery.com"
           />
 
           <label htmlFor="name">Location</label>
@@ -54,6 +55,7 @@ class BreweryEdit extends EditForm {
             name="location"
             value={state.model.location}
             onChange={this.inputChangeHandler}
+            placeholder="Collingwood, VIC"
           />
 
           <label htmlFor="name">Description</label>

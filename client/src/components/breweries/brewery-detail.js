@@ -10,12 +10,13 @@ import autoLoader from '../loader/auto-loader';
 import { urlify } from '../../util/util';
 
 import BreweryEdit from './brewery-edit';
+import BreweryBeers from './brewery-beers';
 
 
 @autobind
 class BreweryDetail extends React.Component {
 
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       showEdit: false,
@@ -37,33 +38,42 @@ class BreweryDetail extends React.Component {
           <h1 className="page-title">
             {props.name}
           </h1>
-          <h4>{props.location}</h4>
-          <h4>
-            <a
-              href={urlify(props.web)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >{
-              props.web}
-            </a>
-          </h4>
+          <h2 className="page-subtitle">
+            {props.location && <span>{props.location}</span>}
+            {props.canBuy && <icon className="icon-canbuy emoji-tick" title="We can order beers from this brewery" />}
+          </h2>
         </header>
-        <p className="brewery-detail__description pre-wrap">
-          {props.description}
-        </p>
 
-        {props.profile.admin && (
-          <p className="brewery-detail__admin-notes pre-wrap">
-            {props.adminNotes}
+        <div className="brewery-detail__details">
+          {props.web && (
+            <p className="brewery-detail__url">
+              <a
+                href={urlify(props.web)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >{
+                props.web} &raquo;
+              </a>
+            </p>
+          )}
+          <p className="brewery-detail__description pre-wrap">
+            {props.description}
           </p>
-        )}
 
-        {props.canBuy && (<p className="brewery-detail__canbuy">
-          We can order beers from this brewery.
-        </p>)}
+          {props.profile.admin && (
+            <p className="brewery-detail__admin-notes pre-wrap">
+              <b>Admin Details</b>
+              {props.adminNotes || 'No admin notes have been entered.'}
+            </p>
+          )}
+
+        </div>
+
 
         {props.profile.admin && (
-          <a onClick={this.toggleEdit}>Edit this Brewery</a>
+          <div className="brewery-actions">
+            <button onClick={this.toggleEdit}>Edit Brewery</button>
+          </div>
         )}
 
         {state.showEdit && (
@@ -72,6 +82,8 @@ class BreweryDetail extends React.Component {
             reset={this.toggleEdit}
           />
         )}
+
+        <BreweryBeers Beers={props.Beers} Brewery={props} />
       </div>
     );
   }
