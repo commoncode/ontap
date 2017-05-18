@@ -6,13 +6,13 @@ import * as propTypes from '../../proptypes';
 
 
 const UserCheersItem = props => (
-  <div className="cheers-list-item">
-    <span>
-      <a href={`/#/kegs/${props.Keg.id}/`}>
-        <b>{props.Keg.Beer.name}</b> by {props.Keg.Beer.Brewery.name}
-      </a>
+  <div className="list-item">
+    <span className="column">
+      <b><a href={`/#/kegs/${props.Keg.id}/`}>{props.Keg.Beer.name}</a></b>
+      &nbsp;by&nbsp;
+      <a href={`/#/breweries/${props.Keg.Beer.Brewery.id}`}>{props.Keg.Beer.Brewery.name}</a>
     </span>
-    <span>
+    <span className="column end">
       {moment(props.timestamp).format('h:mma')}
       {` on ${moment(props.timestamp).format('MMMM Do, YYYY')}`}
     </span>
@@ -31,7 +31,7 @@ const UserCheers = (props) => {
       {props.Cheers.length ? (
         <div>
           <h3>{firstName} has Cheers'd {uniqueCheersCount} beer{uniqueCheersCount !== 1 && 's'} {props.Cheers.length} time{props.Cheers.length !== 1 && 's'}.</h3>
-          <div className="cheers-list">
+          <div className="cheers-list single-line-list">
             {props.Cheers.map(cheers => <UserCheersItem {...cheers} key={cheers.id} />)}
           </div>
         </div>

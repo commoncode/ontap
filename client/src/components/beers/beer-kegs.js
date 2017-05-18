@@ -17,7 +17,7 @@ const BeerKegs = (props) => {
   if (!Kegs.length) {
     return (
       <div className="beer-kegs-list">
-        <h3 className="title">Kegs of {props.beer.name}</h3>
+        <h3 className="list-title">Kegs of {props.beer.name}</h3>
         <p className="no-kegs">
           {'We\'ve never had a keg of this. '}
           {isAdmin && <a href="/#/kegs/new/">
@@ -33,13 +33,13 @@ const BeerKegs = (props) => {
     <div className="beer-kegs-list">
       <h3 className="title">Kegs of {props.beer.name}</h3>
 
-      <div className="list">
+      <div className="single-line-list">
         { Kegs.map((keg) => {
           const cheersCount = keg.Cheers.length;
           const uniqueCheersCount = new Set(keg.Cheers.map(k => k.userId)).size;
           return (
             <div className="list-item" key={keg.id}>
-              <span className="keg-tapped">
+              <div className="column">
                 <a href={`/#/kegs/${keg.id}/`}>
                   {keg.tapped ?
                     `Tapped ${dayMonth(keg.tapped)}`
@@ -51,9 +51,9 @@ const BeerKegs = (props) => {
                     : ''
                   }
                 </a>
-              </span>
+              </div>
 
-              <span className="keg-cheers">
+              <div className="column end">
                 <icon
                   className="icon emoji-beers"
                   style={{
@@ -63,7 +63,7 @@ const BeerKegs = (props) => {
                   }}
                 />
                 { cheersCount } Cheers from { uniqueCheersCount } user{ uniqueCheersCount !== 1 && 's'}
-              </span>
+              </div>
             </div>
           );
         }) }
