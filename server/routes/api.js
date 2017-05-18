@@ -556,6 +556,10 @@ function getAllBreweries(req, res) {
 function getBreweryById(req, res) {
   return db.Brewery.findById(req.params.id, {
     attributes: (req.user && req.user.admin) ? breweryAttributesAdmin : breweryAttributesPublic,
+    include: [{
+      model: db.Beer,
+      attributes: beerAttributesPublic,
+    }],
   })
   .then((brewery) => {
     if (brewery) {
