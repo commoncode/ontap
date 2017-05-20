@@ -8,8 +8,9 @@ import propTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import breweryListStore from '../../stores/brewery-list';
+import profileStore from '../../stores/profile';
 import { fetchBreweries } from '../../actions/breweries';
-import { breweryModel } from '../../proptypes';
+import { breweryModel, userModel } from '../../proptypes';
 
 import Loader from '../loader';
 import BreweryListItem from './brewery-list-item';
@@ -22,26 +23,30 @@ const BreweryList = props => (props.fetching ? <Loader /> : (
       </h1>
     </header>
 
-    <div>
-      {(props.models || []).map(brewery => (
-        <BreweryListItem key={brewery.id} {...brewery} />
-      ))}
-    </div>
+    {props.profile.admin && <a className="list-add-link" href="/#/breweries/add">Add a Brewery &raquo;</a>}
+
+    {(props.models).map(brewery => (
+      <BreweryListItem key={brewery.id} {...brewery} />
+    ))}
   </div>
 ));
 
 BreweryList.propTypes = {
   models: propTypes.arrayOf(propTypes.shape(breweryModel)),
   fetching: propTypes.bool,
+  profile: propTypes.shape(userModel),
 };
 
 class BreweryListContainer extends React.Component {
   static getStores() {
-    return [breweryListStore];
+    return [breweryListStore, profileStore];
   }
 
   static calculateState() {
-    return breweryListStore.getState();
+    return {
+      breweries: breweryListStore.getState(),
+      profile: profileStore.getState().data,
+    };
   }
 
   componentWillMount() {
@@ -49,7 +54,7 @@ class BreweryListContainer extends React.Component {
   }
 
   render() {
-    return <BreweryList {...this.state} />;
+    return <BreweryList {...this.state.breweries} profile={this.state.profile} />;
   }
 }
 

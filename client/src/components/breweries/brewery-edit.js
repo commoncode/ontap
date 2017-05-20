@@ -23,7 +23,7 @@ class BreweryEdit extends EditForm {
     evt.preventDefault();
     deleteBrewery(this.props.model.id)
     .then(() => {
-      document.location.hash = '/#/breweries';
+      document.location.hash = '/breweries';
     });
   }
 
@@ -87,14 +87,16 @@ class BreweryEdit extends EditForm {
 
         </form>
 
-        <div className="edit-form__delete">
-          <a className="btn-delete" onClick={this.toggleDelete}>
-            Delete Brewery
-          </a>
-          { this.state.showDelete && (
-            <a className="btn-delete-confirm" onClick={this.delete}>For real, get rid of it.</a>
-          )}
-        </div>
+        {state.model.id && (
+          <div className="edit-form__delete">
+            <a className="btn-delete" onClick={this.toggleDelete}>
+              Delete Brewery
+            </a>
+            { this.state.showDelete && (
+              <a className="btn-delete-confirm" onClick={this.delete}>For real, get rid of it.</a>
+            )}
+          </div>
+        )}
 
       </div>
     );

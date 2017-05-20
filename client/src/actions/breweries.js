@@ -59,7 +59,7 @@ export function updateBrewery(id, props) {
     id,
     data,
   }))
-  .then(() => addNotification('Beer updated.'))
+  .then(() => addNotification('Brewery updated.'))
   .catch(error => dispatcher.dispatch({
     type: 'RECEIVE_UPDATE_BREWERY',
     id,
@@ -84,6 +84,30 @@ export function deleteBrewery(id) {
   .catch(error => dispatcher.dispatch({
     type: 'RECEIVE_DELETE_BREWERY',
     id,
+    error,
+  }));
+}
+
+// create a brewery
+export function createBrewery(payload) {
+  dispatcher.dispatch({
+    type: 'REQUEST_CREATE_BREWERY',
+  });
+
+  return fetcher('/api/v1/breweries', {
+    body: JSON.stringify(payload),
+    method: 'POST',
+  })
+  .then((data) => {
+    dispatcher.dispatch({
+      type: 'RECEIVE_CREATE_BREWERY',
+      data,
+    });
+    addNotification('Brewery added.');
+    return data;
+  })
+  .catch(error => dispatcher.dispatch({
+    type: 'RECEIVE_CREATE_BREWERY',
     error,
   }));
 }

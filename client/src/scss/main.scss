@@ -693,6 +693,19 @@ span + .icon-canbuy {
   margin: 1em 0;
 }
 
+.list-add-link {
+  color: $darkerBlue;
+  font-weight: bold;
+  font-size: 20px;
+  display: inline-block;
+  margin: 0 0 1em;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .beer-kegs-list {
   padding: 0 0 2em;
   font-size: 1rem;
