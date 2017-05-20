@@ -9,15 +9,19 @@
 - 'value prop on input should not be null'
   - models with strings should probably be NOT NULL, default to empty string
   - make sure we handle dates properly
+- handle 404s properly
 
 
 ## new features, improvements
 
-- Use the emoji-tick icon for "canBuy" consistently
+- Proper routing (non-hash)
 - Improve for mobile (UI overhaul would be nice)
 - Prevent Cheersing a yet-to-be-tapped keg. Requires fixing the default Invalid Date issue on the Keg.
 - cheersKeg() in api should just return the new Cheers and the KegId, not the kitchen sink
+- Brewery list should be searchable
 - API tests: auth, nested objects, expected attributes etc
+- New Keg & New Beer views parse querystrings to pre-fill the beerId or breweryId
+
 
 
 ## cleanup/refactor:

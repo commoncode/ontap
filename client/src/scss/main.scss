@@ -394,6 +394,19 @@ body {
 
 }
 
+// canBuy icon
+// displayed when we have a confirmed distributor
+// for a brewery or a beer
+
+icon.icon-canbuy {
+  width: 20px;
+  height: 20px;
+  vertical-align: top;
+}
+
+span + .icon-canbuy {
+  margin-left: 12px;
+}
 
 .brewery-detail {
 
@@ -448,6 +461,11 @@ body {
   }
 
   .brewery-detail__details {
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  .brewery-edit {
+    margin: 0 0 2em;
     border-bottom: 1px solid #f2f2f2;
   }
 }
@@ -592,6 +610,7 @@ body {
     font-size: 1.25rem;
     color: $lightBlue;
     font-weight: 400;
+    line-height: 1em;
   }
 
   .variety {
