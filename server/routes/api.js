@@ -595,6 +595,23 @@ function deleteBrewery(req, res) {
   .catch(err => logAndSendError(err, res));
 }
 
+function createBrewery(req, res) {
+  const props = req.body;
+
+  db.Brewery.create(props)
+  .then(brewery => db.Brewery.findById(brewery.id, {
+    attributes: breweryAttributesAdmin,
+  }))
+  .then(brewery => res.send(brewery))
+  .catch((err) => {
+    // sequelize validation error
+    if (err.name && err.name === 'SequelizeValidationError') {
+      return res.status(400).send(err);
+    }
+    // generic error
+    return logAndSendError(err, res);
+  });
+}
 
 
 // auth middleware.
@@ -663,5 +680,6 @@ router.put('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
 router.put('/breweries/:id', updateBrewery);
 router.delete('/breweries/:id', deleteBrewery);
+router.post('/breweries', createBrewery);
 
 module.exports = router;
