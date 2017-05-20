@@ -18,5 +18,6 @@ module.exports = {
 
       "react/jsx-filename-extension": 0, // todo - get this enabled
       "jsx-a11y/no-static-element-interactions": 0,
+      "react/no-unescaped-entities": 0
     }
 };

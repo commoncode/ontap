@@ -4,7 +4,10 @@
  */
 
 import React from 'react';
+import propTypes from 'prop-types';
 import moment from 'moment';
+
+import { cheersModel } from '../../proptypes';
 
 import Avatar from '../generic/avatar';
 
@@ -20,16 +23,21 @@ export default class KegDetailCheers extends React.Component {
 
         { Cheers.length ? (
           <div>
-            <h3>{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount !==  1 && 's'}:</h3>
-            <div className="cheers-list">
+            <h3>{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount !== 1 && 's'}:</h3>
+            <div className="cheers-list single-line-list">
               {Cheers.map(cheers => (
-                <div className="cheers-list-item" key={cheers.id}>
-                  <Avatar {...cheers.User} size={30} />
-                  <span>
-                    <b>{cheers.User.name}</b> at {moment(cheers.timestamp).format('h:mma')}
-                    {` on ${moment(cheers.timestamp).format('MMMM Do, YYYY')}`}
-                  </span>
-
+                <div className="list-item" key={cheers.id}>
+                  <div className="column">
+                    <Avatar {...cheers.User} size={30} />
+                    <span><b>
+                      <a href={`/#/users/${cheers.User.id}/`}>
+                        {cheers.User.name}
+                      </a>
+                    </b></span>
+                  </div>
+                  <div className="column end">
+                    {`${moment(cheers.timestamp).format('MMM D YYYY')} at ${moment(cheers.timestamp).format('h:mma')}`}
+                  </div>
                 </div>)
               )}
             </div>
@@ -41,3 +49,7 @@ export default class KegDetailCheers extends React.Component {
     );
   }
 }
+
+KegDetailCheers.propTypes = {
+  Cheers: propTypes.arrayOf(propTypes.shape(cheersModel)),
+};

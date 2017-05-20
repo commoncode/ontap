@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import { fetchBeers, showAddBeer } from '../../actions/beers';
@@ -151,10 +152,10 @@ class BeerList extends React.Component {
 }
 
 BeerList.propTypes = {
-  beers: propTypes.beers,
-  create: React.PropTypes.object,
-  profile: propTypes.profile,
-  sync: propTypes.sync,
+  beers: reactPropTypes.arrayOf(reactPropTypes.shape(propTypes.beerModel)),
+  create: reactPropTypes.object,
+  profile: reactPropTypes.shape(propTypes.profile),
+  sync: reactPropTypes.shape(propTypes.sync),
 };
 
 
@@ -179,7 +180,8 @@ class BeerListContainer extends React.Component {
     // and handle Immutables...?
     return (
       <BeerList
-        beers={this.state.beersState.get('beers').toArray()}
+        // .breweryName gets normalised onto beer for searchability
+        beers={this.state.beersState.get('beers').toArray().map(beer => Object.assign({}, beer, { breweryName: beer.Brewery.name }))}
         sync={this.state.beersState.get('sync').toJSON()}
         create={this.state.beersState.get('create').toJSON()}
         {...this.props}

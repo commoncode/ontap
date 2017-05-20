@@ -7,15 +7,16 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 
 export default class ToggleButton extends React.Component {
 
   static propTypes() {
     return {
-      clickHandler: React.PropTypes.function,
-      value: React.PropTypes.string,
-      activeValue: React.PropTypes.string,
-      title: React.PropTypes.title,
+      clickHandler: reactPropTypes.function,
+      value: reactPropTypes.string,
+      activeValue: reactPropTypes.string,
+      title: reactPropTypes.title,
     };
   }
 

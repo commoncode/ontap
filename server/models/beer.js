@@ -14,8 +14,15 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Beer', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  breweryName: {
-    type: DataTypes.STRING,
+  breweryId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Breweries',
+      key: 'id',
+    },
+    allowNull: false,
+    onDelete: 'cascade', // delete brewery, delete beers
+    onUpdate: 'cascade',
   },
   abv: DataTypes.FLOAT,
   ibu: DataTypes.FLOAT,

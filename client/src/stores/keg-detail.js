@@ -34,11 +34,20 @@ class KegDetailStore extends ReduceStore {
 
       case 'RECEIVE_FETCH_KEG':
       case 'RECEIVE_UPDATE_KEG':
+        if (error) {
+          return {
+            fetching: false,
+            pushing: false,
+            error,
+            model: state.model,
+          };
+        }
+
         return {
           fetching: false,
           pushing: false,
-          error: error || null,
-          model: data || null,
+          error: null,
+          model: Object.assign({}, state.model, data),
         };
 
       default:

@@ -1,27 +1,31 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import moment from 'moment';
 
 import * as propTypes from '../../proptypes';
 
 
-const UserCheersItem = props => (
-  <div className="cheers-list-item">
-    <span>
-      <a href={`/#/kegs/${props.Keg.id}/`}>
-        <b>{props.Keg.Beer.name}</b> by {props.Keg.Beer.breweryName}
-      </a>
-    </span>
-    <span>
-      {moment(props.timestamp).format('h:mma')}
-      {` on ${moment(props.timestamp).format('MMMM Do, YYYY')}`}
-    </span>
-  </div>
-);
+const UserCheersItem = props => {
+  const { Keg } = props;
+  const { Beer } = Keg;
+  const { Brewery } = Beer;
 
-UserCheersItem.propTypes = {
-  Keg: propTypes.kegModel,
-  ...propTypes.cheersModel,
+  return (
+    <div className="list-item">
+      <span className="column">
+        <b><a href={`/#/kegs/${Keg.id}/`}>{Beer.name}</a></b>
+        &nbsp;by&nbsp;
+        <a href={`/#/breweries/${Brewery.id}`}>{Brewery.name}</a>
+      </span>
+      <span className="column end">
+        {moment(props.timestamp).format('h:mma')}
+        {` on ${moment(props.timestamp).format('MMMM Do, YYYY')}`}
+      </span>
+    </div>
+  );
 };
+
+UserCheersItem.propTypes = propTypes.cheersModel;
 
 
 const UserCheers = (props) => {
@@ -33,7 +37,7 @@ const UserCheers = (props) => {
       {props.Cheers.length ? (
         <div>
           <h3>{firstName} has Cheers'd {uniqueCheersCount} beer{uniqueCheersCount !== 1 && 's'} {props.Cheers.length} time{props.Cheers.length !== 1 && 's'}.</h3>
-          <div className="cheers-list">
+          <div className="cheers-list single-line-list">
             {props.Cheers.map(cheers => <UserCheersItem {...cheers} key={cheers.id} />)}
           </div>
         </div>
@@ -45,8 +49,8 @@ const UserCheers = (props) => {
 };
 
 UserCheers.propTypes = {
-  User: propTypes.profileModel,
-  Cheers: propTypes.cheersModel,
+  User: reactPropTypes.shape(propTypes.userModel),
+  Cheers: reactPropTypes.arrayOf(reactPropTypes.shape(propTypes.cheersModel)),
 };
 
 export default UserCheers;

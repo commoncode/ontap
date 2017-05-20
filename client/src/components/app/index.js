@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import profileStore from '../../stores/profile';
@@ -27,6 +28,7 @@ const AppComponent = (props) => {
       <nav className="app-nav">
         <a href="/#/">Now On Tap</a>
         <a href="/#/beers">Beers</a>
+        <a href="/#/breweries">Breweries</a>
         <a href="/#/users">Users</a>
         {isAdmin && <a href="/#/kegs/new">Add Keg</a> }
         {isAdmin && <a href="/#/taps">Change Taps</a> }
@@ -44,7 +46,7 @@ const AppComponent = (props) => {
 };
 
 AppComponent.propTypes = {
-  profile: propTypes.profile,
+  profile: reactPropTypes.shape(propTypes.userModel),
 };
 
 // flux-utils container to bind stores to our components.

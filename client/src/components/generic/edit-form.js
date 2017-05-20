@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 
 
@@ -11,15 +12,24 @@ import autobind from 'autobind-decorator';
 class EditForm extends React.Component {
 
   static propTypes = {
-    model: React.PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    model: reactPropTypes.object, // eslint-disable-line react/forbid-prop-types
   }
 
   constructor(props) {
     super(props);
 
     this.state = {
-      model: Object.assign({}, props.model),
+      showDelete: false,
+      model: {
+        ...props.model,
+      },
     };
+  }
+
+  toggleDelete() {
+    this.setState({
+      showDelete: !this.state.showDelete,
+    });
   }
 
   // handle change to an input, textarea

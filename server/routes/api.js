@@ -13,9 +13,75 @@ const router = new Router();
 router.use(bodyParser.json());
 
 
-const safeUserAttributes = ['id', 'name', 'avatar', 'admin'];
-const adminUserAttributes = [...safeUserAttributes, 'email'];
-const standardBeerAttributes = ['id', 'name', 'breweryName', 'notes', 'abv', 'ibu', 'variety'];
+// default attributes to send over the wire
+const userAttributesPublic = ['id', 'name', 'avatar', 'admin'];
+const userAttributesAdmin = [...userAttributesPublic, 'email'];
+const beerAttributesPublic = ['id', 'name', 'breweryId', 'notes', 'abv', 'ibu', 'variety'];
+const breweryAttributesPublic = ['id', 'name', 'web', 'location', 'description', 'canBuy'];
+const breweryAttributesAdmin = [...breweryAttributesPublic, 'adminNotes'];
+const kegAttributesPublic = ['id', 'tapped', 'untapped', 'notes', 'beerId'];
+const tapAttributesPublic = ['id', 'name', 'kegId'];
+const cheersAttributesPublic = ['id', 'kegId', 'userId', 'timestamp'];
+
+
+// include declarations for returning nested models
+
+
+const breweryInclude = {
+  model: db.Brewery,
+  attributes: breweryAttributesPublic,
+};
+
+// beer + brewery
+const beerInclude = {
+  model: db.Beer,
+  attributes: beerAttributesPublic,
+  include: [breweryInclude],
+};
+
+const kegInclude = {
+  model: db.Keg,
+  attributes: kegAttributesPublic,
+};
+
+// keg + beer + brewery
+const kegWithBeerInclude = {
+  model: db.Keg,
+  attributes: kegAttributesPublic,
+  include: [beerInclude],
+};
+
+// cheers
+const cheersInclude = {
+  model: db.Cheers,
+  attributes: cheersAttributesPublic,
+};
+
+// user
+const userInclude = {
+  model: db.User,
+  attributes: userAttributesPublic,
+};
+
+// cheers + user
+const cheersWithUserInclude = {
+  model: db.Cheers,
+  attributes: cheersAttributesPublic,
+  include: [userInclude],
+};
+
+// cheers + keg + beer + brewery
+const cheersWithBeerInclude = {
+  model: db.Cheers,
+  attributes: cheersAttributesPublic,
+  include: [kegWithBeerInclude],
+};
+
+const tapInclude = {
+  model: db.Tap,
+  attributes: tapAttributesPublic,
+};
+
 
 // log an error and send it to the client.
 // todo - strip info out of the errors to
@@ -30,12 +96,11 @@ function logAndSendError(err, res) {
 // if we end up with too many of them...
 function getOnTap(req, res) {
   db.Tap.findAll({
+    attributes: tapAttributesPublic,
     include: [{
       model: db.Keg,
-      include: [db.Cheers, {
-        model: db.Beer,
-        attributes: standardBeerAttributes,
-      }],
+      attributes: kegAttributesPublic,
+      include: [cheersInclude, beerInclude],
     }],
   }).then(taps => res.send(taps))
   .catch(err => logAndSendError(err, res));
@@ -43,10 +108,8 @@ function getOnTap(req, res) {
 
 function getAllKegs(req, res) {
   db.Keg.findAll({
-    include: [db.Cheers, db.Tap, {
-      model: db.Beer,
-      attributes: standardBeerAttributes,
-    }],
+    attributes: kegAttributesPublic,
+    include: [cheersInclude, tapInclude, beerInclude],
     order: [
       ['tapped', 'DESC'],
     ],
@@ -55,22 +118,14 @@ function getAllKegs(req, res) {
   .catch(err => logAndSendError(err, res));
 }
 
-// kegs that haven't been tapped.
-// ie, .tapped === null
-// sequelize does some weird shit returning
-// null date values, so we have to fetch all
-// and do a filter instead.
+// kegs that haven't been tapped (tapped === null)
+// sequelize/sqlite doesn't support null dates properly,
+// so fetch all and filter.
 // see the getter for `tapped` in models/keg.js
 function getNewKegs(req, res) {
   db.Keg.findAll({
-    // where: {
-    //   tapped: null,
-    // },
-    include: [{
-      model: db.Beer,
-      attributes: standardBeerAttributes,
-    },
-    ],
+    attributes: kegAttributesPublic,
+    include: [beerInclude],
   })
   .then(kegs => kegs.filter(keg => !keg.get('tapped')))
   .then(kegs => res.json(kegs))
@@ -79,18 +134,8 @@ function getNewKegs(req, res) {
 
 function getKegById(req, res) {
   db.Keg.findById(req.params.id, {
-    include: [{
-      model: db.Cheers,
-      include: [{
-        model: db.User,
-        attributes: safeUserAttributes,
-      }],
-    }, {
-      model: db.Beer,
-      attributes: standardBeerAttributes,
-    },
-      db.Tap,
-    ],
+    attributes: kegAttributesPublic,
+    include: [cheersWithUserInclude, beerInclude, tapInclude],
   })
   .then((keg) => {
     if (keg) return res.send(keg);
@@ -115,10 +160,7 @@ function updateKeg(req, res) {
     },
   })
   .then(() => db.Keg.findById(req.params.id, {
-    include: {
-      model: db.Beer,
-      attributes: standardBeerAttributes,
-    },
+    include: [beerInclude],
   }))
   .then(keg => res.send(keg))
   .catch(err => logAndSendError(err, res));
@@ -137,7 +179,7 @@ function deleteKeg(req, res) {
 
 function getAllUsers(req, res) {
   db.User.findAll({
-    attributes: safeUserAttributes,
+    attributes: userAttributesPublic,
   })
   .then(users => res.json(users))
   .catch(err => logAndSendError(err, res));
@@ -146,21 +188,9 @@ function getAllUsers(req, res) {
 function getUserById(req, res) {
   const isAdmin = !!(req.user && req.user.admin);
 
-  // todo - keep an eye on the performance of this
   db.User.findById(req.params.id, {
-    include: [{
-      model: db.Cheers,
-      attributes: ['id', 'kegId', 'timestamp'],
-      include: [{
-        model: db.Keg,
-        attributes: ['id'],
-        include: [{
-          model: db.Beer,
-          attributes: ['name', 'breweryName'],
-        }],
-      }],
-    }],
-    attributes: isAdmin ? adminUserAttributes : safeUserAttributes,
+    include: [cheersWithBeerInclude],
+    attributes: isAdmin ? userAttributesAdmin : userAttributesPublic,
   })
   .then((user) => {
     if (!user) return res.sendStatus(400);
@@ -211,21 +241,22 @@ function deleteUser(req, res) {
 }
 
 function getAllBeers(req, res) {
-  db.Beer.findAll()
+  db.Beer.findAll({
+    include: [breweryInclude],
+  })
   .then(rows => res.send(rows))
   .catch(err => logAndSendError(err, res));
 }
 
 function getBeerById(req, res) {
   db.Beer.findById(req.params.id, {
-    include: [{
-      model: db.User,
+    include: [Object.assign({}, userInclude, {
       as: 'addedByUser',
-      attributes: safeUserAttributes,
-    }, {
+    }), {
       model: db.Keg,
-      include: [db.Cheers],
-    }],
+      attributes: kegAttributesPublic,
+      include: [cheersInclude],
+    }, breweryInclude],
   })
   .then((beer) => {
     if (!beer) return res.sendStatus(404);
@@ -240,7 +271,9 @@ function createBeer(req, res) {
   });
 
   db.Beer.create(props)
-  .then(beer => db.Beer.findById(beer.id))
+  .then(beer => db.Beer.findById(beer.id, {
+    attributes: beerAttributesPublic,
+  }))
   .then(beer => res.send(beer))
   .catch((err) => {
     // sequelize validation error
@@ -260,7 +293,10 @@ function updateBeer(req, res) {
       id,
     },
   })
-  .then(() => db.Beer.findById(req.params.id))
+  .then(() => db.Beer.findById(req.params.id, {
+    attributes: beerAttributesPublic,
+    include: [breweryInclude],
+  }))
   .then(beer => res.send(beer))
   .catch(err => logAndSendError(err, res));
 }
@@ -279,28 +315,22 @@ function deleteBeer(req, res) {
 
 function createTap(req, res) {
   db.Tap.create(req.body)
-  .then((tap) => {
-    res.status(201).send(tap);
-  })
+  .then(tap => res.status(201).send(tap))
   .catch(err => logAndSendError(err, res));
 }
 
 function getAllTaps(req, res) {
   db.Tap.findAll({
-    include: [db.Keg],
+    attributes: tapAttributesPublic,
+    include: [kegInclude],
   }).then(taps => res.json(taps))
   .catch(err => logAndSendError(err, res));
 }
 
 function getTapById(req, res) {
   db.Tap.findById(req.params.id, {
-    include: [{
-      model: db.Keg,
-      include: [{
-        model: db.Beer,
-        attributes: standardBeerAttributes,
-      }],
-    }],
+    attributes: tapAttributesPublic,
+    include: [kegWithBeerInclude],
   })
   .then((tap) => {
     if (!tap) return res.sendStatus(404);
@@ -347,22 +377,20 @@ function cheersKeg(req, res) {
       kegId,
       userId,
     })
+    // todo - just return the new cheers and kegId,
+    // not all this extra garbage, it's already in client state.
     .then(() => {
       log.info(`${req.user.name} cheers'd keg #${kegId}`);
       return db.Keg.findById(kegId, {
+        attributes: kegAttributesPublic,
         include: [db.Cheers, db.Tap, {
           model: db.Beer,
-          attributes: standardBeerAttributes,
+          attributes: beerAttributesPublic,
         }],
       });
     })
-    .then((keg) => {
-      res.send(keg.get());
-    })
-    .catch((err) => {
-      log.error(err);
-      res.status(500).send(err);
-    });
+    .then(keg => res.send(keg.get()))
+    .catch(err => logAndSendError(err, res));
   });
 }
 
@@ -420,13 +448,8 @@ function changeKeg({ tapId, kegId, tapped, untapped }) {
       return Promise.all(updates);
     })
     .then(() => db.Tap.findById(tapId, {
-      include: [{
-        model: db.Keg,
-        include: {
-          model: db.Beer,
-          attributes: standardBeerAttributes,
-        },
-      }],
+      attributes: tapAttributesPublic,
+      include: [kegWithBeerInclude],
     })));
   });
 }
@@ -465,6 +488,131 @@ function changeKegHandler(req, res) {
   });
 }
 
+// return the current User
+function getProfile(req, res) {
+  res.send(req.user || {});
+}
+
+// return Cheers for the current user
+function getProfileCheers(req, res) {
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+
+  const userId = req.user.id;
+
+  return db.Cheers.findAll({
+    attributes: cheersAttributesPublic,
+    include: [kegWithBeerInclude],
+    where: {
+      userId,
+    },
+  })
+  .then(cheers => res.send(cheers))
+  .catch(error => logAndSendError(error, res));
+}
+
+// update current user
+function updateProfile(req, res) {
+  const id = req.user.id;
+  const props = _.pick(req.body, ['name', 'email']);
+
+  return db.User.update(props, {
+    where: {
+      id,
+    },
+  })
+  .then(() => db.User.findById(id, {
+    attributes: userAttributesAdmin,
+  }))
+  .then(user => res.send(user))
+  .catch(error => logAndSendError(error, res));
+}
+
+// delete current user
+function deleteProfile(req, res) {
+  const id = req.user.id;
+
+  return db.User.destroy({
+    where: {
+      id,
+    },
+  })
+  .then(() => {
+    req.session.destroy();
+    res.sendStatus(204);
+  })
+  .catch(error => logAndSendError(error, res));
+}
+
+function getAllBreweries(req, res) {
+  return db.Brewery.findAll({
+    attributes: breweryAttributesPublic,
+  })
+  .then(breweries => res.send(breweries))
+  .catch(error => logAndSendError(error, res));
+}
+
+function getBreweryById(req, res) {
+  return db.Brewery.findById(req.params.id, {
+    attributes: (req.user && req.user.admin) ? breweryAttributesAdmin : breweryAttributesPublic,
+    include: [{
+      model: db.Beer,
+      attributes: beerAttributesPublic,
+    }],
+  })
+  .then((brewery) => {
+    if (brewery) {
+      return res.send(brewery);
+    }
+    return res.status(404).send({});
+  })
+  .catch(error => logAndSendError(error, res));
+}
+
+function updateBrewery(req, res) {
+  const id = req.params.id;
+  db.Brewery.update(req.body, {
+    where: {
+      id,
+    },
+  })
+  .then(() => db.Brewery.findById(req.params.id, {
+    attributes: breweryAttributesAdmin,
+  }))
+  .then(brewery => res.send(brewery))
+  .catch(err => logAndSendError(err, res));
+}
+
+function deleteBrewery(req, res) {
+  const id = req.params.id;
+  db.Brewery.destroy({
+    where: {
+      id,
+    },
+  })
+  .then(() => res.sendStatus(204))
+  .catch(err => logAndSendError(err, res));
+}
+
+function createBrewery(req, res) {
+  const props = req.body;
+
+  db.Brewery.create(props)
+  .then(brewery => db.Brewery.findById(brewery.id, {
+    attributes: breweryAttributesAdmin,
+  }))
+  .then(brewery => res.send(brewery))
+  .catch((err) => {
+    // sequelize validation error
+    if (err.name && err.name === 'SequelizeValidationError') {
+      return res.status(400).send(err);
+    }
+    // generic error
+    return logAndSendError(err, res);
+  });
+}
+
 
 // auth middleware.
 
@@ -492,67 +640,6 @@ function simulateCommonCodeInternet(req, res, next) {
 router.use(simulateCommonCodeInternet);
 
 
-// return the current User
-function getProfile(req, res) {
-  res.send(req.user || {});
-}
-
-// return Cheers for the current user
-function getProfileCheers(req, res) {
-  if (!req.user) {
-    return res.sendStatus(401);
-  }
-
-  const userId = req.user.id;
-
-  return db.Cheers.findAll({
-    include: [{
-      model: db.Keg,
-      attributes: ['id'],
-      include: [{
-        model: db.Beer,
-        attributes: ['name', 'breweryName'],
-      }],
-    }],
-    where: {
-      userId,
-    },
-  })
-  .then(cheers => res.send(cheers))
-  .catch(error => logAndSendError(error, res));
-}
-
-// update current user
-function updateProfile(req, res) {
-  const id = req.user.id;
-  const props = _.pick(req.body, ['name', 'email']);
-
-  return db.User.update(props, {
-    where: {
-      id,
-    },
-  })
-  .then(() => db.User.findById(id))
-  .then(user => res.send(user))
-  .catch(error => logAndSendError(error, res));
-}
-
-// delete current user
-function deleteProfile(req, res) {
-  const id = req.user.id;
-
-  return db.User.destroy({
-    where: {
-      id,
-    },
-  })
-  .then(() => {
-    req.session.destroy();
-    res.sendStatus(204);
-  })
-  .catch(error => logAndSendError(error, res));
-}
-
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
 router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
@@ -564,6 +651,8 @@ router.get('/users/:id', getUserById);
 router.get('/beers', getAllBeers);
 router.get('/beers/:id', getBeerById);
 router.get('/profile', getProfile);
+router.get('/breweries', getAllBreweries);
+router.get('/breweries/:id', getBreweryById);
 
 
 // guests can't use endpoints below this middleware
@@ -589,5 +678,8 @@ router.put('/beers/:id', updateBeer);
 router.delete('/beers/:id', deleteBeer);
 router.put('/users/:id', updateUser);
 router.delete('/users/:id', deleteUser);
+router.put('/breweries/:id', updateBrewery);
+router.delete('/breweries/:id', deleteBrewery);
+router.post('/breweries', createBrewery);
 
 module.exports = router;

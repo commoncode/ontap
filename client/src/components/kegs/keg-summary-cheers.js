@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 
 import { cheersKeg } from '../../actions/kegs';
@@ -18,9 +19,9 @@ import CheersAnimation from '../../images/cheers.gif';
 class KegSummaryCheers extends React.Component {
 
   static propTypes = {
-    Cheers: React.PropTypes.arrayOf(propTypes.cheersModel),
-    Beer: propTypes.beerModel,
-    profile: propTypes.profileModel,
+    Cheers: reactPropTypes.arrayOf(reactPropTypes.shape(propTypes.cheersModel)),
+    Beer: reactPropTypes.shape(propTypes.beerModel),
+    profile: reactPropTypes.shape(propTypes.userModel),
   }
 
   constructor(props) {

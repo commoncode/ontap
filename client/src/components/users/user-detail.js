@@ -1,4 +1,5 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import userDetailStore from '../../stores/user-detail';
@@ -24,14 +25,14 @@ const UserDetail = autoLoader(props => props.user.fetching)((props) => {
 });
 
 UserDetail.propTypes = {
-  user: propTypes.profile,
-  profile: propTypes.profile,
+  user: reactPropTypes.shape(propTypes.profile),
+  profile: reactPropTypes.shape(propTypes.profile),
 };
 
 class UserDetailContainer extends React.Component {
   static propTypes() {
     return {
-      userId: React.PropTypes.number,
+      userId: reactPropTypes.number,
     };
   }
 

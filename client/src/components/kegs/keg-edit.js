@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
 
 import { updateKeg, createKeg } from '../../actions/kegs';
@@ -16,9 +17,9 @@ class KegEdit extends React.Component {
 
   static propTypes() {
     return {
-      model: React.PropTypes.object,
-      syncing: React.PropTypes.bool,
-      successHandler: React.PropTypes.func,
+      model: reactPropTypes.object,
+      syncing: reactPropTypes.bool,
+      successHandler: reactPropTypes.func,
     };
   }
 
@@ -68,7 +69,7 @@ class KegEdit extends React.Component {
 
   beerChangeHandler(beerId) {
     this.setState({
-      model: Object.assign(this.state.model, {
+      model: Object.assign({}, this.state.model, {
         beerId,
       }),
     });
@@ -112,20 +113,20 @@ class KegEdit extends React.Component {
 
         {!isNew && <div>
           <label htmlFor="tapped">Date Tapped (YYYY-MM-DD)</label>
-            <input
-              name="tapped"
-              placeholder="tapped"
-              onChange={this.inputChangeHandler}
-              value={tapped}
-            />
+          <input
+            name="tapped"
+            placeholder="tapped"
+            onChange={this.inputChangeHandler}
+            value={tapped}
+          />
 
-            <label htmlFor="untapped">Date Untapped (YYYY-MM-DD)</label>
-            <input
-              name="untapped"
-              placeholder="untapped"
-              onChange={this.inputChangeHandler}
-              value={untapped}
-            />
+          <label htmlFor="untapped">Date Untapped (YYYY-MM-DD)</label>
+          <input
+            name="untapped"
+            placeholder="untapped"
+            onChange={this.inputChangeHandler}
+            value={untapped}
+          />
         </div> }
 
         {!syncing ? <button onClick={this.saveAction}>Save</button> : <Loader />}

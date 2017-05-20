@@ -1,13 +1,13 @@
 /**
- * BeerSelect Store.
- * A store for the BeerSelect view.
+ * BrewerySelect Store.
+ * A store for the BrewerySelect view.
  */
 
 import { ReduceStore } from 'flux/utils';
 
 import dispatcher from '../dispatcher';
 
-class BeerSelectStore extends ReduceStore {
+class BrewerySelectStore extends ReduceStore {
 
   getInitialState() {
     return {
@@ -23,14 +23,14 @@ class BeerSelectStore extends ReduceStore {
 
     switch (type) {
 
-      case 'REQUEST_FETCH_BEERS':
+      case 'REQUEST_FETCH_BREWERIES':
         return {
           fetching: true,
           error: null,
           models: [],
         };
 
-      case 'RECEIVE_FETCH_BEERS':
+      case 'RECEIVE_FETCH_BREWERIES':
         return {
           fetching: false,
           error: error || null,
@@ -43,4 +43,4 @@ class BeerSelectStore extends ReduceStore {
   }
 }
 
-export default new BeerSelectStore(dispatcher);
+export default new BrewerySelectStore(dispatcher);

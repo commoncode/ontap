@@ -32,9 +32,10 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Keg', {
   beerId: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'Kegs',
+      model: 'Beers',
       key: 'id',
     },
     allowNull: false,
+    onDelete: 'cascade',
   },
 });

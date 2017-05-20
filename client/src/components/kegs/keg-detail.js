@@ -1,4 +1,5 @@
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import kegDetailStore from '../../stores/keg-detail';
@@ -50,10 +51,14 @@ class KegDetail extends React.Component {
     if (keg.fetching) return <Loader />;
     if (keg.error) return <ErrorComponent {...keg.error} />;
 
+    const { Beer } = keg.model;
+    const { Brewery } = Beer;
+
     return (
       <div className="keg-detail view">
         <h2 className="keg-name">
-          Keg {keg.model.id}: <a href={`/#/beers/${keg.model.Beer.id}/`}>{keg.model.Beer.name}</a> by {keg.model.Beer.breweryName}
+          Keg {keg.model.id}: <a href={`/#/beers/${Beer.id}/`}>{Beer.name}</a> by
+          {' '}<a href={`/#/breweries/${Brewery.id}/`}>{Brewery.name}</a>
         </h2>
 
         <KegSummary {...keg.model} />
@@ -85,7 +90,7 @@ class KegDetail extends React.Component {
 class KegDetailContainer extends React.Component {
   static propTypes() {
     return {
-      kegId: React.PropTypes.number,
+      kegId: reactPropTypes.number,
     };
   }
 

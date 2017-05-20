@@ -20,7 +20,6 @@ const sequelize = new Sequelize(null, null, null, {
 
 const db = {
   sequelize,
-  Sequelize,
 };
 
 // import our model files
@@ -55,6 +54,15 @@ db.Keg.belongsTo(db.Beer, {
   foreignKey: 'beerId',
 });
 
+// A Beer has a Brewery
+db.Brewery.hasMany(db.Beer, {
+  foreignKey: 'breweryId',
+  onDelete: 'CASCADE', // delete the brewery, delete the beers
+});
+db.Beer.belongsTo(db.Brewery, {
+  foreignKey: 'breweryId',
+});
+
 // A Beer is added by a User
 db.User.hasOne(db.Beer, {
   foreignKey: 'addedBy',
@@ -80,11 +88,5 @@ db.User.hasMany(db.Cheers, {
 db.Cheers.belongsTo(db.User, {
   foreignKey: 'userId',
 });
-
-
-sequelize.sync().then(() => {
-  logger.info('sequelize db synced');
-});
-
 
 module.exports = db;

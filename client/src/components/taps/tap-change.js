@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
 import tapChangeStore from '../../stores/tap-change';
@@ -76,11 +77,15 @@ class TapChange extends React.Component {
     const { Keg } = tap;
 
     return (
-      <div className="tap-change">
+      <div className="tap-change view">
+        <header className="page-header">
+          <h1 className="page-title">Change a Tap.</h1>
+        </header>
+
         <h3 className="tap-change--tap-name">{tap.name}</h3>
 
         <h4 className="tap-change--beer-name">
-          {Keg ? `${Keg.Beer.breweryName} - ${Keg.Beer.name}` : 'No Service'}
+          {Keg ? `${Keg.Beer.Brewery.name} - ${Keg.Beer.name}` : 'No Service'}
         </h4>
 
 
@@ -95,7 +100,7 @@ class TapChange extends React.Component {
                 key={keg.id}
                 value={keg.id}
                 disabled={keg.Tap}
-              >{keg.Beer.name} ({keg.Beer.breweryName})</option>
+              >{keg.Beer.name} ({keg.Beer.Brewery.name})</option>
             )) }
           </select>
 
@@ -117,7 +122,7 @@ class TapChange extends React.Component {
 class TapChangeContainer extends React.Component {
   static propTypes() {
     return {
-      tapId: React.PropTypes.number,
+      tapId: reactPropTypes.number,
     };
   }
 

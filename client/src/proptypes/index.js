@@ -1,110 +1,104 @@
 /**
- * Proptypes
+ * PropTypes shapes for our models and commonly used patterns.
  */
 
-import React from 'react';
+import propTypes from 'prop-types';
 
-// error. todo.
-export const error = React.PropTypes.object;
+// error, todo...
+export const error = propTypes.object;
+
 
 // sync object
-export const sync = React.PropTypes.shape({
-  fetching: React.PropTypes.bool,
-  fetched: React.PropTypes.bool,
-  pushing: React.PropTypes.bool,
+export const sync = {
+  fetching: propTypes.bool,
+  fetched: propTypes.bool,
+  pushing: propTypes.bool,
   error,
+};
+
+
+export const userModel = {
+  id: propTypes.number,
+  name: propTypes.string,
+  admin: propTypes.bool,
+  avatar: propTypes.string,
+  email: propTypes.string,
+};
+
+// note - Keg added below kegModel
+export const cheersModel = {
+  id: propTypes.number,
+  kegId: propTypes.number,
+  userId: propTypes.number,
+  timestamp: propTypes.string,
+};
+
+export const beerModel = {
+  id: propTypes.number,
+  name: propTypes.string,
+  abv: propTypes.number,
+  ibu: propTypes.number,
+  variety: propTypes.string,
+  notes: propTypes.string,
+  canBuy: propTypes.bool,
+};
+
+export const kegModel = {
+  abv: propTypes.number,
+  notes: propTypes.string,
+  tapped: propTypes.string,
+  untapped: propTypes.string,
+  Beer: propTypes.shape(beerModel),
+  Cheers: propTypes.arrayOf(propTypes.shape(cheersModel)),
+};
+
+// have to add this here to avoid circular deps
+cheersModel.Keg = propTypes.shape(kegModel);
+
+export const breweryModel = {
+  id: propTypes.number,
+  name: propTypes.string,
+  location: propTypes.string,
+  description: propTypes.string,
+  adminNotes: propTypes.string,
+  canBuy: propTypes.bool,
+};
+
+export const tapModel = {
+  id: propTypes.number,
+  name: propTypes.string,
+  kegId: propTypes.number,
+  Keg: propTypes.shape(kegModel),
+};
+
+// notification
+export const notificationModel = propTypes.shape({
+  message: propTypes.string,
 });
 
-// profile model from the API.
-export const profileModel = React.PropTypes.shape({
-  id: React.PropTypes.number,
-  name: React.PropTypes.string,
-  admin: React.PropTypes.bool,
-  avatar: React.PropTypes.string,
-});
 
 // profile with sync object & data
 // todo - rename 'data' to 'model', like the others
 // will mean updating the store
-export const profile = React.PropTypes.shape({
+export const profile = {
   ...sync,
-  data: profileModel,
-});
+  data: propTypes.shape(userModel),
+};
 
-// keg model from the API.
-export const kegModel = React.PropTypes.shape({
-  beerName: React.PropTypes.string,
-  breweryName: React.PropTypes.string,
-  abv: React.PropTypes.number,
-  notes: React.PropTypes.string,
-  tapped: React.PropTypes.string, // date?
-  untapped: React.PropTypes.string, // date?
-});
-
-export const cheersModel = React.PropTypes.shape({
-  id: React.PropTypes.number,
-  kegId: React.PropTypes.number,
-  userId: React.PropTypes.number,
-  timestamp: React.PropTypes.string, // date?
-});
-
-export const ratingModel = React.PropTypes.shape({
-  value: React.PropTypes.number,
-  kegId: React.PropTypes.number,
-  userId: React.PropTypes.number,
-});
-
-export const beerModel = React.PropTypes.shape({
-  id: React.PropTypes.number,
-  name: React.PropTypes.string,
-  breweryName: React.PropTypes.string,
-  abv: React.PropTypes.number,
-  ibu: React.PropTypes.number,
-  variety: React.PropTypes.string,
-  notes: React.PropTypes.string,
-  canBuy: React.PropTypes.bool,
-});
-
-export const ratings = React.PropTypes.arrayOf(ratingModel);
 
 // keg with a sync object and editing/syncing props
 // todo - fold editing/syncing into the sync object?
 // maybe just syncing.
-export const keg = React.PropTypes.shape({
+export const keg = {
   ...sync,
   model: kegModel,
-});
-
-// array of kegs
-export const kegs = React.PropTypes.arrayOf(keg);
-
-// array of beers
-export const beers = React.PropTypes.arrayOf(beerModel);
-
-// tap model from the API
-export const tapModel = React.PropTypes.shape({
-  id: React.PropTypes.number,
-  name: React.PropTypes.string,
-  kegId: React.PropTypes.number,
-  Keg: kegModel,
-});
+};
 
 // tap with a sync object and editing/syncing props
 // todo - fold editing/syncing into sync object? see above.
-export const tap = React.PropTypes.shape({
+export const tap = {
   ...sync,
-  editing: React.PropTypes.bool,
-  syncing: React.PropTypes.bool,
+  editing: propTypes.bool,
+  syncing: propTypes.bool,
   model: tapModel,
-});
-
-// array of taps
-export const taps = React.PropTypes.arrayOf(tap);
-
-// notification
-export const notification = React.PropTypes.shape({
-  message: React.PropTypes.string,
-});
-
-// array of notifications
-export const notifications = React.PropTypes.arrayOf(notification);
+};
