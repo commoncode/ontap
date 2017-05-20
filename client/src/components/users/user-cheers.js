@@ -5,19 +5,25 @@ import moment from 'moment';
 import * as propTypes from '../../proptypes';
 
 
-const UserCheersItem = props => (
-  <div className="list-item">
-    <span className="column">
-      <b><a href={`/#/kegs/${props.Keg.id}/`}>{props.Keg.Beer.name}</a></b>
-      &nbsp;by&nbsp;
-      <a href={`/#/breweries/${props.Keg.Beer.Brewery.id}`}>{props.Keg.Beer.Brewery.name}</a>
-    </span>
-    <span className="column end">
-      {moment(props.timestamp).format('h:mma')}
-      {` on ${moment(props.timestamp).format('MMMM Do, YYYY')}`}
-    </span>
-  </div>
-);
+const UserCheersItem = props => {
+  const { Keg } = props;
+  const { Beer } = Keg;
+  const { Brewery } = Beer;
+
+  return (
+    <div className="list-item">
+      <span className="column">
+        <b><a href={`/#/kegs/${Keg.id}/`}>{Beer.name}</a></b>
+        &nbsp;by&nbsp;
+        <a href={`/#/breweries/${Brewery.id}`}>{Brewery.name}</a>
+      </span>
+      <span className="column end">
+        {moment(props.timestamp).format('h:mma')}
+        {` on ${moment(props.timestamp).format('MMMM Do, YYYY')}`}
+      </span>
+    </div>
+  );
+};
 
 UserCheersItem.propTypes = propTypes.cheersModel;
 

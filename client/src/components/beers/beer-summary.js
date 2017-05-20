@@ -20,7 +20,7 @@ const BeerSummary = props => (
         <a href={`/#/beers/${props.id}/`}>{props.name}</a>
       </h1>
       <h2 className="brewery-name">
-        <span>{props.Brewery.name}</span>
+        <span><a href={`/#/breweries/${props.Brewery.id}/`}>{props.Brewery.name}</a></span>
         {props.canBuy && <icon className="icon-canbuy emoji-tick" title="We can order kegs of this beer" />}
       </h2>
       <h4 className="variety">{props.variety}</h4>

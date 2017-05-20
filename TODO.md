@@ -16,6 +16,9 @@
 
 - Proper routing (non-hash)
 - Improve for mobile (UI overhaul would be nice)
+- Untappd integration
+  - Fetch beer/brewery details from Untappd
+  - Link to beer/brewery on Untappd
 - Prevent Cheersing a yet-to-be-tapped keg. Requires fixing the default Invalid Date issue on the Keg.
 - cheersKeg() in api should just return the new Cheers and the KegId, not the kitchen sink
 - Brewery list should be searchable
@@ -29,7 +32,8 @@
 - Consistent patterns for all of the stores
   - Generic stores for list and detail components
 - remove the CSS modules: KegListItem, Loader, TapList, Tap
-- CSS styleguide for repeat components, patterns
+- Change any <A>s without hrefs to buttons
+- CSS styleguide for reusable components, patterns
 - Implement autoLoader everywhere we're using Loader
 - Make the CRUD forms all implement EditForm component
   - Bake in some validation
