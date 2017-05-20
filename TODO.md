@@ -19,13 +19,13 @@
 - Untappd integration
   - Fetch beer/brewery details from Untappd
   - Link to beer/brewery on Untappd
+- Inline 'Add Brewery' from the Add Beer view
+- Searchable ModelSelect
 - Prevent Cheersing a yet-to-be-tapped keg. Requires fixing the default Invalid Date issue on the Keg.
 - cheersKeg() in api should just return the new Cheers and the KegId, not the kitchen sink
 - Brewery list should be searchable
 - API tests: auth, nested objects, expected attributes etc
 - New Keg & New Beer views parse querystrings to pre-fill the beerId or breweryId
-
-
 
 ## cleanup/refactor:
 
