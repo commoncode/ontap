@@ -40,6 +40,15 @@ body {
   white-space: pre-wrap;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover, &:focus {
+    text-decoration: underline;
+  }
+}
+
 
 .container {
   display: block;
@@ -80,11 +89,6 @@ body {
     span {
       color: #eee;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
   }
 }
 
@@ -106,7 +110,6 @@ body {
   a {
     display: block;
     color: $offGrey;
-    text-decoration: none;
     padding: 8px 24px;
     flex: 0 0 auto;
 
@@ -171,16 +174,10 @@ body {
     &.show {
       display: inline-block;
 
-
       a {
-        text-decoration: none;
         color: white;
         font-size: 1rem;
         margin-left: 1em;
-
-        &:hover, &:focus {
-          text-decoration: underline;
-        }
       }
 
     }
@@ -261,13 +258,7 @@ body {
     font-weight: 400;
 
     a {
-      color: inherit;
-      text-decoration: none;
       font-weight: 600;
-
-      &:hover, &:focus {
-        text-decoration: underline;
-      }
     }
   }
 
@@ -357,15 +348,6 @@ body {
     color: $lightBlue;
     margin: 0 0 8px;
 
-    a {
-      color: inherit;
-      text-decoration: none;
-
-      &:hover{
-        text-decoration: underline;
-      }
-    }
-
     span {
       font-style: italic;
       font-size: 0.8em;
@@ -415,11 +397,9 @@ span + .icon-canbuy {
     margin: 0 0 0.5em;
 
     a {
-      text-decoration: none;
       color: $lightBlue;
 
       &:hover, &:focus {
-        text-decoration: underline;
         color: $darkBlue;
       }
     }
@@ -593,24 +573,14 @@ span + .icon-canbuy {
     margin: 0 0 4px;
     font-size: 2rem;
     color: $darkBlue;
-
-    a {
-      font: inherit;
-      color: inherit;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 
   .brewery-name {
     margin: 4px 0;
     font-size: 1.25rem;
-    color: $lightBlue;
     font-weight: 400;
     line-height: 1em;
+    color: $lightBlue;
   }
 
   .variety {
@@ -667,12 +637,7 @@ span + .icon-canbuy {
     align-items: center;
 
     a {
-      text-decoration: none;
       color: $darkBlue;
-
-      &:hover {
-        text-decoration: underline;
-      }
     }
 
     .column {
@@ -699,25 +664,10 @@ span + .icon-canbuy {
   font-size: 20px;
   display: inline-block;
   margin: 0 0 1em;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 .beer-kegs-list {
   padding: 0 0 2em;
-  font-size: 1rem;
-
-  a {
-    text-decoration: none;
-    color: $lightBlue;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 
 .keg-summary-view {
@@ -987,10 +937,6 @@ button + button {
 
         a {
           cursor: pointer;
-
-          &:hover, &:focus {
-            text-decoration: underline;
-          }
         }
       }
     }
@@ -1008,26 +954,6 @@ button + button {
 
   .avatar {
     border-radius: 12px;
-  }
-}
-
-// user detail ratings
-.user-detail-ratings {
-
-  .emoji {
-    vertical-align: bottom;
-  }
-
-  .rating {
-    margin: 0 0 0.5em;
-  }
-
-  a {
-    color: $lightBlue;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }
 
@@ -1155,14 +1081,9 @@ button + button {
     margin: 24px 0;
 
     a {
-      text-decoration: none;
       cursor: pointer;
       font-weight: bold;
       color: #c22;
-
-      &:hover {
-        text-decoration: underline;
-      }
     }
 
     a + a {
