@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 /**
  * KegSummary
  * Quick overview of a Keg.
@@ -5,37 +7,38 @@
  */
 
 import React from 'react';
-import { kegModel } from '../../proptypes';
+import moment from 'moment';
 
-import { dayMonth } from '../../util/date';
+import { kegModel } from '../../proptypes';
 
 import KegSummaryCheers from './keg-summary-cheers';
 
 const KegSummary = props => (
   <div className="keg-summary-view">
     <div className="keg-summary">
-      {props.Tap && (
-        <p className="now-on-tap">
-          Now on {props.Tap.name}.
-        </p>
-      )}
+      <p className="tapped">
+        {props.tapped ? (
+          props.untapped ? (
+            `Tapped from ${moment(props.tapped).format('MMM Do')}
+            to ${moment(props.untapped).format('MMM Do')}
+            (${moment(props.untapped).diff(props.tapped, 'days')} days)`
+          ) : (
+            `Tapped ${moment(props.tapped).fromNow()}`
+          )
+        ) : (
+          'This keg hasn\'t been tapped yet'
+        )}
+      </p>
 
-      {props.tapped &&
-        <p className="tapped">
-          {props.tapped && `Tapped ${dayMonth(props.tapped)}`}
-          {props.tapped && props.untapped && ` - ${dayMonth(props.untapped)}`}
-        </p>
-      }
-
-      { props.notes &&
+      { props.notes && (
         <p className="notes">
           {props.notes}
         </p>
-      }
+      )}
+
     </div>
 
     <KegSummaryCheers {...props} />
-
 
   </div>
 );
