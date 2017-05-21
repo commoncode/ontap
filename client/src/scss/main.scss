@@ -36,6 +36,10 @@ html {
   box-sizing: border-box;
 }
 
+input {
+  -webkit-appearance: none; // stop ios putting shadows everywhere
+}
+
 body {
   font-size: 24px;
   font-family: 'Helvetica Neue', Helvetica, arial, sans-serif;
@@ -244,16 +248,13 @@ a {
 
   .beer-summary-view {
     margin: 0 0 1em;
+
+    // hide extra details in keg list view
+    .notes, .ibu {
+      display: none;
+    }
   }
 
-  // hide a few details
-  .beer-summary-view .notes,
-  .beer-summary-view .ibu,
-  .keg-summary-view .keg-rating,
-  .beer-summary-view .unavailable
-  {
-    display: none;
-  }
 }
 
 
@@ -316,7 +317,7 @@ a {
 
 
 .page-header {
-  margin: 1em 0 1.5em;
+  margin: 0 0 1.5em;
 
   .page-title {
     font-size: 2.5rem;
@@ -1091,6 +1092,9 @@ icon.icon-canbuy {
 }
 
 
+
+$mobilePadding: 12px;
+
 // mobile view
 @media (max-width: 600px) {
 
@@ -1101,7 +1105,7 @@ icon.icon-canbuy {
 
   // smaller header
   .app-header {
-    padding: 8px;
+    padding: 8px $mobilePadding;
     border-bottom: 1px solid #333;
 
     .logo img {
@@ -1136,7 +1140,7 @@ icon.icon-canbuy {
   .app-nav a {
     display: none;
     text-align: right;
-    padding: 8px;
+    padding: $mobilePadding;
   }
 
   .app-nav.show-menu a {
@@ -1146,7 +1150,7 @@ icon.icon-canbuy {
 
   // view padding is smaller
   .view {
-    padding: 8px;
+    padding: $mobilePadding;
   }
 
   // button groups wrap
@@ -1239,10 +1243,22 @@ icon.icon-canbuy {
   .notifications {
     .notification {
       min-height: 54px; // cover the menu bar
-
     }
   }
 
+
+  .page-header {
+    margin: 0 0 24px;
+  }
+
+  .beer-list-view {
+    .button-group {
+      margin-bottom: $mobilePadding;
+    }
+  }
+
+
+  // haven't done these ones yet...
 
   .beer-list-view {
     .canbuy-help-text {
