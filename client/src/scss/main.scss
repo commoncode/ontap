@@ -395,10 +395,6 @@ icon.icon-canbuy {
   vertical-align: top;
 }
 
-span + .icon-canbuy {
-  margin-left: 12px;
-}
-
 .brewery-detail {
 
   .brewery-detail__url {
@@ -417,12 +413,7 @@ span + .icon-canbuy {
   .page-subtitle {
     line-height: 20px;
 
-    .icon-canbuy {
-      width: 20px;
-      height: 20px;
-      vertical-align: top;
-    }
-
+    // add spacing if there's a Location
     span + .icon-canbuy {
       margin-left: 12px;
     }
@@ -534,10 +525,8 @@ span + .icon-canbuy {
     }
   }
 
-  .unavailable {
-    font-size: 1rem;
-    font-weight: bold;
-    color: $khaki;
+  .icon-canbuy {
+    margin-left: 12px;
   }
 
   .notes {
