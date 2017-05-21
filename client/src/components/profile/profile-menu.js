@@ -43,7 +43,7 @@ export default class ProfileMenu extends React.Component {
 
         { (!props.data || !props.data.id) &&
           <div className="profile-nobody">
-            <a href="/login">Login with Google</a>
+            <a className="btn-login" href="/login">Login <span>with Google</span></a>
           </div>
         }
       </div>

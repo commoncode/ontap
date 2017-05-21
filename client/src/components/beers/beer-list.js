@@ -119,7 +119,6 @@ class BeerList extends React.Component {
 
           <div className="list-search">
             <input
-              type="search"
               onChange={this.setFilterQuery}
               onBlur={updatePathQueryString}
               value={filterQuery}

@@ -34,12 +34,10 @@ class AppComponent extends React.Component {
     };
   }
 
-  toggleMenu(evt) {
-    evt.preventDefault();
+  toggleMenu() {
     this.setState({
       showMenu: !this.state.showMenu,
     });
-    console.log('ayo');
   }
 
   render() {
@@ -66,7 +64,7 @@ class AppComponent extends React.Component {
           >menu</button>
           <ProfileMenu {...props.profile} />
         </header>
-        <nav className={menuClassName}>
+        <nav className={menuClassName} onClick={this.toggleMenu}>
           <a href="/#/">Now On Tap</a>
           <a href="/#/beers">Beers</a>
           <a href="/#/breweries">Breweries</a>

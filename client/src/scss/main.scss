@@ -159,6 +159,8 @@ a {
 .profile {
   position: relative;
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
 
   .profile-avatar {
     width: 45px;
@@ -173,6 +175,9 @@ a {
   }
 
   .profile-nobody {
+    display: flex;
+    height: 100%;
+    align-items: center;
     font-size: 14px;
 
     a {
@@ -215,7 +220,7 @@ a {
   overflow-y: auto;
   flex: 1 1 auto;
   -webkit-overflow-scrolling: touch;
-  padding: 0 0 48px; // account for ui chrome in mobile browsers
+  padding: 0 0 72px; // account for ui chrome in mobile browsers
 }
 
 
@@ -775,14 +780,6 @@ icon.icon-canbuy {
       color: white;
     }
   }
-
-  @media (max-width: 600px) {
-
-    .btn {
-      flex: 1 1 auto;
-    }
-
-  }
 }
 
 
@@ -1115,6 +1112,10 @@ icon.icon-canbuy {
       width: 36px;
       height: 36px;
     }
+
+    .profile-nobody .btn-login span {
+      display: none; // shorten 'login with google' to 'login'
+    }
   }
 
   // app navigation menu can be toggled
@@ -1150,9 +1151,14 @@ icon.icon-canbuy {
 
   // button groups wrap
   .button-group {
-    .btn:first-child, .btn:last-child{
-      border-radius: 0;
+    .btn {
+      flex: 1 1 auto;
+
+      &:first-child, &:last-child {
+        border-radius: 0;
+      }
     }
+
   }
 
 
