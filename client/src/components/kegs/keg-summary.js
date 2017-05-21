@@ -31,7 +31,7 @@ const KegSummary = props => (
       </p>
 
       { props.notes && (
-        <p className="notes">
+        <p className="keg-notes">
           {props.notes}
         </p>
       )}
