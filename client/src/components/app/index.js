@@ -79,9 +79,6 @@ class AppComponent extends React.Component {
           <ContentRouter {...props} />
         </div>
 
-        <footer className="app-footer">
-          <a href="https://github.com/commoncode/ontap">github.com/commoncode/ontap</a>
-        </footer>
       </div>
     );
   }

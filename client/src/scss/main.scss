@@ -208,18 +208,6 @@ a {
   -webkit-overflow-scrolling: touch;
 }
 
-// App Footer
-.app-footer {
-  text-align: center;
-  font-size: 14px;
-  padding: 1em;
-  margin: 0;
-
-  a {
-    color: $lightBlue;
-  }
-}
-
 
 // keg list
 .keg-list {
@@ -1146,11 +1134,6 @@ button + button {
     display: block;
   }
 
-
-  // hide the footer
-  .app-footer {
-    display: none;
-  }
 
   // view padding is smaller
   .view {
