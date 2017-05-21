@@ -110,7 +110,7 @@ class TapChange extends React.Component {
           <label htmlFor="untapped">Old Keg Untapped Date (YYYY-MM-DD)</label>
           <input name="untapped" value={untapped} onChange={this.inputChangeHandler} />
 
-          <button onClick={this.saveAction}>Save</button>
+          <button className="btn" onClick={this.saveAction}>Save</button>
         </div>
 
       </div>

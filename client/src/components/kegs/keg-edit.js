@@ -129,7 +129,7 @@ class KegEdit extends React.Component {
           />
         </div> }
 
-        {!syncing ? <button onClick={this.saveAction}>Save</button> : <Loader />}
+        {!syncing ? <button className="btn" onClick={this.saveAction}>Save</button> : <Loader />}
 
       </div>
     );

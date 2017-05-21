@@ -137,7 +137,7 @@ class BeerList extends React.Component {
             <div className="beer-list-add-beer">
 
               { !create.showForm ?
-                <button className="btn-add-beer" onClick={showAddBeer} >Add a Beer +</button>
+                <button className="btn btn-add-beer" onClick={showAddBeer} >Add a Beer +</button>
                 :
                 <BeerEdit syncing={create.syncing} />
               }

@@ -72,7 +72,7 @@ class BreweryDetail extends React.Component {
 
         {props.profile.admin && (
           <div className="brewery-actions">
-            <button onClick={this.toggleEdit}>Edit Brewery</button>
+            <button className="btn" onClick={this.toggleEdit}>Edit Brewery</button>
           </div>
         )}
 

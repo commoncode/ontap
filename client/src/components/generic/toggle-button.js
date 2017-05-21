@@ -35,7 +35,7 @@ export default class ToggleButton extends React.Component {
     return (
       <button
         onClick={this.clickHandler}
-        className={value === activeValue ? 'active' : ''}
+        className={`btn ${value === activeValue ? 'active' : ''}`}
       >
         {title}
       </button>

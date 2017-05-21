@@ -27,7 +27,7 @@ export default class ProfileMenu extends React.Component {
     return (
       <div className="profile">
         { props.data && props.data.id &&
-          <div>
+          <div className="profile-somebody">
             <img
               className="profile-avatar"
               src={`${props.data.avatar}?sz=32`}

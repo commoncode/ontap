@@ -168,6 +168,10 @@ a {
     vertical-align: middle;
   }
 
+  .profile-somebody {
+    display: flex;
+  }
+
   .profile-nobody {
     font-size: 14px;
 
@@ -211,6 +215,7 @@ a {
   overflow-y: auto;
   flex: 1 1 auto;
   -webkit-overflow-scrolling: touch;
+  padding: 0 0 48px; // account for ui chrome in mobile browsers
 }
 
 
@@ -535,11 +540,11 @@ icon.icon-canbuy {
 .beer-actions, .brewery-actions {
   margin: 2em 0;
 
-  button {
+  .btn {
     font-size: 1rem;
   }
 
-  button + button {
+  .btn + .btn {
     margin-left: 0.5em;
   }
 }
@@ -622,7 +627,6 @@ icon.icon-canbuy {
   }
 
   .notes {
-    font-weight: 200;
     font-size: 1rem;
     color: $khaki;
   }
@@ -705,11 +709,11 @@ icon.icon-canbuy {
 
 
 // buttons
-button {
+.btn {
   border: 1px solid #ddd;
   border-radius: 4px;
   background: white;
-  font-weight: 200;
+  font-weight: 400;
   color: #89BAD9;
 
   cursor: pointer;
@@ -720,7 +724,7 @@ button {
   }
 }
 
-button.alt {
+.btn.alt {
   background: $lightBlue;
   color: white;
   border: 1px solid $darkerBlue;
@@ -730,7 +734,7 @@ button.alt {
   }
 }
 
-button + button {
+.btn + .btn {
   margin-left: 0.5em;
 }
 
@@ -741,7 +745,7 @@ button + button {
   flex-wrap: wrap;
   justify-content: center;
 
-  button {
+  .btn {
     font-size: 1rem;
     border-radius: 0;
     margin: 0;
@@ -774,7 +778,7 @@ button + button {
 
   @media (max-width: 600px) {
 
-    button {
+    .btn {
       flex: 1 1 auto;
     }
 
@@ -992,7 +996,6 @@ button + button {
   }
 
   label {
-    font-weight: 200;
     color: #638BBF;
     display: block;
     margin-bottom: 0.5em;
@@ -1147,7 +1150,7 @@ button + button {
 
   // button groups wrap
   .button-group {
-    button:first-child, button:last-child{
+    .btn:first-child, .btn:last-child{
       border-radius: 0;
     }
   }

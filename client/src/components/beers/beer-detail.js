@@ -50,8 +50,8 @@ class BeerDetail extends React.Component {
 
           { isAdmin && (
             <div className="beer-actions">
-              <button onClick={toggleEditBeer}>Edit Beer</button>
-              <button onClick={this.deleteBeer}>Delete Beer</button>
+              <button className="btn" onClick={toggleEditBeer}>Edit Beer</button>
+              <button className="btn" onClick={this.deleteBeer}>Delete Beer</button>
             </div>
           ) }
 
