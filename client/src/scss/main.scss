@@ -71,25 +71,27 @@ a {
 
 // App Header
 .app-header {
-  background: $lightBlue;
+  background: $darkerBlue;
   color: $offWhite;
   margin: 0;
-  padding: 24px;
+  padding: 12px;
   flex: 0 0 auto;
   display: flex;
+  justify-content: space-between;
 
-  h1 {
-    font-weight: 800;
-    color: white;
-    font-size: 2rem;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-    margin: 0;
-    flex: 1 0 0;
+  .btn-toggle-menu {
+    display: none; // hidden unless mobile view
+  }
 
-    span {
-      color: #eee;
+  .logo {
+    line-height: 0;
+
+    img {
+      width: auto;
+      height: 48px;
     }
   }
+
 }
 
 // App Nav
@@ -449,64 +451,6 @@ span + .icon-canbuy {
     border-bottom: 1px solid #f2f2f2;
   }
 }
-
-// responsiveness
-@media (max-width: 600px) {
-
-  .app-header h1 span {
-    display: none;
-  }
-
-  .beer-list-view {
-    .canbuy-help-text {
-      display: none;
-    }
-  }
-
-  .beer-list-item {
-    flex-wrap: wrap;
-
-    > header {
-      flex: 0 0 100%;
-    }
-
-    .name span {
-      display: block;
-    }
-
-    .meta {
-      display: none;
-    }
-  }
-
-  .beer-detail-view {
-    .beer-summary-view {
-
-      .primary {
-        flex: 0 0 100%;
-      }
-
-      .meta {
-        text-align: left;
-        margin: 0.5em 0 0;
-      }
-
-      .notes {
-        margin: 1em 0;
-      }
-    }
-
-    button {
-      width: 100%;
-      margin: 0 0 0.5em;
-    }
-
-    .beer-actions button + button {
-      margin-left: 0;
-    }
-  }
-}
-
 
 
 
@@ -1145,3 +1089,111 @@ button + button {
     opacity: 1;
   }
 }
+
+
+// mobile view
+@media (max-width: 600px) {
+
+  // global font-size is a bit smaller
+  html {
+    font-size: 14px;
+  }
+
+  // smaller header
+  .app-header {
+    padding: 6px;
+    border-bottom: 1px solid #333;
+
+    .logo img {
+      height: 36px;
+    }
+
+    .profile .profile-avatar {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  // app navigation menu can be toggled
+  .app-header .btn-toggle-menu {
+    border-radius: 0;
+    display: block;
+    background: none;
+    color: white;
+    border: none;
+    font-size: 14px;
+    outline: none;
+
+    &:hover, &:focus {
+      background: inherit;
+    }
+  }
+
+  .app-nav a {
+    display: none;
+    text-align: right;
+  }
+
+  .app-nav.show-menu a {
+    display: block;
+  }
+
+
+  // hide the footer
+  .app-footer {
+    display: none;
+  }
+
+
+
+  .beer-list-view {
+    .canbuy-help-text {
+      display: none;
+    }
+  }
+
+  .beer-list-item {
+    flex-wrap: wrap;
+
+    > header {
+      flex: 0 0 100%;
+    }
+
+    .name span {
+      display: block;
+    }
+
+    .meta {
+      display: none;
+    }
+  }
+
+  .beer-detail-view {
+    .beer-summary-view {
+
+      .primary {
+        flex: 0 0 100%;
+      }
+
+      .meta {
+        text-align: left;
+        margin: 0.5em 0 0;
+      }
+
+      .notes {
+        margin: 1em 0;
+      }
+    }
+
+    button {
+      width: 100%;
+      margin: 0 0 0.5em;
+    }
+
+    .beer-actions button + button {
+      margin-left: 0;
+    }
+  }
+}
+
+
