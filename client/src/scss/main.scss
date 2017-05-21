@@ -227,6 +227,16 @@ a {
   .keg-list-item {
     border-bottom: 1px solid #eee;
     padding: 24px 0;
+
+    .tap-name {
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      color: orange;
+      text-align: center;
+      margin: 0 0 24px;
+      font-weight: 800;
+    }
+
   }
 
   .beer-summary-view {
@@ -488,7 +498,7 @@ span + .icon-canbuy {
   .meta {
     flex: 1 1 0;
     font-size: 1.5rem;
-    color: $lightBlue;
+    color: $khaki;
     text-align: right;
 
     p {
@@ -504,31 +514,24 @@ span + .icon-canbuy {
       margin: 0;
     }
 
-    .can-buy {
-      width: 40px;
-      height: 40px;
-    }
   }
 
   .name {
     margin: 0 0 4px;
     font-size: 2rem;
-    color: $darkBlue;
+    color: $darkerBlue;
   }
 
-  .brewery-name {
+  .variety-by-brewery {
     margin: 4px 0;
     font-size: 1.25rem;
     font-weight: 400;
     line-height: 1em;
-    color: $lightBlue;
-  }
+    color: $darkBlue;
 
-  .variety {
-    margin: 4px 0 0;
-    font-size: 1rem;
-    color: $khaki;
-    font-weight: 400;
+    span, a {
+      font-weight: 800;
+    }
   }
 
   .unavailable {
@@ -630,9 +633,9 @@ span + .icon-canbuy {
   }
 
   .tapped {
-    color: $darkBlue;
+    color: $darkerBlue;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 400;
     margin: 0;
   }
 
@@ -665,20 +668,20 @@ span + .icon-canbuy {
 
 .cheers-modal {
   position: fixed;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  z-index: 99;
 
   .cheers-modal__contents {
     width: 320px;
-    max-width: 96%;
-    margin: 5% auto;
+    margin: 72px auto;
     cursor: auto;
-    border: 1px solid $darkBlue;
+    border: 5px solid $darkerBlue;
+    border-radius: 4px;
     background: white;
-    box-shadow: 0 0 24px $darkBlue;
     padding: 36px;
     text-align: center;
 
@@ -686,11 +689,16 @@ span + .icon-canbuy {
       margin: 0 0 24px;
       font-size: 20px;
       color: $brown;
+
+      b {
+        font-weight: 800;
+        color: $khaki;
+      }
     }
 
     .cheers-modal__contents__button  {
-      width: 240px;
-      height: 240px;
+      width: 160px;
+      height: 160px;
       max-width: 100%;
       max-height: auto;
       border: 10px solid $lightBlue;
@@ -700,6 +708,14 @@ span + .icon-canbuy {
       &:hover {
         border-color: $highlight;
       }
+    }
+
+    .cheers-modal__contents__btn-cancel {
+      border: none;
+      padding: 0;
+      color: $darkerBlue;
+      font-weight: 400;
+      font-size: 1rem;
     }
   }
 
@@ -788,6 +804,8 @@ button + button {
 
 .emoji {
   background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -957,27 +975,22 @@ button + button {
   position: fixed;
   z-index: 1;
   width: 100%;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
   font-size: 1rem;
+  line-height: 1.25em;
 
   .notification {
-    display: block;
-    text-align: center;
     margin: 0;
     padding: 12px;
     cursor: pointer;
-    background: $offWhite;
-    border-bottom: 1px solid white;
+    background: white;
+    color: $darkerBlue;
     animation: fadein 0.25s linear;
     overflow: hidden;
-
-    &:hover {
-      background: #ddd !important;
-    }
-
-    &:nth-child(odd) {
-      background: $offGrey;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }
 
@@ -1162,6 +1175,87 @@ button + button {
     }
   }
 
+
+  // Keg List view is a bit cleaner
+  // and the layout not as large
+
+  .keg-list {
+
+    .keg-list-item {
+
+      padding: 24px 0 12px;
+
+      .beer-summary-view {
+
+        margin: 0;
+
+        // stack primary and meta
+        .primary, .meta {
+          flex: 1 1 100%;
+        }
+      }
+
+      .name {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .tap-name {
+        margin: 0 0 12px;
+        font-size: 1rem;
+      }
+
+      .meta {
+        text-align: left;
+        font-size: 1rem;
+
+        .sd {
+          display: none;
+        }
+      }
+
+    }
+
+    .keg-summary__cheers {
+
+      .icon {
+        width: 34px;
+        height: 34px;
+      }
+
+      .count {
+        font-size: 24px;
+        padding-left: 10px;
+      }
+    }
+
+
+  }
+
+  .cheers-modal {
+
+
+    .cheers-modal__contents {
+      margin: 60px auto;
+      border: 3px solid $darkerBlue;
+      width: 260px;
+      padding: 24px 16px;
+      font-size: 1rem;
+
+      .cheers-modal__contents_button {
+        width: 140px;
+        height: 140px;
+      }
+
+    }
+  }
+
+  .notifications {
+    .notification {
+      min-height: 54px; // cover the menu bar
+
+    }
+  }
 
 
   .beer-list-view {
