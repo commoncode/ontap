@@ -58,13 +58,16 @@ class AppComponent extends React.Component {
               role="presentation"
             />
           </a>
-          <button
-            className="btn-toggle-menu"
-            onClick={this.toggleMenu}
-          >menu</button>
-          <ProfileMenu {...props.profile} />
+          <div className="menus">
+            <ProfileMenu {...props.profile} />
+            <button
+              className="btn-toggle-menu"
+              onClick={this.toggleMenu}
+            >&#9776;</button>
+          </div>
         </header>
         <nav className={menuClassName} onClick={this.toggleMenu}>
+          {(!props.profile.data || !props.profile.data.id)  && (<a href="/login" className="app-nav-login">Login with Google</a>)}
           <a href="/#/">Now On Tap</a>
           <a href="/#/beers">Beers</a>
           <a href="/#/breweries">Breweries</a>

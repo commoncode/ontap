@@ -89,8 +89,8 @@ a {
   display: flex;
   justify-content: space-between;
 
-  .btn-toggle-menu {
-    display: none; // hidden unless mobile view
+  .menus {
+    display: flex;
   }
 
   .logo {
@@ -102,6 +102,9 @@ a {
     }
   }
 
+  .btn-toggle-menu {
+    display: none;
+  }
 }
 
 // App Nav
@@ -118,14 +121,13 @@ a {
     display: none;
   }
 
-
   a {
     display: block;
     color: $offGrey;
     flex: 0 0 auto;
     padding: 8px 32px;
 
-    &:first-child {
+    &:nth-child(2) {
       padding-left: 18px; // align with logo
     }
 
@@ -133,6 +135,11 @@ a {
     &:hover {
       color: white;
     }
+  }
+
+  // hide this on desktop, use the profile menu link instead
+  .app-nav-login {
+    display: none;
   }
 
   .btn-app-nav-toggle {
@@ -191,10 +198,11 @@ a {
 
   .profile-menu {
     display: none;
-    vertical-align: middle;
+    // vertical-align: middle;
 
     &.show {
-      display: inline-block;
+      display: flex;
+      align-items: center;
 
       a {
         color: white;
@@ -275,7 +283,7 @@ a {
     }
   }
 
-  .keg-summary {
+  .keg-summary-view {
     margin: 0 0 48px;
   }
 }
@@ -489,10 +497,6 @@ icon.icon-canbuy {
     font-size: 1.1rem;
     color: $khaki;
 
-    &:empty {
-      margin: 0;
-    }
-
     p {
       margin: 0;
       font-weight: 600;
@@ -506,7 +510,12 @@ icon.icon-canbuy {
   .name {
     margin: 0 0 8px;
     font-size: 2rem;
+    font-weight: 600;
     color: $darkerBlue;
+
+    span {
+      font-weight: 400;
+    }
   }
 
   .variety-by-brewery {
@@ -1102,10 +1111,6 @@ $mobilePadding: 12px;
       width: 36px;
       height: 36px;
     }
-
-    .profile-nobody .btn-login span {
-      display: none; // shorten 'login with google' to 'login'
-    }
   }
 
   // app navigation menu can be toggled
@@ -1115,22 +1120,34 @@ $mobilePadding: 12px;
     background: none;
     color: white;
     border: none;
-    font-size: 14px;
     outline: none;
+    padding: 0;
+    font-size: 32px;
+    margin-left: 12px;
+    cursor: pointer;
 
     &:hover, &:focus {
       background: inherit;
     }
   }
 
-  .app-nav a {
+  // use the login link in the app-nav
+  // instead of the profile menu
+  .app-nav-login {
+    display: block;
+  }
+  .app-header .profile-nobody {
     display: none;
-    text-align: right;
-    padding: $mobilePadding;
   }
 
+  // display the menu when it's enabled
+  .app-nav a {
+    display: none;
+  }
   .app-nav.show-menu a {
     display: block;
+    text-align: right;
+    padding: $mobilePadding;
   }
 
 

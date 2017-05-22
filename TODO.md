@@ -14,8 +14,8 @@
 
 ## new features, improvements
 
+- Make cheersing work on the Keg Detail view
 - Proper routing (non-hash)
-- Improve for mobile (UI overhaul would be nice)
 - Untappd integration
   - Fetch beer/brewery details from Untappd
   - Link to beer/brewery on Untappd

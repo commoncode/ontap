@@ -30,7 +30,7 @@ export default class ProfileMenu extends React.Component {
           <div className="profile-somebody">
             <img
               className="profile-avatar"
-              src={`${props.data.avatar}?sz=32`}
+              src={`${props.data.avatar}?sz=72`}
               alt={`Logged in as ${props.data.name}`}
               onClick={this.toggle}
             />
@@ -43,7 +43,7 @@ export default class ProfileMenu extends React.Component {
 
         { (!props.data || !props.data.id) &&
           <div className="profile-nobody">
-            <a className="btn-login" href="/login">Login <span>with Google</span></a>
+            <a className="btn-login" href="/login">Login with Google</a>
           </div>
         }
       </div>
