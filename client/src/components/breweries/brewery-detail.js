@@ -39,7 +39,7 @@ class BreweryDetail extends React.Component {
             {props.name}
           </h1>
           <h2 className="page-subtitle">
-            {props.location && <span>{props.location}</span>}
+            {props.location && <span className="brewery-detail__location">{props.location}</span>}
             {props.canBuy && <icon className="icon-canbuy emoji-tick" title="We can order beers from this brewery" />}
           </h2>
         </header>
@@ -69,6 +69,7 @@ class BreweryDetail extends React.Component {
 
         </div>
 
+        <BreweryBeers Beers={props.Beers} Brewery={props} />
 
         {props.profile.admin && (
           <div className="brewery-actions">
@@ -83,7 +84,6 @@ class BreweryDetail extends React.Component {
           />
         )}
 
-        <BreweryBeers Beers={props.Beers} Brewery={props} />
       </div>
     );
   }

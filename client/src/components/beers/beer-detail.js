@@ -47,6 +47,7 @@ class BeerDetail extends React.Component {
       <div>
         <div className="beer-detail-view view">
           <BeerSummary {...model} />
+          <BeerKegs beer={model} profile={profile.data} />
 
           { isAdmin && (
             <div className="beer-actions">
@@ -54,10 +55,6 @@ class BeerDetail extends React.Component {
               <button className="btn" onClick={this.deleteBeer}>Delete Beer</button>
             </div>
           ) }
-
-          <BeerKegs beer={model} profile={profile.data} />
-
-
 
           { editing && <BeerEdit model={model} profile={profile} /> }
         </div>

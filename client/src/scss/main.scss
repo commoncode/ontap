@@ -425,10 +425,11 @@ icon.icon-canbuy {
   .page-subtitle {
     line-height: 20px;
 
-    // add spacing if there's a Location
-    span + .icon-canbuy {
-      margin-left: 12px;
+    // spacing before canbuy icon
+    .brewery-detail__location {
+      margin-right: 12px;
     }
+
   }
 
   .brewery-detail__description {
@@ -530,8 +531,8 @@ icon.icon-canbuy {
     }
   }
 
-  .icon-canbuy {
-    margin-left: 12px;
+  .link-brewery {
+    margin-right: 12px;
   }
 
   .notes {
