@@ -23,7 +23,7 @@ export default class KegDetailCheers extends React.Component {
 
         { Cheers.length ? (
           <div>
-            <h3>{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount !== 1 && 's'}:</h3>
+            <h3 className="list-title">{Cheers.length} Cheers from {uniqueCheersCount} user{uniqueCheersCount !== 1 && 's'}:</h3>
             <div className="cheers-list single-line-list">
               {Cheers.map(cheers => (
                 <div className="list-item" key={cheers.id}>

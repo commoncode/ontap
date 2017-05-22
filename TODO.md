@@ -26,8 +26,9 @@
 - Brewery list should be searchable
 - API tests: auth, nested objects, expected attributes etc
 - New Keg & New Beer views parse querystrings to pre-fill the beerId or breweryId
-- 'Delete Beer' button should exist inside BeerEdit to be consistent
-  - And it needs a Confirm action
+- 'Delete {Model}' buttons should be moved to inside the edit form for consistency
+  - Keg and Beer
+  - Ensure there's a confirmation action too
 
 ## cleanup/refactor:
 
