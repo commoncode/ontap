@@ -1299,3 +1299,40 @@ $mobilePadding: 12px;
 }
 
 
+/**
+ * Loader styles
+ */
+@-webkit-keyframes wave-animation{
+  0%{background-position:0 bottom};
+  100%{background-position:100% bottom};
+}
+@-webkit-keyframes loading-animation{
+  0%{background-size:100% 10%};
+  100%{background-size:100% 100%};
+}
+@keyframes wave-animation{
+  0%{background-position:0 bottom};
+  100%{background-position:100% bottom};
+}
+@keyframes loading-animation{
+  0%{background-size:100% 10%};
+  100%{background-size:100% 100%};
+}
+
+.loader {
+  font-size: 40px;
+  font-weight: 800;
+  text-align: center;
+  background-image:url('../images/wave.png');
+  color:rgba(0,0,0,0);
+  text-shadow: 0px 0px rgba(0, 0, 0, 0.15);
+  background-size:200px 10px;
+  background-repeat:repeat-x;
+  opacity:1;
+  letter-spacing: -2px;
+
+  -webkit-animation: wave-animation 1s infinite linear, loading-animation 3s infinite linear alternate;
+  animation: wave-animation 1s infinite linear, loading-animation 3s infinite linear alternate;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
