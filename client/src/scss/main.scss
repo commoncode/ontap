@@ -585,6 +585,7 @@ icon.icon-canbuy {
       flex: 1 1 0;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       &.end {
         justify-content: flex-end;
@@ -860,8 +861,11 @@ icon.icon-canbuy {
     align-items: center;
     margin: 0 0 2em;
 
-    h2 {
+    .username {
       order: 1;
+      color: $darkBlue;
+      margin: 0;
+      font-size: 30px;
 
       .btn-edit-user {
         display: block;
@@ -878,16 +882,9 @@ icon.icon-canbuy {
     .avatar {
       order: 0;
       margin-right: 1em;
-      width: 110px;
+      width: 120px;
+      border-radius: 12px;
     }
-  }
-
-  h2 {
-    color: $darkBlue;
-  }
-
-  .avatar {
-    border-radius: 12px;
   }
 }
 
@@ -1262,6 +1259,23 @@ $mobilePadding: 12px;
 
   }
 
+  // tighten everything up a bit
+  .user-summary {
+
+    header {
+      margin: 0 0 1em;
+
+      .avatar {
+        margin-right: $mobilePadding;
+        width: 70px;
+      }
+
+      .username {
+        font-size: 20px;
+      }
+    }
+
+  }
 
   // haven't done these ones yet...
 
