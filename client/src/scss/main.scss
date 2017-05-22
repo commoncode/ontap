@@ -600,9 +600,10 @@ icon.icon-canbuy {
 
 .list-add-link {
   color: $highlight;
-  font-size: 1.3rem;
+  font-size: 1rem;
   display: inline-block;
   margin: 0 0 1em;
+  font-weight: 800;
 }
 
 .beer-kegs-list {
@@ -886,6 +887,14 @@ icon.icon-canbuy {
       width: 120px;
       border-radius: 12px;
     }
+  }
+}
+
+
+// user detail
+.user-detail {
+  .no-cheers {
+    font-size: 1rem;
   }
 }
 

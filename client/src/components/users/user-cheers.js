@@ -42,7 +42,7 @@ const UserCheers = (props) => {
           </div>
         </div>
       ) : (
-        <h3>{firstName} hasn't Cheers'd any beers. Better pour them a pint.</h3>
+        <p className="no-cheers">{firstName} hasn't Cheers'd any beers. Better pour them a pint.</p>
       )}
     </div>
   );
