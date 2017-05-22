@@ -370,22 +370,20 @@ a {
   }
 
   .name {
-    color: $lightBlue;
-    margin: 0 0 8px;
-
-    span {
-      font-style: italic;
-      font-size: 0.8em;
-      color: $darkBlue;
-      font-weight: 400;
-    }
+    color: $darkerBlue;
+    margin: 0 0 4px;
+    font-size: 1.5rem;
   }
 
-  .variety {
+  .variety-by-brewery, .location {
     margin: 0;
-    color: $khaki;
+    color: $darkBlue;
     font-weight: 400;
     font-size: 0.7em;
+
+    span {
+      font-weight: 600;
+    }
   }
 
   .meta {
@@ -601,15 +599,18 @@ icon.icon-canbuy {
 }
 
 .list-add-link {
-  color: $darkerBlue;
-  font-weight: bold;
-  font-size: 20px;
+  color: $highlight;
+  font-size: 1.3rem;
   display: inline-block;
   margin: 0 0 1em;
 }
 
 .beer-kegs-list {
   padding: 0 0 2em;
+
+  .no-kegs {
+    font-size: 1rem;
+  }
 }
 
 .keg-summary-view {
