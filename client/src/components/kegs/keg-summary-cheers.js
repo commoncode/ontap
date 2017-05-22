@@ -13,7 +13,7 @@ import { cheersKeg } from '../../actions/kegs';
 import { addNotification } from '../../actions/notifications';
 import * as propTypes from '../../proptypes';
 
-import CheersAnimation from '../../images/cheers.gif';
+import CheersAnimation from '../../images/cheers-optimised.gif';
 
 @autobind
 class KegSummaryCheers extends React.Component {
