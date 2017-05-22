@@ -15,6 +15,9 @@ const BeerSummary = props => (
   <div className="beer-summary-view">
     <div className="primary">
       <h1 className="name">
+        {props.kegId && (
+          <span>{`Keg #${props.kegId}: `}</span>
+        )}
         <a href={`/#/beers/${props.id}/`}>{props.name}</a>
       </h1>
       <h2 className="variety-by-brewery">
