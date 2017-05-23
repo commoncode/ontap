@@ -14,7 +14,7 @@ import { calcStandardDrinks } from '../../util/util';
 const BeerSummary = props => (
   <div className="beer-summary-view">
     <div className="primary">
-      <h1 className="name">
+      <h1 className="beer-name">
         {props.kegId && (
           <span>{`Keg #${props.kegId}: `}</span>
         )}

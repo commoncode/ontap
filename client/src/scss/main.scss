@@ -257,15 +257,6 @@ a {
 }
 
 
-.tap-name {
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  color: orange;
-  text-align: center;
-  margin: 0 0 24px;
-  font-weight: 800;
-}
-
 .keg-detail {
 
   .keg {
@@ -301,16 +292,16 @@ a {
 // tap change view
 .tap-change {
 
-  .tap-change--tap-name {
-    color: $khaki;
-    font-size: 1.6rem;
-    font-weight: 400;
+  .keg-details {
+    margin: 0 0 48px;
+    padding: 0 0 12px;
+    border-bottom: 1px solid $offWhite;
   }
 
-  .tap-change--beer-name {
-    color: $darkBlue;
-    font-size: 1.4rem;
-    font-weight: 600;
+  .sub-header {
+    margin: 0 0 1em;
+    color: $highlight;
+    font-size: 1.25rem;
   }
 }
 
@@ -332,7 +323,7 @@ a {
   margin: 0 0 1.5em;
 
   .page-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: $darkBlue;
     margin: 0;
     font-weight: 600;
@@ -367,33 +358,16 @@ a {
 
   .meta {
     flex: 1 1 0;
-  }
-
-  .name {
-    color: $darkerBlue;
-    margin: 0 0 4px;
-    font-size: 1.5rem;
-  }
-
-  .variety-by-brewery, .location {
-    margin: 0;
-    color: $darkBlue;
-    font-weight: 400;
-    font-size: 0.7em;
-
-    span {
-      font-weight: 600;
-    }
-  }
-
-  .meta {
-    align-items: center;
-    font-size: 0.7em;
+    align-items: flex-end;
     display: flex;
+    color: $khaki;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0 24px;
 
     span {
       flex: 1 1 0;
-      margin-right: 2em;
+      text-align: right;
     }
   }
 
@@ -411,9 +385,9 @@ icon.icon-canbuy {
 
 .brewery-detail {
 
-  .brewery-detail__url {
-    font-size: 20px;
-    margin: 0 0 0.5em;
+  .brewery-url {
+    font-size: 1.1rem;
+    margin: 2px 0 0;
 
     a {
       color: $lightBlue;
@@ -422,6 +396,12 @@ icon.icon-canbuy {
         color: $darkBlue;
       }
     }
+  }
+
+  .admin-notes-title {
+    color: $khaki;
+    margin: 0 0 0.5em;
+    font-size: 1.2rem;
   }
 
   .page-subtitle {
@@ -487,7 +467,7 @@ icon.icon-canbuy {
     margin-bottom: 2em;
   }
 
-  .beer-summary-view .name a {
+  .beer-summary-view .beer-name a {
     pointer-events: none; // disable link to current page
   }
 }
@@ -510,34 +490,8 @@ icon.icon-canbuy {
     }
   }
 
-  .name {
-    margin: 0 0 8px;
-    font-size: 2rem;
-    font-weight: 600;
-    color: $darkerBlue;
-  }
-
-  .variety-by-brewery {
-    margin: 0 0 16px;
-    font-size: 1.25rem;
-    font-weight: 400;
-    line-height: 1em;
-    color: $darkBlue;
-
-    span, a {
-      font-weight: 800;
-    }
-  }
-
   .link-brewery {
     margin-right: 12px;
-  }
-
-  .notes {
-    font-weight: 400;
-    font-size: 1.2rem;
-    white-space: pre-wrap;
-    margin: 1em 0;
   }
 }
 
@@ -618,18 +572,12 @@ icon.icon-canbuy {
     align-items: flex-start;
   }
 
-  .tapped {
-    color: $lightBlue;
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
   .keg-notes {
     font-size: 1rem;
     color: $highlight;
     font-style: italic;
     padding: 0 24px 0 0;
+    margin: 12px 0 0;
   }
 }
 
@@ -1079,6 +1027,59 @@ icon.icon-canbuy {
 }
 
 
+
+// re-used & generic components and elements
+
+.beer-name, .brewery-name {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+  line-height: 1em;
+  font-weight: 600;
+  color: $darkerBlue;
+}
+
+.variety-by-brewery, .brewery-location {
+  margin: 0;
+  color: $darkBlue;
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1em;
+
+  span, a {
+    font-weight: 600;
+  }
+}
+
+.tapped-date {
+  color: $lightBlue;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  padding-right: 16px;
+}
+
+.tap-name {
+  font-size: 1.2rem;
+  line-height: 1em;
+  text-transform: uppercase;
+  color: orange;
+  text-align: center;
+  margin: 0 0 24px;
+  font-weight: 800;
+}
+
+.notes {
+  font-weight: 400;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  margin: 0 0 1em;
+
+  &.alt {
+    color: $khaki;
+  }
+}
+
+
 // tap views
 .tap {
   display: flex;
@@ -1086,10 +1087,10 @@ icon.icon-canbuy {
   border-bottom: 1px solid #eee;
 
   .tap-name {
-    flex: 1 0 0;
+    flex: 2 0 0;
     align-self: center;
     text-align: left;
-    margin: 0;
+    margin: 0 0 16px 0;
   }
 
   .tap-keg {
@@ -1106,32 +1107,6 @@ icon.icon-canbuy {
       text-transform: uppercase;
     }
 
-  }
-
-  .beer-name {
-    margin: 0 0 8px;
-    font-size: 2rem;
-    font-weight: 600;
-    color: $darkerBlue;
-  }
-
-  // todo this is duplicated above in the beerlistitem
-  .variety-by-brewery {
-    margin: 0;
-    color: $darkBlue;
-    font-weight: 400;
-    font-size: 0.7em;
-
-    span {
-      font-weight: 600;
-    }
-  }
-
-  .tapped {
-    color: $lightBlue;
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 1em 0;
   }
 
   &.no-service .beer-name {
@@ -1221,11 +1196,9 @@ $mobilePadding: 12px;
 
   }
 
-
   // Keg List view is a bit cleaner
   // and the layout not as large
   .keg-list {
-
     .keg-list-item {
       padding: 24px 0 12px;
     }
@@ -1233,18 +1206,8 @@ $mobilePadding: 12px;
 
   .beer-summary-view {
 
-    .name {
-      margin: 0 0 4px;
-      font-size: 1.5rem;
-    }
-
-    .variety-by-brewery {
-      margin: 0 0 4px;
-    }
-
     .tap-name {
       margin: 0 0 12px;
-      font-size: 1rem;
     }
 
     .meta {
@@ -1373,16 +1336,27 @@ $mobilePadding: 12px;
   .beer-list-item {
     flex-wrap: wrap;
 
-    > header {
-      flex: 0 0 100%;
+    > header, .meta {
+      flex: 1 0 100%;
     }
 
-    .name span {
-      display: block;
+    > header {
+      margin: 0 0 8px;
     }
 
     .meta {
-      display: none;
+      color: $khaki;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+
+      span {
+        text-align: left;
+      }
+
+      .ibu {
+        display: none;
+      }
     }
   }
 

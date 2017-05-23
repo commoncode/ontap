@@ -79,16 +79,23 @@ class TapChange extends React.Component {
     return (
       <div className="tap-change view">
         <header className="page-header">
-          <h1 className="page-title">Change a Tap.</h1>
+          <h1 className="page-title">{tap.name}</h1>
         </header>
 
-        <h3 className="tap-change--tap-name">{tap.name}</h3>
+        {Keg ? (
+          <div className="keg-details">
+            <h3 className="sub-header">Currently on tap</h3>
+            <h2 className="beer-name">{Keg ? Keg.Beer.name : 'No Service'}</h2>
+            <h3 className="variety-by-brewery">
+              {Keg.Beer.variety && <span>{Keg.Beer.variety} </span>}
+              by <span>{Keg.Beer.Brewery.name}</span>
+            </h3>
+          </div>
+        ) : (
+          <h2 className="beer-name">No Service</h2>
+        )}
 
-        <h4 className="tap-change--beer-name">
-          {Keg ? `${Keg.Beer.Brewery.name} - ${Keg.Beer.name}` : 'No Service'}
-        </h4>
-
-
+        <h2 className="sub-header">Change tap</h2>
         <div className="edit-form">
 
           <label htmlFor="kegId">New Keg</label>

@@ -16,7 +16,7 @@ import KegSummaryCheers from './keg-summary-cheers';
 const KegSummary = props => (
   <div className="keg-summary-view">
     <div className="keg-summary">
-      <p className="tapped">
+      <p className="tapped-date">
         {props.tapped ? (
           props.untapped ? (
             `Tapped from ${moment(props.tapped).format('MMM Do')}

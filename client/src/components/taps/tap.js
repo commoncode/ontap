@@ -31,7 +31,7 @@ const Tap = (props) => {
             <a href={`/#/breweries/${Brewery.id}`}>{Brewery.name}</a>
           </span>
         </h3>
-        <p className="tapped">Tapped {dayMonth(Keg.tapped)}</p>
+        <p className="tapped-date">Tapped {dayMonth(Keg.tapped)}</p>
       </div>
 
       {profile && profile.admin &&

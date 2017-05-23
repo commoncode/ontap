@@ -18,7 +18,7 @@ const KegListItem = (props) => {
   return (
     <div className={`keg-list-item keg ${onTapClass}`}>
       { Tap && (
-        <p className="tap-name">{Tap.name}</p>
+        <h2 className="tap-name">{Tap.name}</h2>
       )}
       <BeerSummary {...Beer} />
       <KegSummary {...props} />

@@ -29,13 +29,14 @@
 - 'Delete {Model}' buttons should be moved to inside the edit form for consistency
   - Keg and Beer
   - Ensure there's a confirmation action too
+- Datepicker for the change tap view
+- Allow users to remove their own Cheers
+- 'Add a Beer' should link to beers/new instead of inline creation
 
 ## cleanup/refactor:
 
 - Consistent patterns for all of the stores
   - Generic stores for list and detail components
-- Some CSS patterns can be used across different views/components
-  - .beer-name, .keg-tapped etc
 - Change any <A>s without hrefs to buttons
 - CSS styleguide for reusable components, patterns
 - Implement autoLoader everywhere we're using Loader
