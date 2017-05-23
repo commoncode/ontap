@@ -42,7 +42,7 @@ input {
 }
 
 body {
-  font-size: 24px;
+  // font-size: 24px; // todo - this is huge, figure out if it's actually doing anything anywhere...
   font-family: 'Helvetica Neue', Helvetica, arial, sans-serif;
   color: $brown;
 }
@@ -68,15 +68,6 @@ a {
   overflow: hidden;
   display: flex;
   flex-flow: column nowrap;
-}
-
-
-
-// KegEdit component inlined into tap view
-.tap .keg-edit {
-  margin: 40px 0 0;
-  padding: 40px 0 0;
-  border-top: 1px solid #ccc;
 }
 
 
@@ -308,17 +299,13 @@ a {
 // beer list view
 .beer-list-view {
 
-  .beer-list-item.unavailable {
-    opacity: 0.75;
-  }
-
   .btn-add-beer {
     margin: 0 auto 2em;
     display: block;
   }
 }
 
-
+// page headers
 .page-header {
   margin: 0 0 1.5em;
 
@@ -362,7 +349,6 @@ a {
     display: flex;
     color: $khaki;
     font-size: 1rem;
-    font-weight: 600;
     margin: 0 0 0 24px;
 
     span {
