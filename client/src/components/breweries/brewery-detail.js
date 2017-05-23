@@ -39,14 +39,11 @@ class BreweryDetail extends React.Component {
             {props.name}
           </h1>
           <h2 className="page-subtitle">
-            {props.location && <span>{props.location}</span>}
+            {props.location && <span className="brewery-detail__location">{props.location}</span>}
             {props.canBuy && <icon className="icon-canbuy emoji-tick" title="We can order beers from this brewery" />}
           </h2>
-        </header>
-
-        <div className="brewery-detail__details">
           {props.web && (
-            <p className="brewery-detail__url">
+            <p className="brewery-url">
               <a
                 href={urlify(props.web)}
                 target="_blank"
@@ -56,23 +53,31 @@ class BreweryDetail extends React.Component {
               </a>
             </p>
           )}
-          <p className="brewery-detail__description pre-wrap">
-            {props.description}
-          </p>
+        </header>
+
+        <div className="brewery-detail__details">
+          {props.description && (
+            <p className="notes">
+              {props.description}
+            </p>
+          )}
 
           {props.profile.admin && (
-            <p className="brewery-detail__admin-notes pre-wrap">
-              <b>Admin Details</b>
-              {props.adminNotes || 'No admin notes have been entered.'}
-            </p>
+            <div className="admin-notes">
+              <h4 className="admin-notes-title">Admin Notes</h4>
+              <p className="notes alt">
+                {props.adminNotes || 'No admin notes have been entered.'}
+              </p>
+            </div>
           )}
 
         </div>
 
+        <BreweryBeers Beers={props.Beers} Brewery={props} />
 
         {props.profile.admin && (
           <div className="brewery-actions">
-            <button onClick={this.toggleEdit}>Edit Brewery</button>
+            <button className="btn" onClick={this.toggleEdit}>Edit Brewery</button>
           </div>
         )}
 
@@ -83,7 +88,6 @@ class BreweryDetail extends React.Component {
           />
         )}
 
-        <BreweryBeers Beers={props.Beers} Brewery={props} />
       </div>
     );
   }

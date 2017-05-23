@@ -10,8 +10,8 @@ import { breweryModel } from '../../proptypes';
 const BreweryListItem = props => (
   <div className="brewery-list-item">
     <header>
-      <h4 className="name"><a href={`/#/breweries/${props.id}`}>{props.name}</a></h4>
-      <h5 className="variety">{props.location}</h5>
+      <h4 className="brewery-name"><a href={`/#/breweries/${props.id}`}>{props.name}</a></h4>
+      <h5 className="brewery-location">{props.location}</h5>
     </header>
   </div>
 );

@@ -119,7 +119,6 @@ class BeerList extends React.Component {
 
           <div className="list-search">
             <input
-              type="search"
               onChange={this.setFilterQuery}
               onBlur={updatePathQueryString}
               value={filterQuery}
@@ -137,7 +136,7 @@ class BeerList extends React.Component {
             <div className="beer-list-add-beer">
 
               { !create.showForm ?
-                <button className="btn-add-beer" onClick={showAddBeer} >Add a Beer +</button>
+                <button className="btn" onClick={showAddBeer}>Add a Beer</button>
                 :
                 <BeerEdit syncing={create.syncing} />
               }

@@ -52,8 +52,8 @@ class UserEdit extends EditForm {
             </fieldset>
           )}
 
-          <button type="submit" >Save</button>
-          <button onClick={this.props.reset}>Cancel</button>
+          <button className="btn" type="submit" >Save</button>
+          <button className="btn" onClick={this.props.reset}>Cancel</button>
 
         </form>
 

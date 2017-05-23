@@ -11,18 +11,19 @@ const BeerListItem = (props) => {
   const { Brewery } = beer;
 
   return (
-    <div className={`beer-list-item ${beer.canBuy ? 'available' : 'unavailable'}`}>
+    <div className="beer-list-item">
       <header>
-        <h4 className="name">
-          <a href={`/#/beers/${beer.id}/`}>{beer.name || 'unnamed'}</a>
-          &nbsp;
-          {Brewery && <span><a href={`/#/breweries/${Brewery.id}/`}>({Brewery.name})</a></span>}
+        <h4 className="beer-name">
+          <a href={`/#/beers/${beer.id}/`}>{beer.name || '?'}</a>
         </h4>
-        {beer.variety && <h5 className="variety">{beer.variety}</h5>}
+        <h5 className="variety-by-brewery">
+          {beer.variety && `${beer.variety} `}
+          by <span><a href={`/#/breweries/${Brewery.id}/`}>{Brewery.name}</a></span>
+        </h5>
       </header>
       <div className="meta">
-        {beer.abv && <span>{beer.abv}% ABV</span>}
-        {beer.ibu && <span>{beer.ibu} IBU</span>}
+        {beer.abv && <span className="abv">{beer.abv}% ABV</span>}
+        {beer.ibu && <span className="ibu">{beer.ibu} IBU</span>}
       </div>
     </div>
   );

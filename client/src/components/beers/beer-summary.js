@@ -11,31 +11,29 @@ import withProps from 'recompose/withProps';
 import { beerModel } from '../../proptypes';
 import { calcStandardDrinks } from '../../util/util';
 
-import Avatar from '../generic/avatar';
-
 const BeerSummary = props => (
   <div className="beer-summary-view">
     <div className="primary">
-      <h1 className="name">
+      <h1 className="beer-name">
+        {props.kegId && (
+          <span>{`Keg #${props.kegId}: `}</span>
+        )}
         <a href={`/#/beers/${props.id}/`}>{props.name}</a>
       </h1>
-      <h2 className="brewery-name">
-        <span><a href={`/#/breweries/${props.Brewery.id}/`}>{props.Brewery.name}</a></span>
+      <h2 className="variety-by-brewery">
+        {props.variety && `${props.variety} `}
+        by <a className="link-brewery" href={`/#/breweries/${props.Brewery.id}/`}>{props.Brewery.name}</a>
         {props.canBuy && <icon className="icon-canbuy emoji-tick" title="We can order kegs of this beer" />}
       </h2>
-      <h4 className="variety">{props.variety}</h4>
-      <p className="notes">{props.notes}</p>
-    </div>
 
-    <div className="meta">
-      <p className="abv">{props.abv ? `${props.abv}%` : '?'} ABV</p>
-      <p className="ibu">{props.ibu ? props.ibu : '?'} IBU</p>
-      {props.abv && <p className="sd">
-        {props.standardDrinks } SD / pint
-      </p> }
-      { props.addedByUser &&
-        <Avatar {...props.addedByUser} size="40" />
-      }
+      {(props.abv || props.ibu) && (
+        <div className="meta">
+          <p className="abv">{props.abv ? `${props.abv}%` : '?'} ABV <span className="sd">({props.standardDrinks} sd / pint)</span></p>
+          <p className="ibu">{props.ibu ? props.ibu : '?'} IBU</p>
+        </div>
+      )}
+
+      <p className="notes">{props.notes}</p>
     </div>
   </div>
 );

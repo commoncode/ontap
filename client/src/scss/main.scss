@@ -13,6 +13,7 @@ $lightBlue: #89BAD9;
 $darkerBlue: #436B9F;
 $offGrey: #EEEEEE;
 $offWhite: #F2F2F2;
+$nearlyWhite: #FAFAFA;
 $brown: #59596E;
 $khaki: #6D7340;
 $highlight: orange;
@@ -24,14 +25,24 @@ html, body {
   padding: 0;
   height: 100%;
   overflow: hidden;
+  font-size: 16px;
+}
+
+html {
+  // disable the 350ms tap delay on mobile devices
+  touch-action: manipulation;
 }
 
 * {
   box-sizing: border-box;
 }
 
+input {
+  -webkit-appearance: none; // stop ios putting shadows everywhere
+}
+
 body {
-  font-size: 24px;
+  // font-size: 24px; // todo - this is huge, figure out if it's actually doing anything anywhere...
   font-family: 'Helvetica Neue', Helvetica, arial, sans-serif;
   color: $brown;
 }
@@ -44,7 +55,7 @@ a {
   color: inherit;
   text-decoration: none;
 
-  &:hover, &:focus {
+  &:hover {
     text-decoration: underline;
   }
 }
@@ -60,35 +71,31 @@ a {
 }
 
 
-
-// KegEdit component inlined into tap view
-.tap .keg-edit {
-  margin: 40px 0 0;
-  padding: 40px 0 0;
-  border-top: 1px solid #ccc;
-}
-
-
 // App Header
 .app-header {
-  background: $lightBlue;
+  background: $darkerBlue;
   color: $offWhite;
   margin: 0;
-  padding: 24px;
+  padding: 12px;
   flex: 0 0 auto;
   display: flex;
+  justify-content: space-between;
 
-  h1 {
-    font-weight: 800;
-    color: white;
-    font-size: 2rem;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-    margin: 0;
-    flex: 1 0 0;
+  .menus {
+    display: flex;
+  }
 
-    span {
-      color: #eee;
+  .logo {
+    line-height: 0;
+
+    img {
+      width: auto;
+      height: 48px;
     }
+  }
+
+  .btn-toggle-menu {
+    display: none;
   }
 }
 
@@ -97,7 +104,7 @@ a {
   padding: 0;
   background: $darkBlue;
   font-size: 18px;
-  font-weight: 200;
+  font-weight: 400;
   display: flex;
   flex-wrap: wrap;
   flex: 0 0 auto;
@@ -106,20 +113,25 @@ a {
     display: none;
   }
 
-
   a {
     display: block;
     color: $offGrey;
-    padding: 8px 24px;
     flex: 0 0 auto;
+    padding: 8px 32px;
+
+    &:nth-child(2) {
+      padding-left: 18px; // align with logo
+    }
+
 
     &:hover {
       color: white;
     }
   }
 
-  a + a {
-    border-left: 1px solid $lightBlue;
+  // hide this on desktop, use the profile menu link instead
+  .app-nav-login {
+    display: none;
   }
 
   .btn-app-nav-toggle {
@@ -150,6 +162,8 @@ a {
 .profile {
   position: relative;
   flex: 0 0 auto;
+  display: flex;
+  align-items: center;
 
   .profile-avatar {
     width: 45px;
@@ -159,7 +173,14 @@ a {
     vertical-align: middle;
   }
 
+  .profile-somebody {
+    display: flex;
+  }
+
   .profile-nobody {
+    display: flex;
+    height: 100%;
+    align-items: center;
     font-size: 14px;
 
     a {
@@ -169,10 +190,11 @@ a {
 
   .profile-menu {
     display: none;
-    vertical-align: middle;
+    // vertical-align: middle;
 
     &.show {
-      display: inline-block;
+      display: flex;
+      align-items: center;
 
       a {
         color: white;
@@ -202,46 +224,27 @@ a {
   overflow-y: auto;
   flex: 1 1 auto;
   -webkit-overflow-scrolling: touch;
-}
-
-// App Footer
-.app-footer {
-  text-align: center;
-  font-size: 14px;
-  padding: 1em;
-  margin: 0;
-
-  a {
-    color: $lightBlue;
-  }
+  padding: 0 0 72px; // account for ui chrome in mobile browsers
 }
 
 
 // keg list
 .keg-list {
 
-  .button-group {
-    text-align: center;
-    margin: 1em 0 0;
-  }
-
   .keg-list-item {
-    border-bottom: 1px solid $lightBlue;
-    padding: 24px;
+    border-bottom: 1px solid #eee;
+    padding: 24px 0;
   }
 
   .beer-summary-view {
     margin: 0 0 1em;
+
+    // hide extra details in keg list view
+    .notes, .ibu {
+      display: none;
+    }
   }
 
-  // hide a few details
-  .beer-summary-view .notes,
-  .beer-summary-view .ibu,
-  .keg-summary-view .keg-rating,
-  .beer-summary-view .unavailable
-  {
-    display: none;
-  }
 }
 
 
@@ -262,8 +265,12 @@ a {
     }
   }
 
-  .keg-summary {
+  .keg-summary-view {
     margin: 0 0 48px;
+  }
+
+  .beer-summary-view .notes {
+    display: none;
   }
 }
 
@@ -276,25 +283,21 @@ a {
 // tap change view
 .tap-change {
 
-  .tap-change--tap-name {
-    color: $khaki;
-    font-size: 1.6rem;
-    font-weight: 400;
+  .keg-details {
+    margin: 0 0 48px;
+    padding: 0 0 12px;
+    border-bottom: 1px solid $offWhite;
   }
 
-  .tap-change--beer-name {
-    color: $darkBlue;
-    font-size: 1.4rem;
-    font-weight: 600;
+  .sub-header {
+    margin: 0 0 1em;
+    color: $highlight;
+    font-size: 1.25rem;
   }
 }
 
 // beer list view
 .beer-list-view {
-
-  .beer-list-item.unavailable {
-    opacity: 0.75;
-  }
 
   .btn-add-beer {
     margin: 0 auto 2em;
@@ -302,12 +305,12 @@ a {
   }
 }
 
-
+// page headers
 .page-header {
-  margin: 1em 0 1.5em;
+  margin: 0 0 1.5em;
 
   .page-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: $darkBlue;
     margin: 0;
     font-weight: 600;
@@ -342,35 +345,15 @@ a {
 
   .meta {
     flex: 1 1 0;
-  }
-
-  .name {
-    color: $lightBlue;
-    margin: 0 0 8px;
-
-    span {
-      font-style: italic;
-      font-size: 0.8em;
-      color: $darkBlue;
-      font-weight: 400;
-    }
-  }
-
-  .variety {
-    margin: 0;
-    color: $khaki;
-    font-weight: 400;
-    font-size: 0.7em;
-  }
-
-  .meta {
-    align-items: center;
-    font-size: 0.7em;
+    align-items: flex-end;
     display: flex;
+    color: $khaki;
+    font-size: 1rem;
+    margin: 0 0 0 24px;
 
     span {
       flex: 1 1 0;
-      margin-right: 2em;
+      text-align: right;
     }
   }
 
@@ -386,15 +369,11 @@ icon.icon-canbuy {
   vertical-align: top;
 }
 
-span + .icon-canbuy {
-  margin-left: 12px;
-}
-
 .brewery-detail {
 
-  .brewery-detail__url {
-    font-size: 20px;
-    margin: 0 0 0.5em;
+  .brewery-url {
+    font-size: 1.1rem;
+    margin: 2px 0 0;
 
     a {
       color: $lightBlue;
@@ -405,18 +384,20 @@ span + .icon-canbuy {
     }
   }
 
+  .admin-notes-title {
+    color: $khaki;
+    margin: 0 0 0.5em;
+    font-size: 1.2rem;
+  }
+
   .page-subtitle {
     line-height: 20px;
 
-    .icon-canbuy {
-      width: 20px;
-      height: 20px;
-      vertical-align: top;
+    // spacing before canbuy icon
+    .brewery-detail__location {
+      margin-right: 12px;
     }
 
-    span + .icon-canbuy {
-      margin-left: 12px;
-    }
   }
 
   .brewery-detail__description {
@@ -450,64 +431,6 @@ span + .icon-canbuy {
   }
 }
 
-// responsiveness
-@media (max-width: 600px) {
-
-  .app-header h1 span {
-    display: none;
-  }
-
-  .beer-list-view {
-    .canbuy-help-text {
-      display: none;
-    }
-  }
-
-  .beer-list-item {
-    flex-wrap: wrap;
-
-    > header {
-      flex: 0 0 100%;
-    }
-
-    .name span {
-      display: block;
-    }
-
-    .meta {
-      display: none;
-    }
-  }
-
-  .beer-detail-view {
-    .beer-summary-view {
-
-      .primary {
-        flex: 0 0 100%;
-      }
-
-      .meta {
-        text-align: left;
-        margin: 0.5em 0 0;
-      }
-
-      .notes {
-        margin: 1em 0;
-      }
-    }
-
-    button {
-      width: 100%;
-      margin: 0 0 0.5em;
-    }
-
-    .beer-actions button + button {
-      margin-left: 0;
-    }
-  }
-}
-
-
 
 
 // circular score thing
@@ -530,91 +453,39 @@ span + .icon-canbuy {
     margin-bottom: 2em;
   }
 
-  .beer-summary-view .name a {
+  .beer-summary-view .beer-name a {
     pointer-events: none; // disable link to current page
   }
 }
 
 // beer details. name, brewery, etc.
 .beer-summary-view {
-  display: flex;
-  flex-flow: row wrap;
-
-  .primary {
-    flex: 3 1 0;
-  }
 
   .meta {
-    flex: 1 1 0;
-    font-size: 1.5rem;
-    color: $lightBlue;
-    text-align: right;
+    margin: 12px 0 24px;
+    font-size: 1.1rem;
+    color: $khaki;
 
     p {
-      margin: 0 0 0.25em;
-    }
-
-    .sd {
-      font-size: 0.6em;
-    }
-
-    .avatar {
-      display: block;
       margin: 0;
+      font-weight: 600;
+
+      span {
+        font-weight: 400;
+      }
     }
-
-    .can-buy {
-      width: 40px;
-      height: 40px;
-    }
   }
 
-  .name {
-    margin: 0 0 4px;
-    font-size: 2rem;
-    color: $darkBlue;
-  }
-
-  .brewery-name {
-    margin: 4px 0;
-    font-size: 1.25rem;
-    font-weight: 400;
-    line-height: 1em;
-    color: $lightBlue;
-  }
-
-  .variety {
-    margin: 4px 0 0;
-    font-size: 1rem;
-    color: $khaki;
-    font-weight: 400;
-  }
-
-  .unavailable {
-    font-size: 1rem;
-    font-weight: bold;
-    color: $khaki;
-  }
-
-  .notes {
-    flex: 0 0 100%;
-    width: 100%;
-    font-weight: 400;
-    font-size: 1.2rem;
-    white-space: pre-wrap;
-    margin: 2em 0;
+  .link-brewery {
+    margin-right: 12px;
   }
 }
 
 .beer-actions, .brewery-actions {
   margin: 2em 0;
 
-  button {
+  .btn {
     font-size: 1rem;
-  }
-
-  button + button {
-    margin-left: 0.5em;
   }
 }
 
@@ -629,7 +500,7 @@ span + .icon-canbuy {
     background: #f2f2f2;
 
     &:nth-child(even){
-      background: #fafafa;
+      background: $nearlyWhite;
     }
 
     display: flex;
@@ -644,6 +515,7 @@ span + .icon-canbuy {
       flex: 1 1 0;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       &.end {
         justify-content: flex-end;
@@ -659,15 +531,19 @@ span + .icon-canbuy {
 }
 
 .list-add-link {
-  color: $darkerBlue;
-  font-weight: bold;
-  font-size: 20px;
+  color: $highlight;
+  font-size: 1rem;
   display: inline-block;
   margin: 0 0 1em;
+  font-weight: 800;
 }
 
 .beer-kegs-list {
   padding: 0 0 2em;
+
+  .no-kegs {
+    font-size: 1rem;
+  }
 }
 
 .keg-summary-view {
@@ -675,37 +551,26 @@ span + .icon-canbuy {
   display: flex;
 
   .keg-summary {
-    flex: 3;
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
   }
 
-  .keg-rating {
-    flex: 1;
-  }
-
-  .now-on-tap {
+  .keg-notes {
+    font-size: 1rem;
     color: $highlight;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .tapped {
-    color: $darkBlue;
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .notes {
-    font-weight: 200;
-    font-size: 1rem;
-    color: $khaki;
+    font-style: italic;
+    padding: 0 24px 0 0;
+    margin: 12px 0 0;
   }
 }
 
 
 .keg-summary__cheers {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 
   .icon {
     width: 45px;
@@ -715,6 +580,7 @@ span + .icon-canbuy {
 
   .count {
     font-size: 36px;
+    font-weight: 800;
     margin: 0;
     padding-left: 16px;
     color: $darkBlue;
@@ -724,20 +590,20 @@ span + .icon-canbuy {
 
 .cheers-modal {
   position: fixed;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
+  z-index: 99;
 
   .cheers-modal__contents {
     width: 320px;
-    max-width: 96%;
-    margin: 5% auto;
+    margin: 72px auto;
     cursor: auto;
-    border: 1px solid $darkBlue;
+    border: 5px solid $darkerBlue;
+    border-radius: 4px;
     background: white;
-    box-shadow: 0 0 24px $darkBlue;
     padding: 36px;
     text-align: center;
 
@@ -745,11 +611,16 @@ span + .icon-canbuy {
       margin: 0 0 24px;
       font-size: 20px;
       color: $brown;
+
+      b {
+        font-weight: 800;
+        color: $khaki;
+      }
     }
 
     .cheers-modal__contents__button  {
-      width: 240px;
-      height: 240px;
+      width: 160px;
+      height: 160px;
       max-width: 100%;
       max-height: auto;
       border: 10px solid $lightBlue;
@@ -760,52 +631,73 @@ span + .icon-canbuy {
         border-color: $highlight;
       }
     }
+
+    .cheers-modal__contents__btn-cancel {
+      border: none;
+      padding: 0;
+      color: $darkerBlue;
+      font-weight: 400;
+      font-size: 1rem;
+    }
   }
 
 }
 
 
 // buttons
-button {
+.btn {
   border: 1px solid #ddd;
   border-radius: 4px;
   background: white;
-  font-weight: 200;
-  color: #89BAD9;
+  font-weight: 400;
+  color: $lightBlue;
+  font-size: 1rem;
 
   cursor: pointer;
   padding: 0.5em 1em;
 
   &:hover {
     border: 1px solid #bbb;
+    background: $nearlyWhite;
+    text-decoration: inherit;
+  }
+
+  //
+  &.alt {
+    background: $lightBlue;
+    color: white;
+    border: 1px solid $darkerBlue;
+
+    &:hover {
+      background: $darkBlue;
+    }
+  }
+
+  + .btn {
+    margin-left: 0.5em;
   }
 }
 
-button.alt {
-  background: $lightBlue;
-  color: white;
-  border: 1px solid $darkerBlue;
 
-  &:hover {
-    background: $darkBlue;
-  }
-}
 
-button + button {
-  margin-left: 0.5em;
-}
 
-// button group
+// button groups
+// filter buttons etc
 .button-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 
-  button {
-    font-size: 0.7em;
+  .btn {
     border-radius: 0;
-    margin-left: -1px; // collapse borders
+    margin: 0;
     outline: none;
+    background: $lightBlue;
+    color: white;
+    font-weight: 400;
+    border: none;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
     flex: 0 0 auto;
 
     &:first-child {
@@ -817,20 +709,13 @@ button + button {
     }
 
     &:hover {
-      background: $offWhite;
+      background: $darkerBlue;
     }
 
     &.active {
-      background: $offGrey;
+      background: $darkerBlue;
+      color: white;
     }
-  }
-
-  @media (max-width: 600px) {
-
-    button {
-      flex: 1 1 auto;
-    }
-
   }
 }
 
@@ -839,6 +724,8 @@ button + button {
 
 .emoji {
   background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -900,24 +787,6 @@ button + button {
 }
 
 
-// keg detail cheers list
-.keg-detail-cheers {
-  h3 {
-    color: $darkBlue;
-    font-size: 1.5rem;
-    margin: 0 0 0.5em;
-
-    .emoji {
-      vertical-align: bottom;
-    }
-  }
-
-  .rating-group {
-    margin: 0 0 1em;
-  }
-}
-
-
 // user summary
 .user-summary {
 
@@ -926,8 +795,11 @@ button + button {
     align-items: center;
     margin: 0 0 2em;
 
-    h2 {
+    .username {
       order: 1;
+      color: $darkBlue;
+      margin: 0;
+      font-size: 30px;
 
       .btn-edit-user {
         display: block;
@@ -944,16 +816,17 @@ button + button {
     .avatar {
       order: 0;
       margin-right: 1em;
-      width: 110px;
+      width: 120px;
+      border-radius: 12px;
     }
   }
+}
 
-  h2 {
-    color: $darkBlue;
-  }
 
-  .avatar {
-    border-radius: 12px;
+// user detail
+.user-detail {
+  .no-cheers {
+    font-size: 1rem;
   }
 }
 
@@ -1008,27 +881,22 @@ button + button {
   position: fixed;
   z-index: 1;
   width: 100%;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
   font-size: 1rem;
+  line-height: 1.25em;
 
   .notification {
-    display: block;
-    text-align: center;
     margin: 0;
     padding: 12px;
     cursor: pointer;
-    background: $offWhite;
-    border-bottom: 1px solid white;
+    background: white;
+    color: $darkerBlue;
     animation: fadein 0.25s linear;
     overflow: hidden;
-
-    &:hover {
-      background: #ddd !important;
-    }
-
-    &:nth-child(odd) {
-      background: $offGrey;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 }
 
@@ -1048,7 +916,6 @@ button + button {
   }
 
   label {
-    font-weight: 200;
     color: #638BBF;
     display: block;
     margin-bottom: 0.5em;
@@ -1126,7 +993,6 @@ button + button {
 
 
 // avatars
-
 .avatar {
   // make them sit horizontally by default
   display: inline-block;
@@ -1144,4 +1010,379 @@ button + button {
   100% {
     opacity: 1;
   }
+}
+
+
+
+// re-used & generic components and elements
+
+.beer-name, .brewery-name {
+  margin: 0 0 4px;
+  font-size: 1.6rem;
+  line-height: 1em;
+  font-weight: 600;
+  color: $darkerBlue;
+}
+
+.variety-by-brewery, .brewery-location {
+  margin: 0;
+  color: $darkBlue;
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1em;
+
+  span, a {
+    font-weight: 600;
+  }
+}
+
+.tapped-date {
+  color: $lightBlue;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  padding-right: 16px;
+}
+
+.tap-name {
+  font-size: 1.2rem;
+  line-height: 1em;
+  text-transform: uppercase;
+  color: orange;
+  text-align: center;
+  margin: 0 0 24px;
+  font-weight: 800;
+}
+
+.notes {
+  font-weight: 400;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  margin: 0 0 1em;
+
+  &.alt {
+    color: $khaki;
+  }
+}
+
+
+// tap views
+.tap {
+  display: flex;
+  padding: 24px;
+  border-bottom: 1px solid #eee;
+
+  .tap-name {
+    flex: 2 0 0;
+    align-self: center;
+    text-align: left;
+    margin: 0 0 16px 0;
+  }
+
+  .tap-keg {
+    flex: 5 0 0;
+  }
+
+  .tap-admin {
+    flex: 1 0 auto;
+    align-self: center;
+    display: flex;
+    justify-content: flex-end;
+
+    .btn {
+      text-transform: uppercase;
+    }
+
+  }
+
+  &.no-service .beer-name {
+    color: $khaki;
+  }
+
+}
+
+
+
+// responsive styles for mobile
+$mobilePadding: 12px;
+@media (max-width: 600px) {
+
+  // global font-size is a bit smaller
+  html {
+    font-size: 14px;
+  }
+
+  // smaller header
+  .app-header {
+    padding: 8px $mobilePadding;
+    border-bottom: 1px solid #333;
+
+    .logo img {
+      height: 36px;
+    }
+
+    .profile .profile-avatar {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  // app navigation menu can be toggled
+  .app-header .btn-toggle-menu {
+    border-radius: 0;
+    display: block;
+    background: none;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 0;
+    font-size: 32px;
+    margin-left: 12px;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      background: inherit;
+    }
+  }
+
+  // use the login link in the app-nav
+  // instead of the profile menu
+  .app-nav-login {
+    display: block;
+  }
+  .app-header .profile-nobody {
+    display: none;
+  }
+
+  // display the menu when it's enabled
+  .app-nav a {
+    display: none;
+  }
+  .app-nav.show-menu a {
+    display: block;
+    text-align: right;
+    padding: $mobilePadding;
+  }
+
+
+  // view padding is smaller
+  .view {
+    padding: $mobilePadding;
+  }
+
+  // button groups wrap
+  .button-group {
+    .btn {
+      flex: 1 1 auto;
+
+      &:first-child, &:last-child {
+        border-radius: 0;
+      }
+    }
+
+  }
+
+  // Keg List view is a bit cleaner
+  // and the layout not as large
+  .keg-list {
+    .keg-list-item {
+      padding: 24px 0 12px;
+    }
+  }
+
+  .beer-summary-view {
+
+    .tap-name {
+      margin: 0 0 12px;
+    }
+
+    .meta {
+      font-size: 1rem;
+      margin: 8px 0;
+
+      .sd {
+        display: none;
+      }
+    }
+  }
+
+  .keg-summary__cheers .count {
+    padding-left: 8px;
+  }
+
+
+  // modifications for the keg list
+  .keg-list {
+    .beer-summary-view {
+      margin: 0 0 8px;
+    }
+  }
+
+  .cheers-modal {
+
+    .cheers-modal__contents {
+      margin: 60px auto;
+      border: 3px solid $darkerBlue;
+      width: 260px;
+      padding: 24px 16px;
+      font-size: 1rem;
+
+      .cheers-modal__contents_button {
+        width: 140px;
+        height: 140px;
+      }
+
+    }
+  }
+
+  .notifications {
+    .notification {
+      min-height: 54px; // cover the menu bar
+    }
+  }
+
+  .page-header {
+    margin: 0 0 24px;
+  }
+
+  .beer-list-view {
+    .button-group {
+      margin-bottom: $mobilePadding;
+    }
+  }
+
+
+  // single line list in mobile view
+  .single-line-list {
+    .list-item {
+      padding: 8px;
+      flex-wrap: wrap;
+
+      .column {
+        flex: 1 0 100%;
+
+        &.end {
+          justify-content: flex-start;
+        }
+      }
+
+      .column + .column {
+        margin-top: 8px;
+      }
+    }
+
+
+  }
+
+  // tighten everything up a bit
+  .user-summary {
+
+    header {
+      margin: 0 0 1em;
+
+      .avatar {
+        margin-right: $mobilePadding;
+        width: 70px;
+      }
+
+      .username {
+        font-size: 20px;
+      }
+    }
+
+  }
+
+
+  // tap views
+  .tap {
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: $mobilePadding;
+
+    .tap-name {
+      text-align: center;
+      flex: 1;
+      margin: 0 0 1em;
+    }
+
+    .tap-keg {
+      flex: 1;
+      margin: 0 0 0.5em;
+    }
+
+
+    .beer-name {
+      margin: 0 0 4px;
+      font-size: 1.5rem;
+    }
+  }
+
+  // haven't done these ones yet...
+
+  .beer-list-item {
+    flex-wrap: wrap;
+
+    > header, .meta {
+      flex: 1 0 100%;
+    }
+
+    > header {
+      margin: 0 0 8px;
+    }
+
+    .meta {
+      color: $khaki;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+
+      span {
+        text-align: left;
+      }
+
+      .ibu {
+        display: none;
+      }
+    }
+  }
+
+}
+
+
+/**
+ * Loader styles
+ */
+@-webkit-keyframes wave-animation{
+  0%{background-position:0 bottom};
+  100%{background-position:100% bottom};
+}
+@-webkit-keyframes loading-animation{
+  0%{background-size:100% 10%};
+  100%{background-size:100% 100%};
+}
+@keyframes wave-animation{
+  0%{background-position:0 bottom};
+  100%{background-position:100% bottom};
+}
+@keyframes loading-animation{
+  0%{background-size:100% 10%};
+  100%{background-size:100% 100%};
+}
+
+.loader {
+  font-size: 40px;
+  font-weight: 800;
+  text-align: center;
+  background-image:url('../images/wave.png');
+  color:rgba(0,0,0,0);
+  text-shadow: 0px 0px rgba(0, 0, 0, 0.15);
+  background-size:200px 10px;
+  background-repeat:repeat-x;
+  opacity:1;
+  letter-spacing: -2px;
+
+  -webkit-animation: wave-animation 1s infinite linear, loading-animation 3s infinite linear alternate;
+  animation: wave-animation 1s infinite linear, loading-animation 3s infinite linear alternate;
+  -webkit-background-clip: text;
+  background-clip: text;
 }

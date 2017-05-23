@@ -32,7 +32,6 @@ class TapsStore extends ReduceStore {
   // eslint-disable-next-line class-methods-use-this
   reduce(state, action) {
     const { type, data, error } = action;
-    if (error) console.error(error);
 
     switch (type) {
       case 'REQUEST_FETCH_TAPS':
@@ -48,27 +47,6 @@ class TapsStore extends ReduceStore {
           fetched: true,
           error: error || null,
         })).set('taps', tapsToMap(data));
-
-      case 'RECEIVE_CHEERS_KEG': {
-        // todo - not sure how but sometimes .taps isn't set...?
-        if (!state.has('taps')) return state;
-
-        // a notification gets fired from the action creator
-        // so we're good to ignore this
-        if (error) return state;
-
-        // payload is a Keg.
-        // if that Keg is in our Taps, find it and update it.
-        const matchingTap = state.get('taps').findEntry(tap => tap.kegId === action.kegId);
-        if (matchingTap) {
-          const [tapId, tapObject] = matchingTap;
-          return state.setIn(['taps', tapId], {
-            ...tapObject,
-            Keg: data,
-          });
-        }
-        return state;
-      }
 
       default:
         return state;

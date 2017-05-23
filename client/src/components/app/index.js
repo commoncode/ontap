@@ -6,6 +6,7 @@
 import React from 'react';
 import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
+import autobind from 'autobind-decorator';
 
 import profileStore from '../../stores/profile';
 import { fetchProfile } from '../../actions/profile';
@@ -15,39 +16,74 @@ import ContentRouter from '../router';
 import ProfileMenu from '../profile/profile-menu';
 import Notifications from '../notifications';
 
-const AppComponent = (props) => {
-  const isAdmin = props.profile && props.profile.data.admin;
 
-  return (
-    <div className="container">
-      <Notifications />
-      <header className="app-header">
-        <h1><a href="/#/">On Tap</a></h1>
-        <ProfileMenu {...props.profile} />
-      </header>
-      <nav className="app-nav">
-        <a href="/#/">Now On Tap</a>
-        <a href="/#/beers">Beers</a>
-        <a href="/#/breweries">Breweries</a>
-        <a href="/#/users">Users</a>
-        {isAdmin && <a href="/#/kegs/new">Add Keg</a> }
-        {isAdmin && <a href="/#/taps">Change Taps</a> }
-      </nav>
+@autobind
+class AppComponent extends React.Component {
 
-      <div className="app-content">
-        <ContentRouter {...props} />
+  static propTypes() {
+    return {
+      profile: reactPropTypes.shape(propTypes.userModel),
+    };
+  }
+
+  constructor() {
+    super();
+
+    this.state = {
+      showMenu: false,
+    };
+  }
+
+  toggleMenu() {
+    this.setState({
+      showMenu: !this.state.showMenu,
+    });
+  }
+
+  render() {
+    const { props } = this;
+    const isAdmin = props.profile && props.profile.data.admin;
+    const { showMenu } = this.state;
+
+    const menuClassName = `app-nav ${showMenu ? 'show-menu' : ''}`;
+
+    return (
+      <div className="container">
+        <Notifications />
+        <header className="app-header">
+          <a href="/#/" className="logo">
+            <img
+              src="/public/favicon.png"
+              title="On Tap"
+              role="presentation"
+            />
+          </a>
+          <div className="menus">
+            <ProfileMenu {...props.profile} />
+            <button
+              className="btn-toggle-menu"
+              onClick={this.toggleMenu}
+            >&#9776;</button>
+          </div>
+        </header>
+        <nav className={menuClassName} onClick={this.toggleMenu}>
+          {(!props.profile.data || !props.profile.data.id)  && (<a href="/login" className="app-nav-login">Login with Google</a>)}
+          <a href="/#/">Now On Tap</a>
+          <a href="/#/beers">Beers</a>
+          <a href="/#/breweries">Breweries</a>
+          <a href="/#/users">Users</a>
+          {isAdmin && <a href="/#/kegs/new">Add Keg</a> }
+          {isAdmin && <a href="/#/taps">Change Taps</a> }
+        </nav>
+
+        <div className="app-content">
+          <ContentRouter {...props} />
+        </div>
+
       </div>
-
-      <footer className="app-footer">
-        <a href="https://github.com/commoncode/ontap">github.com/commoncode/ontap</a>
-      </footer>
-    </div>
-  );
-};
-
-AppComponent.propTypes = {
-  profile: reactPropTypes.shape(propTypes.userModel),
-};
+    );
+  }
+}
 
 // flux-utils container to bind stores to our components.
 // any stores that will share data globally (ie profiles)

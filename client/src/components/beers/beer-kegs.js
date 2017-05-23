@@ -31,7 +31,7 @@ const BeerKegs = (props) => {
 
   return (
     <div className="beer-kegs-list">
-      <h3 className="title">Kegs of {props.beer.name}</h3>
+      <h3 className="list-title">Kegs of {props.beer.name}</h3>
 
       <div className="single-line-list">
         { Kegs.map((keg) => {

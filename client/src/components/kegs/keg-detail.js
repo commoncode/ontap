@@ -7,6 +7,7 @@ import profileStore from '../../stores/profile';
 import { fetchKeg, deleteKeg } from '../../actions/kegs';
 import * as propTypes from '../../proptypes';
 
+import BeerSummary from '../beers/beer-summary';
 import KegDetailCheers from './keg-detail-cheers';
 import KegSummary from './keg-summary';
 import KegEdit from './keg-edit';
@@ -52,15 +53,10 @@ class KegDetail extends React.Component {
     if (keg.error) return <ErrorComponent {...keg.error} />;
 
     const { Beer } = keg.model;
-    const { Brewery } = Beer;
 
     return (
       <div className="keg-detail view">
-        <h2 className="keg-name">
-          Keg {keg.model.id}: <a href={`/#/beers/${Beer.id}/`}>{Beer.name}</a> by
-          {' '}<a href={`/#/breweries/${Brewery.id}/`}>{Brewery.name}</a>
-        </h2>
-
+        <BeerSummary {...Beer} kegId={keg.model.id} />
         <KegSummary {...keg.model} />
         <KegDetailCheers {...keg.model} profile={profile} />
 

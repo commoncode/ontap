@@ -49,7 +49,7 @@ class UserSummary extends React.Component {
     return (
       <div className="user-summary">
         <header>
-          <h2>
+          <h2 className="username">
             {props.name}
             {(isCurrentUser || isAdmin) && (
               <p className="btn-edit-user">
@@ -57,7 +57,7 @@ class UserSummary extends React.Component {
               </p>
             )}
           </h2>
-          <img alt={props.name} className="avatar" src={`${props.avatar}?size=120`} />
+          <img alt={props.name} className="avatar" src={`${props.avatar}?size=200`} />
         </header>
 
         {editing && (

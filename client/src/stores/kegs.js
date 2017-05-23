@@ -53,14 +53,16 @@ class KegMapStore extends ReduceStore {
         })).set('kegs', kegsToMap(data));
 
       case 'RECEIVE_CHEERS_KEG':
-        // todo - handle this.
         if (error) return state;
 
-        // payload is a Keg.
+        // payload is a Keg
         // if it's in the store, update it.
         // todo - what if it's not? ignore it?
         if (state.hasIn(['kegs', action.kegId])) {
-          return state.setIn(['kegs', action.kegId], data);
+          return state.setIn(['kegs', action.kegId], {
+            ...state.getIn(['kegs', action.kegId]),
+            Cheers: data.Cheers,
+          });
         }
         return state;
 

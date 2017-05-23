@@ -55,7 +55,7 @@ class KegList extends React.Component {
     const { activeFilterName } = this.state;
 
     return (
-      <section className="keg-list">
+      <section className="keg-list view">
         { sync.fetching && <Loader /> }
 
         { !sync.fetching && (
