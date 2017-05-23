@@ -1,25 +1,20 @@
 import React from 'react';
 import reactPropTypes from 'prop-types';
-import classnames from 'classnames/bind';
 import { Container } from 'flux/utils';
 
 import { fetchTaps } from '../../actions/taps';
 import tapsStore from '../../stores/taps';
-import styles from './taps.css';
 import * as propTypes from '../../proptypes';
 
 import Loader from '../loader';
 import Tap from './tap';
 
-const classes = classnames.bind(styles);
-
 const TapList = (props) => {
   const { taps, profile, sync } = props;
 
   return (
-    <section className={classes(['on-tap-list'])}>
+    <section className="on-tap-list">
       {sync.fetching && <Loader />}
-
       {taps.map(tap => <Tap key={tap.id} model={tap} profile={profile} />) }
     </section>
   );

@@ -6,33 +6,37 @@
 import React from 'react';
 import reactPropTypes from 'prop-types';
 import branch from 'recompose/branch';
-import classnames from 'classnames/bind';
 import renderComponent from 'recompose/renderComponent';
 
 import * as propTypes from '../../proptypes/';
 import { dayMonth } from '../../util/date';
 
-import styles from './taps.css';
-
-const classes = classnames.bind(styles);
 
 const Tap = (props) => {
   const { model, profile } = props;
   const { name, id, Keg } = model;
   const { Beer } = Keg;
+  const { Brewery } = Beer;
   return (
-    <article className={`${classes(['tap'])}`}>
-      <div className={classes(['tap-name'])}>
+    <article className="tap">
+      <div className="tap-name">
         {name}
       </div>
-      <div className={classes(['tap-keg'])}>
-        <h2 className={classes(['beer-name'])}>{Beer.name} ({Beer.Brewery.name})</h2>
-        <p className={classes(['tapped-date'])}>Tapped {dayMonth(Keg.tapped)}</p>
+      <div className="tap-keg">
+        <h2 className="beer-name">{Beer.name}</h2>
+        <h3 className="variety-by-brewery">
+          {Beer.variety && <span>{Beer.variety}</span>}
+          {' by '}
+          <span>
+            <a href={`/#/breweries/${Brewery.id}`}>{Brewery.name}</a>
+          </span>
+        </h3>
+        <p className="tapped">Tapped {dayMonth(Keg.tapped)}</p>
       </div>
 
       {profile && profile.admin &&
-        <div className={classes(['tap-admin'])}>
-          <a href={`/#/taps/${id}/`}>Change Tap</a>
+        <div className="tap-admin">
+          <a href={`/#/taps/${id}/`} className="btn">Change Tap</a>
         </div>
       }
     </article>
@@ -45,18 +49,18 @@ Tap.propTypes = {
 };
 
 const Dry = props => (
-  <article className={classes(['tap', 'no-service'])}>
-    <div className={classes(['tap-name'])}>
+  <article className="tap no-service">
+    <div className="tap-name">
       {props.model.name}
     </div>
-    <div className={classes(['tap-keg'])}>
+    <div className="tap-keg">
       <header>
-        <h2 className={classes(['beer-name'])}>No Service</h2>
+        <h2 className="beer-name">No Service</h2>
       </header>
     </div>
     {props.profile && props.profile.admin &&
-      <div className={classes(['tap-admin'])}>
-        <a href={`/#/taps/${props.model.id}/`}>Change Tap</a>
+      <div className="tap-admin">
+        <a href={`/#/taps/${props.model.id}/`} className="btn">Change Tap</a>
       </div>
     }
   </article>

@@ -34,7 +34,8 @@
 
 - Consistent patterns for all of the stores
   - Generic stores for list and detail components
-- remove the CSS modules: KegListItem, Loader, TapList, Tap
+- Some CSS patterns can be used across different views/components
+  - .beer-name, .keg-tapped etc
 - Change any <A>s without hrefs to buttons
 - CSS styleguide for reusable components, patterns
 - Implement autoLoader everywhere we're using Loader
