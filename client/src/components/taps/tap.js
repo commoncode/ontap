@@ -25,9 +25,8 @@ const Tap = (props) => {
       <div className="tap-keg">
         <h2 className="beer-name">{Beer.name}</h2>
         <h3 className="variety-by-brewery">
-          {Beer.variety && <span>{Beer.variety}</span>}
-          {' by '}
-          <span>
+          {Beer.variety && `${Beer.variety} `}
+          by <span>
             <a href={`/#/breweries/${Brewery.id}`}>{Brewery.name}</a>
           </span>
         </h3>

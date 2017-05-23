@@ -55,7 +55,7 @@ a {
   color: inherit;
   text-decoration: none;
 
-  &:hover, &:focus {
+  &:hover {
     text-decoration: underline;
   }
 }
@@ -1042,7 +1042,7 @@ icon.icon-canbuy {
   margin: 0;
   color: $darkBlue;
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   line-height: 1em;
 
   span, a {

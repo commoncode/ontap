@@ -87,7 +87,7 @@ class TapChange extends React.Component {
             <h3 className="sub-header">Currently on tap</h3>
             <h2 className="beer-name">{Keg ? Keg.Beer.name : 'No Service'}</h2>
             <h3 className="variety-by-brewery">
-              {Keg.Beer.variety && <span>{Keg.Beer.variety} </span>}
+              {Keg.Beer.variety && `${Keg.Beer.variety} `}
               by <span>{Keg.Beer.Brewery.name}</span>
             </h3>
           </div>

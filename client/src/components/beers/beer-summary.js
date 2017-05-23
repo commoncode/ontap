@@ -21,9 +21,8 @@ const BeerSummary = props => (
         <a href={`/#/beers/${props.id}/`}>{props.name}</a>
       </h1>
       <h2 className="variety-by-brewery">
-        {props.variety && <span>{props.variety}</span>}
-        {' by '}
-        <a className="link-brewery" href={`/#/breweries/${props.Brewery.id}/`}>{props.Brewery.name}</a>
+        {props.variety && `${props.variety} `}
+        by <a className="link-brewery" href={`/#/breweries/${props.Brewery.id}/`}>{props.Brewery.name}</a>
         {props.canBuy && <icon className="icon-canbuy emoji-tick" title="We can order kegs of this beer" />}
       </h2>
 

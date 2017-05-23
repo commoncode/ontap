@@ -32,6 +32,7 @@
 - Datepicker for the change tap view
 - Allow users to remove their own Cheers
 - 'Add a Beer' should link to beers/new instead of inline creation
+- Loader used to look better (the wave motion was clearer) - fix it or implement a new one
 
 ## cleanup/refactor:
 
