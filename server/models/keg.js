@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Keg', {
     type: DataTypes.DATE,
     allowNull: true,
   },
-  notes: DataTypes.STRING,
+  notes: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
   beerId: {
     type: DataTypes.INTEGER,
     references: {
@@ -36,6 +40,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Keg', {
       key: 'id',
     },
     allowNull: false,
-    onDelete: 'cascade',
+    onDelete: 'CASCADE', // delete beer => delete keg
+    onUpdate: 'CASCADE', // change beer.id => update keg
   },
 });

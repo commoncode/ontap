@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Tap', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: '',
   },
   kegId: {
     type: DataTypes.INTEGER,
@@ -21,7 +22,9 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Tap', {
       model: 'Kegs',
       key: 'id',
     },
-    unique: true,
     allowNull: true,
+    onDelete: 'SET NULL', // delete keg => set to null
+    onUpdate: 'CASCADE', // change keg.id => update tap
+    unique: true,
   },
 });

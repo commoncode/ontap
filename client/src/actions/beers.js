@@ -3,7 +3,7 @@
  */
 
 import dispatcher from '../dispatcher';
-import { fetcher, headers, credentials, nullify } from './util';
+import { fetcher, headers, credentials } from './util';
 import { addNotification } from './notifications';
 
 
@@ -65,7 +65,7 @@ export function updateBeer(beer) {
     headers,
     credentials,
     method: 'PUT',
-    body: JSON.stringify(nullify(beer)),
+    body: JSON.stringify(beer),
   })
   .then(res => res.json())
   .then((data) => {
@@ -90,7 +90,7 @@ export function createBeer(beer) {
 
   return fetcher('/api/v1/beers/', {
     method: 'POST',
-    body: JSON.stringify(nullify(beer)),
+    body: JSON.stringify(beer),
   })
   .then((data) => {
     addNotification('Added your beer 🍻');

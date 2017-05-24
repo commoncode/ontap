@@ -8,6 +8,7 @@ import React from 'react';
 import autobind from 'autobind-decorator';
 
 import { updateBeer, createBeer } from '../../actions/beers';
+import { nullify } from '../../actions/util';
 
 import Loader from '../loader';
 import BrewerySelect from '../breweries/brewery-select';
@@ -36,6 +37,11 @@ export default class BeerEdit extends React.Component {
       },
     };
 
+    // abv/ibu are nullable, set to empty strings if they are.
+    // we coerce them back to null later on if they're not given values.
+    if (this.state.model.abv === null) this.state.model.abv = '';
+    if (this.state.model.ibu === null) this.state.model.ibu = '';
+
   }
 
   inputChangeHandler(evt) {
@@ -63,10 +69,14 @@ export default class BeerEdit extends React.Component {
   }
 
   saveAction() {
+    // coerce empty string values to null for .abv and .ibu
+    // because they're not stored as strings in the db
+    const model = nullify(this.state.model, ['abv', 'ibu']);
+
     if (this.props.model && this.props.model.id) {
-      return updateBeer(this.state.model);
+      return updateBeer(model);
     }
-    return createBeer(this.state.model);
+    return createBeer(model);
   }
 
   render() {

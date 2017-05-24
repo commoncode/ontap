@@ -1,7 +1,6 @@
 /**
- * rating model.
- * users can rate a keg.
- * thumbs up, thumbs down, thumbs none.
+ * Cheers model.
+ * Users can Cheers a keg to indicate they're digging it.
  */
 
 module.exports = (sequelize, DataTypes) => sequelize.define('Cheers', {
@@ -18,6 +17,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Cheers', {
       key: 'id',
     },
     allowNull: false,
+    onDelete: 'CASCADE', // delete keg => delete cheers
+    onUpdate: 'CASCADE', // change keg.id => update cheers
   },
   userId: {
     type: DataTypes.INTEGER,
@@ -26,6 +27,8 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Cheers', {
       key: 'id',
     },
     allowNull: false,
+    onDelete: 'CASCADE', // delete user => delete cheers
+    onUpdate: 'CASCADE', // change user.id => update cheers
   },
   timestamp: {
     type: DataTypes.DATE,
