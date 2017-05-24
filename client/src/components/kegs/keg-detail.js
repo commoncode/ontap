@@ -47,7 +47,7 @@ class KegDetail extends React.Component {
   render() {
     const { keg, profile } = this.props;
     const { editing } = this.state;
-    const canEdit = profile.data && profile.data.admin;
+    const canEdit = profile && profile.admin;
 
     if (keg.fetching) return <Loader />;
     if (keg.error) return <ErrorComponent {...keg.error} />;
@@ -57,7 +57,7 @@ class KegDetail extends React.Component {
     return (
       <div className="keg-detail view">
         <BeerSummary {...Beer} kegId={keg.model.id} />
-        <KegSummary {...keg.model} />
+        <KegSummary {...keg.model} profile={profile} />
         <KegDetailCheers {...keg.model} profile={profile} />
 
         { canEdit && (
@@ -97,7 +97,7 @@ class KegDetailContainer extends React.Component {
   static calculateState() {
     return {
       keg: kegDetailStore.getState(),
-      profile: profileStore.getState(),
+      profile: profileStore.getState().data,
     };
   }
 

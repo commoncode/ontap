@@ -4,8 +4,6 @@
 ## bugs, issues
 
 - there's no 404 page
-- Cheers doesn't work from the Keg Detail view
-
 
 ## new features, improvements
 
@@ -27,7 +25,6 @@
   - Link to beer/brewery on Untappd
 - Proper routing (non-hash)
 - Prevent Cheersing a yet-to-be-tapped keg. Requires fixing the default Invalid Date issue on the Keg.
-- cheersKeg() in api should just return the new Cheers and the KegId, not the kitchen sink
 - API tests: auth, nested objects, expected attributes etc
 
 ## cleanup/refactor:

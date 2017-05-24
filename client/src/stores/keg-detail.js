@@ -50,6 +50,19 @@ class KegDetailStore extends ReduceStore {
           model: Object.assign({}, state.model, data),
         };
 
+      case 'RECEIVE_CHEERS_KEG':
+        // payload is the Cheers
+        return {
+          fetching: false,
+          pushing: false,
+          error: error || null,
+          model: data ? {
+            ...state.model,
+            Cheers: data,
+          } : state.model,
+        };
+
+
       default:
         return state;
     }
