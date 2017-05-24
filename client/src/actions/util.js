@@ -42,14 +42,18 @@ export function fetcher(path, opts) {
 }
 
 /**
- * return a copy of an object that replaces
- * all empty strings with null.
+ * Return a copy of an object that replaces empty strings with null
+ * for any keys specified in keys[]
  * @param  {Object} obj
+ * @param  {Array} keys
  * @return {Object}
  */
-export function nullify(obj) {
-  return Object.keys(obj).reduce((memo, key) => {
-    memo[key] = obj[key] === '' ? null : obj[key];
-    return memo;
-  }, {});
+export function nullify(obj, keys) {
+  const copy = {
+    ...obj,
+  };
+  keys.forEach((key) => {
+    if (copy[key] === '') copy[key] = null;
+  });
+  return copy;
 }

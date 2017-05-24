@@ -3,18 +3,12 @@
 
 ## bugs, issues
 
-- cascade deletes aren't working, check them all.
-  - brewery -> beer
-  - beer -> keg
-- 'value prop on input should not be null'
-  - models with strings should probably be NOT NULL, default to empty string
-  - make sure we handle dates properly
-- implement a 404 page and use it
+- there's no 404 page
+- Cheers doesn't work from the Keg Detail view
 
 
 ## new features, improvements
 
-- Make Cheersing work on the Keg Detail view
 - Link to the Keg Detail from the Keg List view?
   - UI needs to be more helpful distinguishing/explaining Kegs vs Beers
 - Searchable ModelSelect
