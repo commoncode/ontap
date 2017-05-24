@@ -24,10 +24,15 @@ module.exports = (sequelize, DataTypes) => sequelize.define('User', {
   admin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
+    allowNull: false,
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  avatar: DataTypes.STRING,
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
 });

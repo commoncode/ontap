@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Brewery', {
   canBuy: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
+    allowNull: false,
   },
 }, {
   freezeTableName: true,

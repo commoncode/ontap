@@ -40,6 +40,7 @@ loadModels();
 // A Tap has a Keg
 db.Keg.hasOne(db.Tap, {
   foreignKey: 'kegId',
+  onDelete: 'SET NULL', // delete Keg => set Tap.kegId to null
 });
 db.Tap.belongsTo(db.Keg, {
   foreignKey: 'kegId',
@@ -48,7 +49,7 @@ db.Tap.belongsTo(db.Keg, {
 // A Keg has a Beer
 db.Beer.hasMany(db.Keg, {
   foreignKey: 'beerId',
-  onDelete: 'CASCADE', // delete the beer, delete the kegs
+  onDelete: 'CASCADE', // can't delete a beer that has kegs
 });
 db.Keg.belongsTo(db.Beer, {
   foreignKey: 'beerId',
@@ -57,7 +58,7 @@ db.Keg.belongsTo(db.Beer, {
 // A Beer has a Brewery
 db.Brewery.hasMany(db.Beer, {
   foreignKey: 'breweryId',
-  onDelete: 'CASCADE', // delete the brewery, delete the beers
+  onDelete: 'CASCADE', // delete brewery => delete beers
 });
 db.Beer.belongsTo(db.Brewery, {
   foreignKey: 'breweryId',
@@ -76,6 +77,7 @@ db.Beer.belongsTo(db.User, {
 // Kegs have Cheers
 db.Keg.hasMany(db.Cheers, {
   foreignKey: 'kegId',
+  onDelete: 'CASCADE', // delete keg => delete Cheers
 });
 db.Cheers.belongsTo(db.Keg, {
   foreignKey: 'kegId',
@@ -84,6 +86,7 @@ db.Cheers.belongsTo(db.Keg, {
 // Cheers have Users
 db.User.hasMany(db.Cheers, {
   foreignKey: 'userId',
+  onDelete: 'CASCADE', // delete user => delete Cheers
 });
 db.Cheers.belongsTo(db.User, {
   foreignKey: 'userId',

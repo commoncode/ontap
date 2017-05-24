@@ -21,16 +21,21 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Beer', {
       key: 'id',
     },
     allowNull: false,
-    onDelete: 'cascade', // delete brewery, delete beers
-    onUpdate: 'cascade',
+    onDelete: 'CASCADE', // delete brewery => delete beers
+    onUpdate: 'CASCADE', // update brewery.id => cascade
   },
   abv: DataTypes.FLOAT,
   ibu: DataTypes.FLOAT,
   variety: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
+    defaultValue: '',
   },
-  notes: DataTypes.STRING,
+  notes: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
   canBuy: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
@@ -43,5 +48,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Beer', {
       key: 'id',
     },
     allowNull: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
   },
 });
