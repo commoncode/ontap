@@ -377,19 +377,18 @@ function cheersKeg(req, res) {
       kegId,
       userId,
     })
-    // todo - just return the new cheers and kegId,
-    // not all this extra garbage, it's already in client state.
     .then(() => {
       log.info(`${req.user.name} cheers'd keg #${kegId}`);
-      return db.Keg.findById(kegId, {
-        attributes: kegAttributesPublic,
-        include: [db.Cheers, db.Tap, {
-          model: db.Beer,
-          attributes: beerAttributesPublic,
-        }],
+      // return all of the Cheers for the Keg
+      return db.Cheers.findAll({
+        where: {
+          kegId,
+        },
+        attributes: cheersAttributesPublic,
+        include: [userInclude],
       });
     })
-    .then(keg => res.send(keg.get()))
+    .then(cheers => res.send(cheers))
     .catch(err => logAndSendError(err, res));
   });
 }
