@@ -617,6 +617,16 @@ function createBrewery(req, res) {
   });
 }
 
+// receive Touches from TapOnTap
+function receiveTouches(req, res) {
+  const touches = req.body;
+
+  log.info('Received Touches:');
+  log.info(touches);
+
+  return res.status(200).send({ success: true });
+}
+
 
 // auth middleware.
 
