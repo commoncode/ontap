@@ -20,13 +20,13 @@ const BreweryBeers = props => (
       {props.Beers.map(beer => (
         <div className="list-item" key={beer.id}>
           <div className="column">
-            <a href={`/#/beers/${beer.id}/`}>{beer.name}</a>
+            <a href={`/#/beers/${beer.id}/`}><b>{beer.name}</b></a>
           </div>
           <div className="column">
             {beer.variety}
           </div>
           <div className="column">
-            {beer.abv}% ABV
+            {beer.abv && `${beer.abv}% ABV`}
           </div>
         </div>
       ))}
