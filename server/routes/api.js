@@ -92,6 +92,11 @@ function logAndSendError(err, res) {
 }
 
 
+// ping, does nothing.
+function ping(req, res) {
+  return res.status(200).send({ ping: 'pong' });
+}
+
 // maybe consider moving these to submodules
 // if we end up with too many of them...
 function getOnTap(req, res) {
@@ -638,7 +643,7 @@ function simulateCommonCodeInternet(req, res, next) {
 }
 router.use(simulateCommonCodeInternet);
 
-
+router.get('/ping', ping);
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
 router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?

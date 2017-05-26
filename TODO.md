@@ -4,6 +4,8 @@
 ## bugs, issues
 
 - there's no 404 page
+- probably need to ping the /whoami endpoint every x minutes to ensure you're still logged in
+  - currently cached in the store forever, even after your session dies.
 
 ## new features, improvements
 
