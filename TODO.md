@@ -20,6 +20,7 @@
 - Allow users to remove their own Cheers
 - 'Add a Beer' should link to beers/new instead of inline creation
 - Loader used to look better (the wave motion was clearer) - fix it or implement a new one
+- 300ms touch delay happens when run as a web app on ios, despite touch-action: manipulation and header tag
 - Untappd integration
   - Fetch beer/brewery details from Untappd
   - Link to beer/brewery on Untappd
