@@ -23,7 +23,17 @@ export function fetcher(path, opts) {
   return fetch(path, Object.assign({
     headers,
     credentials,
-  }, opts)).then((res) => {
+  }, opts))
+  .catch(() => { // eslint-disable-line arrow-body-style
+    // a rejection here means a network error.
+    // handle it below...
+    return {
+      ok: false,
+      status: 0,
+      statusText: 'Network Error',
+    };
+  })
+  .then((res) => {
     if (!res.ok) {
       throw new CleanError({
         code: res.status,
