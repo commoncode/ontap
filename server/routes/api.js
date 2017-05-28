@@ -8,6 +8,7 @@ const _ = require('lodash');
 
 const db = require('lib/db');
 const log = require('lib/logger');
+const touchlib = require('lib/touches');
 
 const router = new Router();
 router.use(bodyParser.json());
@@ -621,12 +622,25 @@ function createBrewery(req, res) {
 function receiveTouches(req, res) {
   const touches = req.body;
 
-  log.info('Received Touches:');
-  log.info(touches);
-
-  return res.status(200).send({ success: true });
+  Promise.all(touches.map(touch => touchlib.createTouch(touch)))
+  .then(() => {
+    res.status(200).send({ success: true });
+  })
+  .catch(error => logAndSendError(error, res));
 }
 
+
+function getAllTouches(req, res) {
+  db.Touch.findAll()
+  .then(touches => res.send(touches))
+  .catch(error => logAndSendError(error, res));
+}
+
+function getAllCards(req, res) {
+  db.Card.findAll()
+  .then(cards => res.send(cards))
+  .catch(error => logAndSendError(error, res));
+}
 
 // auth middleware.
 
@@ -668,6 +682,9 @@ router.get('/profile', getProfile);
 router.get('/breweries', getAllBreweries);
 router.get('/breweries/:id', getBreweryById);
 
+// todo - don't leave this open
+router.post('/touches', receiveTouches);
+
 
 // guests can't use endpoints below this middleware
 router.use(usersOnly);
@@ -695,5 +712,7 @@ router.delete('/users/:id', deleteUser);
 router.put('/breweries/:id', updateBrewery);
 router.delete('/breweries/:id', deleteBrewery);
 router.post('/breweries', createBrewery);
+router.get('/touches', getAllTouches);
+router.get('/cards', getAllCards);
 
 module.exports = router;
