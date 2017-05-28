@@ -64,6 +64,15 @@ db.Beer.belongsTo(db.Brewery, {
   foreignKey: 'breweryId',
 });
 
+// A Card has a User
+db.User.hasMany(db.Card, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE', // delete user => delete cards
+});
+db.Card.belongsTo(db.User, {
+  foreignKey: 'userId',
+});
+
 // A Beer is added by a User
 db.User.hasOne(db.Beer, {
   foreignKey: 'addedBy',
