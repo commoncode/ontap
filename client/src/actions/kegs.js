@@ -29,6 +29,28 @@ export function fetchKegs() {
   });
 }
 
+// fetch the kegs to get the cheerses.
+// same as fetchKegs() but doesn't dispatch
+// REQUEST_FETCH_KEGS so you can't see it happening.
+// polling this will update the cheerses on the
+// keg list view in real time (ish).
+// todo - websockets!
+export function fetchCheers() {
+  dispatcher.dispatch({
+    type: 'REQUEST_FETCH_KEGS_CHEERS',
+  });
+
+  return fetcher('/api/v1/kegs')
+  .then(data => dispatcher.dispatch({
+    type: 'RECEIVE_FETCH_KEGS_CHEERS',
+    data,
+  }))
+  .catch(error => dispatcher.dispatch({
+    type: 'RECEIVE_FETCH_KEGS_CHEERS',
+    error,
+  }));
+}
+
 // fetch one keg
 export function fetchKeg(id) {
   dispatcher.dispatch({

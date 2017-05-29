@@ -46,6 +46,7 @@ class KegMapStore extends ReduceStore {
         })).set('kegs', new Immutable.Map());
 
       case 'RECEIVE_FETCH_KEGS':
+      case 'RECEIVE_FETCH_KEGS_CHEERS':
         return state.set('sync', new Immutable.Map({
           fetching: false,
           fetched: true,

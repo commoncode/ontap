@@ -9,7 +9,7 @@ import React from 'react';
 import reactPropTypes from 'prop-types';
 import { Container } from 'flux/utils';
 
-import { fetchKegs } from '../../actions/kegs';
+import { fetchKegs, fetchCheers } from '../../actions/kegs';
 import kegsStore from '../../stores/kegs';
 import * as propTypes from '../../proptypes/';
 
@@ -103,6 +103,8 @@ KegList.propTypes = {
 };
 
 
+let interval;
+
 class KegListContainer extends React.Component {
   static getStores() {
     return [kegsStore];
@@ -116,6 +118,14 @@ class KegListContainer extends React.Component {
 
   componentWillMount() {
     fetchKegs();
+    interval = setInterval(() => {
+      console.log('fetching cheers...'); // eslint-disable-line no-console
+      fetchCheers ();
+    }, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(interval);
   }
 
   render() {
