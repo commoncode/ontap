@@ -1,55 +1,69 @@
 /**
- * seed data
+ * Seed data.
+ * Primarily for tests, but you could use it to populate an instance.
  */
 
 const db = require('lib/db');
 
+// you need an empty DB before running the seeds
+// because we specify the ids here.
 
-// three taps
-const TAPS = [{
-  name: 'Left Tap',
-}, {
-  name: 'Middle Tap',
-}, {
-  name: 'Right Tap',
-}];
+const user = {
+  name: 'Test User',
+  email: 'test@mail.com',
+  googleProfileId: 'foobarqux',
+  id: 1,
+};
 
-// three kegs
-const KEGS = [{
-  beerName: 'Love Tap',
-  breweryName: 'Moon Dog',
-  abv: 5,
-  notes: 'A delicious lager.',
-}, {
-  beerName: 'Pilsner',
-  breweryName: 'Hawkers',
-  abv: 5,
-  notes: 'Excellent pilsner, very pilsnery.',
-}, {
-  beerName: 'Brown Ale',
-  breweryName: 'Cavalier Brewing',
-  abv: 5.5,
-  notes: 'The perfect mix of chocolate and toasty caramel flavours. With the added complexity of aromas from classic American hops, subtle citrus notes reveal something new in every sip.',
-}];
+const brewery = {
+  id: 1,
+  name: 'Test Brewery',
+  location: 'Collingwood',
+  web: 'testbrewery.com',
+  description: 'Just a test brewery.',
+  adminNOtes: 'Just test admin notes',
+  canBuy: false,
 
+};
+
+const beer = {
+  id: 1,
+  name: 'Test Beer',
+  breweryId: 1,
+  abv: 5.0,
+  ibu: 30,
+  variety: 'Pale Ale',
+  notes: 'A test pale ale',
+  canBuy: false,
+  addedBy: 1,
+};
+
+const keg = {
+  id: 1,
+  notes: 'A test keg',
+  beerId: 1,
+};
+
+const card = {
+  id: 1,
+  name: 'Test Card',
+  uid: 'foobarqux',
+  userId: 1,
+};
 
 function seed() {
-  // create the taps
-  return Promise.all(TAPS.map(tap => db.Tap.create(tap)))
-  .then((taps) => {
-    // create the kegs
-    return Promise.all(KEGS.map(keg => db.Keg.create(keg)))
-    .then((kegs) => {
-
-      return Promise.all([
-        taps[0].setKeg(kegs[0]),
-        taps[1].setKeg(kegs[1])
-      ]);
-
-    });
-  })
-  .then(() => console.log('done'))
-  .catch(err => console.log(err));
+  return db.User.create(user)
+  .then(() => db.Brewery.create(brewery))
+  .then(() => db.Beer.create(beer))
+  .then(() => db.Keg.create(keg))
+  .then(() => db.Card.create(card));
 }
 
-module.exports = seed;
+module.exports = {
+  seed,
+  user,
+  brewery,
+  beer,
+  keg,
+  card,
+};

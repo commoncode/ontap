@@ -1,7 +1,7 @@
 /**
  * lib/touches
  *
- * utilities for handing touches from tapontap
+ * utilities for handing touches from TapOnTap
  */
 
 const db = require('lib/db');
@@ -37,24 +37,30 @@ function checkKeg(id) {
 
 
 /**
- * Creates a Touch, given properties sent from TapOnTap
+ * Inserts a Touch, given properties sent from TapOnTap.
+ * If .cardUid and .kegId resolve to a Card and Keg respectively,
+ * also insert a Cheers and reference it from Touch.cheersId
  * @param  {Object} props
  * @return {Promise} resolves to created model
  */
 function createTouch(props) {
-  // check if the card is known
-  // check whether the kegId is legit
-
   const { cardUid, kegId, timestamp } = props;
 
-  db.sequelize.transaction((transaction) => {
+  // inserting a couple of rows here so we'll wrap it in a transaction
+  return db.sequelize.transaction((transaction) => {
+    // do we have a Card with the uid provided by TapOnTap?
     return getCard(cardUid)
     .then((card) => {
       log.debug(`card is ${card ? card.id : null}`);
+
+      // is the kegId valid?
       return checkKeg(kegId)
       .then((kegExists) => {
         log.debug(`kegExists ${kegExists}`);
+
         if (card && kegExists) {
+          // we can reconcile the Card and the Keg, which is enough
+          // to create a Cheers, so let's do it.
           const { userId } = card;
           return db.Cheers.create({
             kegId,
@@ -65,12 +71,16 @@ function createTouch(props) {
           });
         }
 
+        // can't reconcile the Card or the Keg so we skip
+        // creating a Cheers. if someone registers the Card later,
+        // we'll do it then.
         return null;
       })
       .then((cheers) => {
         const cardId = card ? card.id : null;
         const cheersId = cheers ? cheers.id : null;
 
+        // create the Touch row
         return db.Touch.create({
           cardUid,
           cardId,
@@ -83,15 +93,21 @@ function createTouch(props) {
       });
     });
   })
-  .then(() => {
-    console.log('success');
+  .then((touch) => {
     // transaction succeeded.
+    log.debug('Inserted a Touch:');
+    log.debug(touch.get());
   })
-  .catch(err => {
-    console.log('explosion');
-    console.error(err);
-    // transaction failed.
-  })
+  .catch((error) => {
+    // something failed, log and rethrow.
+    log.error(error);
+    throw error;
+  });
+}
+
+
+function reconcileTouch(touch) {
+
 }
 
 module.exports = {

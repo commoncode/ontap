@@ -26,7 +26,7 @@ const testapp = express();
 testapp.use('/', apiRoutes);
 const api = supertest(testapp);
 
-describe('/api/v1', () => {
+xdescribe('/api/v1', () => {
   describe('/helloworld', () => {
     it('responds', (done) => {
       api.get('/helloworld')
