@@ -101,4 +101,13 @@ db.Cheers.belongsTo(db.User, {
   foreignKey: 'userId',
 });
 
+
+// Touches have a Card and a Cheers
+// Note! These aren't FK constrained.
+// Sequelize just lets us act like they are.
+db.Touch.belongsTo(db.Cheers, {
+  foreignKey: 'cheersId',
+});
+
+
 module.exports = db;
