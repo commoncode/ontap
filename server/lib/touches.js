@@ -9,30 +9,96 @@ const log = require('lib/logger');
 
 
 /**
- * Get a Card given its uid
+ * Get a Card by uid
  * @param  {String} uid
- * @return {Promise} resolves to Card or null
+ * @return {Promise.Card|null}
  */
 function getCard(uid) {
   return db.Card.findOne({
     where: {
       uid,
     },
+  })
+  .then((card) => { // eslint-disable-line arrow-body-style
+    return card ? card.get() : null;
   });
 }
 
 /**
  * Return whether a Keg with matching id exists
  * @param  {Number} id
- * @return {Promise} resolves to boolean
+ * @return {Promise.boolean}
  */
-function checkKeg(id) {
+function getKeg(id) {
   return db.Keg.findOne({
     where: {
       id,
     },
   })
-  .then(kegOrNull => !!kegOrNull);
+  .then((keg) => { // eslint-disable-line arrow-body-style
+    return keg ? keg.get() : null;
+  });
+}
+
+/**
+ * Attempt to reconcile touch.cardUid and touch.kegId
+ * to a Card and Keg, returning them in an object.
+ * @param  {Object} touch
+ * @return {Object}
+ * @return {Object|null} return.card
+ * @return {Object|null} return.keg
+ */
+function reconcileCardAndKeg(touch) {
+  const { cardUid, kegId } = touch;
+
+  return Promise.resolve()
+  .then(() => getCard(cardUid))
+  .then(card => getKeg(kegId)
+    .then(keg => ({
+      card,
+      keg,
+    }))
+  );
+}
+
+/**
+ * Attempt to create a Cheers from a Touch.
+ * @param  {Object} touch
+ * @param  {Sequelize.Transaction} [transaction=null]
+ * @return {Promise.Object}
+ * @return {Object|null} return.cheers
+ * @return {Object|null} return.card
+ * @return {Object|null} return.keg
+ */
+function createCheersFromTouch(touch, transaction = null) {
+  return reconcileCardAndKeg(touch)
+  .then(({ card, keg }) => {
+    if (card && keg) {
+      // card and keg resolve, create a Cheers.
+      const { userId } = card;
+      const { timestamp, kegId } = touch;
+      return db.Cheers.create({
+        kegId,
+        userId,
+        timestamp,
+      }, {
+        transaction,
+      })
+      .then(cheers => cheers.get())
+      .then(cheers => ({
+        cheers,
+        card,
+        keg,
+      }));
+    }
+    // card or keg couldn't resolve, cheers is null.
+    const cheers = null;
+    return {
+      cheers,
+      card,
+      keg,
+    };
+  });
 }
 
 
@@ -41,77 +107,133 @@ function checkKeg(id) {
  * If .cardUid and .kegId resolve to a Card and Keg respectively,
  * also insert a Cheers and reference it from Touch.cheersId
  * @param  {Object} props
- * @return {Promise} resolves to created model
+ * @return {Promise.Touch}
  */
 function createTouch(props) {
   const { cardUid, kegId, timestamp } = props;
 
-  // inserting a couple of rows here so we'll wrap it in a transaction
-  return db.sequelize.transaction((transaction) => {
-    // do we have a Card with the uid provided by TapOnTap?
-    return getCard(cardUid)
-    .then((card) => {
-      log.debug(`card is ${card ? card.id : null}`);
+  // transact this so if one fails neither get written
+  return db.sequelize.transaction(transaction =>
+    createCheersFromTouch(props, transaction)
+    .then(({ card, cheers }) => {
+      const cardId = card ? card.id : null;
+      const cheersId = cheers ? cheers.id : null;
 
-      // is the kegId valid?
-      return checkKeg(kegId)
-      .then((kegExists) => {
-        log.debug(`kegExists ${kegExists}`);
-
-        if (card && kegExists) {
-          // we can reconcile the Card and the Keg, which is enough
-          // to create a Cheers, so let's do it.
-          const { userId } = card;
-          return db.Cheers.create({
-            kegId,
-            userId,
-            timestamp,
-          }, {
-            transaction,
-          });
-        }
-
-        // can't reconcile the Card or the Keg so we skip
-        // creating a Cheers. if someone registers the Card later,
-        // we'll do it then.
-        return null;
-      })
-      .then((cheers) => {
-        const cardId = card ? card.id : null;
-        const cheersId = cheers ? cheers.id : null;
-
-        // create the Touch row
-        return db.Touch.create({
-          cardUid,
-          cardId,
-          kegId,
-          timestamp,
-          cheersId,
-        }, {
-          transaction,
-        });
+      // create the Touch row
+      return db.Touch.create({
+        cardUid,
+        cardId,
+        kegId,
+        timestamp,
+        cheersId,
+      }, {
+        transaction,
       });
-    });
-  })
-  .then((touch) => {
-    // transaction succeeded.
-    log.debug('Inserted a Touch:');
-    log.debug(touch.get());
-  })
-  .catch((error) => {
-    // something failed, log and rethrow.
-    log.error(error);
-    throw error;
-  });
+    })
+    .then((touch) => {
+      // transaction succeeded.
+      log.debug('Inserted a Touch:');
+      log.debug(touch.get());
+      return touch.get();
+    })
+    .catch((error) => {
+      // something failed, log and rethrow.
+      log.error(error);
+      throw error;
+    }));
 }
 
 
-function reconcileTouch(touch) {
+/**
+ * Wraps createTouch() to process an array of touches in sequence.
+ * todo - a single failure will stop them all. think about how to handle.
+ * @param  {Array} touches
+ * @return {Promise.Touch[]}  array of touches
+ */
+function createTouches(touches) {
+  return touches.reduce((promise, props) =>
+    promise.then(returnArray =>
+      createTouch(props)
+      .then(touch => [...returnArray, touch])
+    )
+  , Promise.resolve([]));
+}
 
+
+/**
+ * Attempt to reconcile Card and Keg from an existing Touch,
+ * updating the Touch row with the results.
+ * @param  {Object} touch
+ * @return {Touch}
+ */
+function reconcileTouch(touch) {
+  return Promise.resolve()
+  .then(() => {
+    if (touch.cheersId || touch.cardId) throw new Error('ALREADY_RECONCILED');
+  })
+  .then(() => db.sequelize.transaction(transaction =>
+    createCheersFromTouch(touch, transaction)
+    .then(({ card, cheers }) => {
+      const cardId = card ? card.id : null;
+      const cheersId = cheers ? cheers.id : null;
+
+      return db.Touch.update({
+        cardId,
+        cheersId,
+      }, {
+        where: {
+          id: touch.id,
+        },
+        transaction,
+      });
+    })))
+    .then((numRowsUpdated) => {
+      if (!numRowsUpdated) throw new Error('TOUCH_NOT_FOUND');
+      return db.Touch.findById(touch.id).then(updatedTouch => updatedTouch.get());
+    })
+    .catch((error) => {
+      // log and rethrow
+      log.error(error);
+      throw error;
+    });
+}
+
+
+/**
+ * Find all Touches where .kegId doesn't resolve to a Keg.
+ * @return {Promise.Object[]}
+ */
+function getOrphanTouches() {
+  return db.Touch.findAll({
+    where: {
+      '$Keg.id$': null,
+    },
+    include: [{
+      model: db.Keg,
+    }],
+  });
+}
+
+/**
+ * Find all Touches that don't have .cardId
+ * @return {Promise.Object[]}
+ */
+function getUnreconciledTouches() {
+  return db.Touch.findAll({
+    where: {
+      cardId: null,
+    },
+  });
 }
 
 module.exports = {
   getCard,
-  checkKeg,
+  getKeg,
+  createCheersFromTouch,
   createTouch,
+  createTouches,
+  reconcileTouch,
+  reconcileCardAndKeg,
+  getOrphanTouches,
+  getUnreconciledTouches,
 };
