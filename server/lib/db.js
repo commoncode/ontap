@@ -102,11 +102,22 @@ db.Cheers.belongsTo(db.User, {
 });
 
 
-// Touches have a Card and a Cheers
-// Note! These aren't FK constrained.
+// Touches have Card, Cheers and Keg.
+// Note constraints: false means they're not FKs in the schema,
 // Sequelize just lets us act like they are.
 db.Touch.belongsTo(db.Cheers, {
   foreignKey: 'cheersId',
+  constraints: false,
+});
+
+db.Touch.belongsTo(db.Keg, {
+  foreignKey: 'kegId',
+  constraints: false,
+});
+
+db.Touch.belongsTo(db.Card, {
+  foreignKey: 'cardId',
+  constraints: false,
 });
 
 
