@@ -9,6 +9,7 @@ const _ = require('lodash');
 const db = require('lib/db');
 const log = require('lib/logger');
 const touchlib = require('lib/touches');
+const tapontap = require('lib/tapontap');
 
 const router = new Router();
 router.use(bodyParser.json());
@@ -618,17 +619,16 @@ function createBrewery(req, res) {
   });
 }
 
-// receive Touches from TapOnTap
+// receives an array of Touches from a TapOnTap instance
 function receiveTouches(req, res) {
   const touches = req.body;
 
-  Promise.all(touches.map(touch => touchlib.createTouch(touch)))
-  .then(() => {
-    res.status(200).send({ success: true });
-  })
+  // todo - validate
+
+  touchlib.createTouches(touches)
+  .then(() => res.status(200).send({ success: true }))
   .catch(error => logAndSendError(error, res));
 }
-
 
 function getAllTouches(req, res) {
   db.Touch.findAll()
@@ -637,8 +637,35 @@ function getAllTouches(req, res) {
 }
 
 function getAllCards(req, res) {
-  db.Card.findAll()
+  db.Card.findAll({
+    include: userInclude,
+  })
   .then(cards => res.send(cards))
+  .catch(error => logAndSendError(error, res));
+}
+
+// fetch the uid of the card currently tapped onto the
+// reader of our TapOnTap instance
+function getCardUid(req, res) {
+  tapontap.getCurrentCard()
+  .then(cardUid => res.send({ cardUid }))
+  .catch(err => logAndSendError(err, res));
+}
+
+// register a Card to a User
+function registerCard(req, res) {
+  const { uid } = req.body;
+  if (!uid) return res.status(400).send({ error: 'uid required' });
+
+  const name = req.body.name || 'NFC Token';
+  const userId = req.user.id;
+
+  return db.Card.create({
+    uid,
+    userId,
+    name,
+  })
+  .then(card => res.status(201).send(card.get()))
   .catch(error => logAndSendError(error, res));
 }
 
@@ -682,7 +709,7 @@ router.get('/profile', getProfile);
 router.get('/breweries', getAllBreweries);
 router.get('/breweries/:id', getBreweryById);
 
-// todo - don't leave this open
+// todo - these need to be locked down
 router.post('/touches', receiveTouches);
 
 
@@ -694,7 +721,8 @@ router.post('/beers', createBeer);
 router.get('/profile/cheers', getProfileCheers);
 router.put('/profile', updateProfile);
 router.delete('/profile', deleteProfile);
-
+router.get('/cards/register', getCardUid);
+router.post('/cards/register', registerCard);
 
 // admins only for all endpoints below this middleware
 router.use(adminsOnly);
