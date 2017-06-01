@@ -1,7 +1,17 @@
 /**
  * lib/touches
  *
- * utilities for handing touches from TapOnTap
+ * This looks a bit complicated, but basically what it does is:
+ *
+ * TapOnTap sends touches, which get passed to createTouches().
+ * This creates the Touches and tries to "reconcile" them against an
+ * existing Card (.cardUid) and Keg (.kegId).
+ * If a Touch is successfully reconciled, it creates a Cheers.
+ * If a Touch can't be reconciled, it can be tried again in the future,
+ * which lets users tap a card *before* registering the card to their account.
+ * To do this we pipe getUnreconciledTouches() to reconcileTouches().
+ *
+ * Eeeeeasy.
  */
 
 const db = require('lib/db');
@@ -112,6 +122,8 @@ function createCheersFromTouch(touch, transaction = null) {
 function createTouch(props) {
   const { cardUid, kegId, timestamp } = props;
 
+  log.info(`creating touch with cardUid ${cardUid} and kegId ${kegId}`);
+
   // transact this so if one fails neither get written
   return db.sequelize.transaction(transaction =>
     createCheersFromTouch(props, transaction)
@@ -198,6 +210,24 @@ function reconcileTouch(touch) {
     });
 }
 
+/**
+ * Wrap reconcileTouch() to process an array of touches in sequence.
+ * Returns an array of only the Touches that were successfully reconciled.
+ * @param  {Object[]} touches
+ * @return {Promise.Object[]}
+ */
+function reconcileTouches(touches) {
+  return touches.reduce((promise, props) =>
+    promise.then(returnArray =>
+      reconcileTouch(props)
+      .then((touch) => { // eslint-disable-line arrow-body-style
+        // only return touches that got reconciled (ie, have a cheers)
+        return touch.cheersId ? [...returnArray, touch] : returnArray;
+      })
+    )
+  , Promise.resolve([]));
+}
+
 
 /**
  * Find all Touches where .kegId doesn't resolve to a Keg.
@@ -216,13 +246,18 @@ function getOrphanTouches() {
 
 /**
  * Find all Touches that don't have .cardId
+ * Optionally pass a cardUid to narrow it down.
  * @return {Promise.Object[]}
  */
-function getUnreconciledTouches() {
+function getUnreconciledTouches(cardUid) {
+  const where = {
+    cardId: null,
+  };
+  if (cardUid) {
+    where.cardUid = cardUid;
+  }
   return db.Touch.findAll({
-    where: {
-      cardId: null,
-    },
+    where,
   });
 }
 
@@ -233,6 +268,7 @@ module.exports = {
   createTouch,
   createTouches,
   reconcileTouch,
+  reconcileTouches,
   reconcileCardAndKeg,
   getOrphanTouches,
   getUnreconciledTouches,

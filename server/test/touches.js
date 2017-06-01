@@ -365,6 +365,58 @@ describe('lib/touches', () => {
 
   });
 
+  describe('reconcileTouches()', () => {
+    it('Processes an array of Touches and returns reconciled Touches', () => {
+
+      // - a valid touch
+      // - touch with unknown cardUid
+      // - touch with unknown kegId
+      // - a valid touch
+      // we should get 2 back, and it should create 2 cheers.
+
+      return db.Cheers.count()
+      .then((numCheers) => {
+        const touchArray = [];
+
+        return db.Touch.create({
+          cardUid: seeds.card.uid,
+          kegId: seeds.keg.id,
+          timestamp: new Date(),
+        })
+        .then(touch => touchArray.push(touch))
+        .then(() => db.Touch.create({
+          cardUid: 'invalid card uid',
+          kegId: seeds.keg.id,
+          timestamp: new Date(),
+        }))
+        .then(touch => touchArray.push(touch))
+        .then(() => db.Touch.create({
+          cardUid: seeds.card.uid,
+          kegId: 99999,
+          timestamp: new Date(),
+        }))
+        .then(touch => touchArray.push(touch))
+        .then(() => db.Touch.create({
+          cardUid: seeds.card.uid,
+          kegId: seeds.keg.id,
+          timestamp: new Date(),
+        }))
+        .then(touch => touchArray.push(touch))
+        .then(() => touches.reconcileTouches(touchArray))
+        .should.eventually.be.an('array').of.length(2)
+        .then(response => response[0].should.be.an('object').and.include({
+          cardUid: seeds.card.uid,
+          cardId: seeds.card.id,
+          kegId: seeds.keg.id,
+        }))
+        .then(() => db.Cheers.count())
+        .then(cheersCountNow => cheersCountNow.should.equal(numCheers + 2));
+      });
+
+
+    });
+  });
+
   describe('a user can touch before registering a card and then claim the cheers', () => {
     // I think technically this all covered above, but since it's the
     // whole point of the thing we'll go through it from start to finish...
@@ -378,18 +430,17 @@ describe('lib/touches', () => {
       email: 'some@random.com',
     };
 
-    let touchId;
-
     it('works', () =>
-      // get a touch from some random with an unknown cardUid
-      touches.createTouch({
+      // create touches from some random with an unknown cardUid
+      touches.createTouches([{
         cardUid,
         kegId,
         timestamp,
-      })
-      .then((touch) => {
-        touchId = touch.id;
-      })
+      }, {
+        cardUid,
+        kegId,
+        timestamp,
+      }])
       // now the random registers an account
       .then(() => db.User.create(randomUser))
       // and claims the card
@@ -399,8 +450,8 @@ describe('lib/touches', () => {
         name: 'My security token',
       }))
       // now we reconcile the touch...
-      .then(() => db.Touch.findById(touchId))
-      .then(touch => touches.reconcileTouch(touch))
+      .then(() => touches.getUnreconciledTouches(cardUid))
+      .then(unreconciledTouches => touches.reconcileTouches(unreconciledTouches))
       // and look up our random user
       .then(() => db.User.findOne({
         where: {
@@ -408,9 +459,9 @@ describe('lib/touches', () => {
         },
         include: db.Cheers,
       }))
-      // and he's got a cheers!
+      // and he's got 2 cheers!
       .then((user) => {
-        user.Cheers.should.be.an('array').of.length(1);
+        user.Cheers.should.be.an('array').of.length(2);
         user.Cheers[0].kegId.should.equal(kegId);
       })
     );
@@ -471,6 +522,32 @@ describe('lib/touches', () => {
         timestamp,
       }])
       .then(() => touches.getUnreconciledTouches())
+      .should.eventually.be.an('array').of.length(2);
+    });
+
+    it('optionally takes a cardUid argument to filter by', () => {
+      const kegId = seeds.keg.id;
+      const timestamp = new Date();
+
+      // create 2 unreconcileable touches
+      return touches.createTouches([{
+        cardUid: 'abc',
+        kegId,
+        timestamp,
+      }, {
+        cardUid: 'abc',
+        kegId,
+        timestamp,
+      }, {
+        cardUid: 'def',
+        kegId,
+        timestamp,
+      }, {
+        cardUid: 'def',
+        kegId,
+        timestamp,
+      }])
+      .then(() => touches.getUnreconciledTouches('abc'))
       .should.eventually.be.an('array').of.length(2);
     });
   });
