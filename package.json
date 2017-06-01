@@ -9,7 +9,7 @@
   "scripts": {
     "build": "pack -r -m --src client/src --main main.js -d client/dist",
     "db-cli": "node server/bin/db",
-    "dev": "nodemon server/index --ignore client",
+    "dev": "nodemon --ignore client -- --inspect server/index",
     "lint": "eslint client/src",
     "start": "node server/index",
     "test": "mocha --reporter dot server/test",
@@ -23,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/commoncode/ontap.git"
   },
-  "author": "Common Code",
+  "author": "Mark Reid",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/commoncode/ontap/issues"
@@ -43,6 +43,7 @@
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
     "morgan": "^1.7.0",
+    "node-fetch": "^1.7.0",
     "normalize.css": "^4.2.0",
     "pack-cli": "^1.4.5",
     "passport": "^0.3.2",
