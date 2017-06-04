@@ -113,7 +113,7 @@ const routes = {
   },
   '/breweries/add': {
     component: BreweryAdd,
-    props: (props, params) => ({
+    props: props => ({
       profile: props.profile.data,
     }),
   },

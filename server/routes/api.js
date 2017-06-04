@@ -14,6 +14,13 @@ const tapontap = require('lib/tapontap');
 const router = new Router();
 router.use(bodyParser.json());
 
+const { AUTH_TOKEN } = process.env;
+
+// validate that we were sent the correct auth token
+// currently we just load it from an env var
+function validateAuthToken(request) {
+  return request.get('authorization') === `Bearer: ${AUTH_TOKEN}`;
+}
 
 // default attributes to send over the wire
 const userAttributesPublic = ['id', 'name', 'avatar', 'admin'];
@@ -27,7 +34,6 @@ const cheersAttributesPublic = ['id', 'kegId', 'userId', 'timestamp'];
 
 
 // include declarations for returning nested models
-
 
 const breweryInclude = {
   model: db.Brewery,
@@ -621,13 +627,15 @@ function createBrewery(req, res) {
 
 // receives an array of Touches from a TapOnTap instance
 function receiveTouches(req, res) {
+  // need a valid auth token to proceed
+  if (!validateAuthToken(req)) {
+    return res.status(401).send();
+  }
+
   const touches = req.body;
-
-  // todo - validate
-
   log.info(`received ${touches.length} ${touches.length === 1 ? 'touch' : 'touches'} from TapOnTap instance`);
 
-  touchlib.createTouches(touches)
+  return touchlib.createTouches(touches)
   .then(() => res.status(200).send({ success: true }))
   .catch(error => logAndSendError(error, res));
 }
@@ -751,10 +759,7 @@ router.get('/beers/:id', getBeerById);
 router.get('/profile', getProfile);
 router.get('/breweries', getAllBreweries);
 router.get('/breweries/:id', getBreweryById);
-
-// todo - these need to be locked down
 router.post('/touches', receiveTouches);
-
 
 // guests can't use endpoints below this middleware
 router.use(usersOnly);
