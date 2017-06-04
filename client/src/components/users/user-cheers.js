@@ -5,7 +5,7 @@ import moment from 'moment';
 import * as propTypes from '../../proptypes';
 
 
-const UserCheersItem = (props) => {
+export const UserCheersItem = (props) => {
   const { Keg } = props;
   const { Beer } = Keg;
   const { Brewery } = Beer;

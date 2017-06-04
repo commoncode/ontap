@@ -1,5 +1,16 @@
 # todo
 
+## TapOnTap integration
+
+- Bearer token or API key auth for the post-touches endpoint
+- Remove the extra button press in the registration flow
+- List, edit and delete tokens in Profile
+- Delete Cheers
+- API endpoint that proxies a ping to TapOnTap so you can test it
+- Cleanup classname inconsistency in the steps components
+
+
+
 
 ## bugs, issues
 
@@ -9,6 +20,8 @@
 
 ## new features, improvements
 
+- Redirect to last URL on login
+- ladda
 - Link to the Keg Detail from the Keg List view?
   - UI needs to be more helpful distinguishing/explaining Kegs vs Beers
 - Searchable ModelSelect

@@ -625,6 +625,8 @@ function receiveTouches(req, res) {
 
   // todo - validate
 
+  log.info(`received ${touches.length} ${touches.length === 1 ? 'touch' : 'touches'} from TapOnTap instance`);
+
   touchlib.createTouches(touches)
   .then(() => res.status(200).send({ success: true }))
   .catch(error => logAndSendError(error, res));
@@ -649,7 +651,21 @@ function getAllCards(req, res) {
 function getCardUid(req, res) {
   tapontap.getCurrentCard()
   .then(cardUid => res.send({ cardUid }))
-  .catch(err => logAndSendError(err, res));
+  .catch((error) => {
+    log.error('getCardUid()', error);
+    switch (error.message) {
+      case 'NETWORK_ERROR':
+        res.status(504);
+        break;
+      case 'BAD_RESPONSE':
+        res.status(502);
+        break;
+      default:
+        res.status(500);
+        break;
+    }
+    res.send({ error: error.message });
+  });
 }
 
 // register a Card to a User
@@ -665,8 +681,35 @@ function registerCard(req, res) {
     userId,
     name,
   })
-  .then(card => res.status(201).send(card.get()))
-  .catch(error => logAndSendError(error, res));
+  .then(card =>
+    // Card's been registered. Try to reconcile any Touches
+    // made with it and return their corresponding Cheers.
+    touchlib.getUnreconciledTouches(uid)
+    .then(touches => touchlib.reconcileTouches(touches))
+    .then((reconciledTouches) => {
+      const cheersIds = reconciledTouches.map(touch => touch.cheersId);
+      return db.Cheers.findAll({
+        where: {
+          id: {
+            $in: cheersIds,
+          },
+        },
+        attributes: cheersAttributesPublic,
+        include: [kegWithBeerInclude],
+      });
+    }).then(cheers => res.status(201).send({
+      card,
+      cheers,
+    }))
+  )
+  .catch((error) => {
+    // explicitly handle a conflicting uid
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).send({ error: 'CARD_EXISTS' });
+    } else {
+      logAndSendError(error, res);
+    }
+  });
 }
 
 // auth middleware.

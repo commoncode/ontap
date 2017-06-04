@@ -20,16 +20,15 @@ function getCurrentCard() {
   return fetch(`${TAPONTAP_INSTANCE}/api/v1/status`)
   .catch(() => {
     // fetch only throws for network errors
-    throw new Error('TapOnTap instance unreachable');
+    throw new Error('NETWORK_ERROR');
   })
   .then((response) => {
     if (response.ok) {
       return response.json();
     }
-    throw new Error('Unable to parse TapOnTap response');
+    throw new Error('BAD_RESPONSE');
   })
-  .then((status) => {
-    console.log(status);
+  .then((status) => { // eslint-disable-line arrow-body-style
     return status.card ? status.card.uid : null;
   });
 }
