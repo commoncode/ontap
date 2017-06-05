@@ -7,16 +7,17 @@
 
 import React from 'react';
 
-import { fetchProfileCheers } from '../../actions/profile';
+import { fetchProfileFull } from '../../actions/profile';
 
 import ProfileSummary from './profile-summary';
 import UserCheers from '../users/user-cheers';
+import UserCards from '../users/user-cards';
 import Loader from '../loader';
 
 
 class ProfileDetail extends React.Component {
   componentWillMount() {
-    fetchProfileCheers();
+    fetchProfileFull();
   }
 
   render() {
@@ -40,7 +41,11 @@ class ProfileDetail extends React.Component {
         <header className="page-header">
           <h1 className="page-title">Your Profile.</h1>
         </header>
-        <ProfileSummary {...props.profile} profile={props.profile} Cheers={[]} />
+        <ProfileSummary {...props.profile} profile={props.profile} />
+
+        {props.profile.Cards && (
+          <UserCards cards={props.profile.Cards} />
+          )}
 
         {props.profile.Cheers && (
           <UserCheers Cheers={props.profile.Cheers} User={props.profile} />

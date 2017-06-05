@@ -1,7 +1,9 @@
 import React from 'react';
+import autobind from 'autobind-decorator';
 
 import * as propTypes from '../../proptypes/';
 
+@autobind
 export default class ProfileMenu extends React.Component {
   static propTypes: propTypes.profile
 
@@ -10,13 +12,17 @@ export default class ProfileMenu extends React.Component {
     this.state = {
       showMenu: false,
     };
-
-    this.toggle = this.toggle.bind(this);
   }
 
   toggle() {
     this.setState({
       showMenu: !this.state.showMenu,
+    });
+  }
+
+  hide() {
+    this.setState({
+      showMenu: false,
     });
   }
 
@@ -35,7 +41,7 @@ export default class ProfileMenu extends React.Component {
               onClick={this.toggle}
             />
             <div className={`profile-menu ${showMenu && 'show'}`}>
-              <a href="/#/profile">My Profile</a>
+              <a href="/#/profile" onClick={this.hide}>My Profile</a>
               <a href="/logout">Sign Out</a>
             </div>
           </div>

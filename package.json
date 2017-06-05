@@ -9,7 +9,8 @@
   "scripts": {
     "build": "pack -r -m --src client/src --main main.js -d client/dist",
     "db-cli": "node server/bin/db",
-    "dev": "nodemon --ignore client -- --inspect server/index",
+    "dev": "nodemon --ignore client server/index",
+    "debug": "nodemon --ignore client -- --inspect server/index",
     "lint": "eslint client/src",
     "start": "node server/index",
     "test": "mocha --reporter dot server/test",

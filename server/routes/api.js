@@ -25,12 +25,14 @@ function validateAuthToken(request) {
 // default attributes to send over the wire
 const userAttributesPublic = ['id', 'name', 'avatar', 'admin'];
 const userAttributesAdmin = [...userAttributesPublic, 'email'];
+const profileAttributes = ['id', 'name', 'avatar', 'admin', 'email'];
 const beerAttributesPublic = ['id', 'name', 'breweryId', 'notes', 'abv', 'ibu', 'variety'];
 const breweryAttributesPublic = ['id', 'name', 'web', 'location', 'description', 'canBuy'];
 const breweryAttributesAdmin = [...breweryAttributesPublic, 'adminNotes'];
 const kegAttributesPublic = ['id', 'tapped', 'untapped', 'notes', 'beerId'];
 const tapAttributesPublic = ['id', 'name', 'kegId'];
 const cheersAttributesPublic = ['id', 'kegId', 'userId', 'timestamp'];
+const cardAttributesPublic = ['id', 'uid', 'userId', 'name', 'createdAt'];
 
 
 // include declarations for returning nested models
@@ -88,6 +90,12 @@ const cheersWithBeerInclude = {
 const tapInclude = {
   model: db.Tap,
   attributes: tapAttributesPublic,
+};
+
+// cards
+const cardsInclude = {
+  model: db.Card,
+  attributes: cardAttributesPublic,
 };
 
 
@@ -505,22 +513,23 @@ function getProfile(req, res) {
   res.send(req.user || {});
 }
 
-// return Cheers for the current user
-function getProfileCheers(req, res) {
+// return full profile data set;
+// includes Cheers, Cards.
+function getProfileFull(req, res) {
   if (!req.user) {
     return res.sendStatus(401);
   }
 
   const userId = req.user.id;
 
-  return db.Cheers.findAll({
-    attributes: cheersAttributesPublic,
-    include: [kegWithBeerInclude],
-    where: {
-      userId,
-    },
+  return db.User.findById(userId, {
+    attributes: profileAttributes,
+    include: [
+      cheersWithBeerInclude,
+      cardsInclude,
+    ],
   })
-  .then(cheers => res.send(cheers))
+  .then(profile => res.send(profile))
   .catch(error => logAndSendError(error, res));
 }
 
@@ -720,6 +729,39 @@ function registerCard(req, res) {
   });
 }
 
+// delete a Card
+function deleteCard(req, res) {
+  const { id } = req.params;
+
+  return db.Card.findById(id)
+  .then((card) => {
+    if (!card) {
+      return res.status(404).send();
+    }
+
+    // must own the card or be an admin
+    if (card.userId !== req.user.id && !req.user.admin) {
+      return res.status(403).send();
+    }
+
+    return db.Card.destroy({
+      where: {
+        id,
+      },
+    })
+    .then(() => res.status(204).send());
+  })
+  .catch(error => logAndSendError(error, res));
+}
+
+// proxy a call to tapontap ping endpoint to make sure we've
+// got network connectivity.
+function pingTapOnTap(req, res) {
+  return tapontap.ping()
+  .then(json => res.send(json))
+  .catch(error => logAndSendError(error, res));
+}
+
 // auth middleware.
 
 // prevent guests from hitting endpoints
@@ -766,11 +808,12 @@ router.use(usersOnly);
 
 router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
-router.get('/profile/cheers', getProfileCheers);
+router.get('/profile/full', getProfileFull);
 router.put('/profile', updateProfile);
 router.delete('/profile', deleteProfile);
 router.get('/cards/register', getCardUid);
 router.post('/cards/register', registerCard);
+router.delete('/cards/:id', deleteCard);
 
 // admins only for all endpoints below this middleware
 router.use(adminsOnly);
@@ -790,5 +833,6 @@ router.delete('/breweries/:id', deleteBrewery);
 router.post('/breweries', createBrewery);
 router.get('/touches', getAllTouches);
 router.get('/cards', getAllCards);
+router.get('/pingtapontap', pingTapOnTap);
 
 module.exports = router;
