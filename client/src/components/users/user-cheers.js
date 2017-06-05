@@ -10,6 +10,8 @@ export const UserCheersItem = (props) => {
   const { Beer } = Keg;
   const { Brewery } = Beer;
 
+  const timestamp = moment(props.timestamp);
+
   return (
     <div className="list-item">
       <span className="column">
@@ -18,8 +20,7 @@ export const UserCheersItem = (props) => {
         <a href={`/#/breweries/${Brewery.id}`}>{Brewery.name}</a>
       </span>
       <span className="column end">
-        {moment(props.timestamp).format('h:mma')}
-        {` on ${moment(props.timestamp).format('MMMM Do, YYYY')}`}
+        {timestamp.fromNow()}
       </span>
     </div>
   );
