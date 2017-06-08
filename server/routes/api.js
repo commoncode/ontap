@@ -19,7 +19,7 @@ const { AUTH_TOKEN } = process.env;
 // validate that we were sent the correct auth token
 // currently we just load it from an env var
 function validateAuthToken(request) {
-  return request.get('authorization') === `Bearer: ${AUTH_TOKEN}`;
+  return request.get('authorization') === `Bearer ${AUTH_TOKEN}`;
 }
 
 // default attributes to send over the wire

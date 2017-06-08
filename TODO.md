@@ -21,7 +21,7 @@
 - ladda
   - also a component for the button + confirm UI pattern
 - Link to the Keg Detail from the Keg List view?
-  - UI needs to be more helpful distinguishing/explaining Kegs vs Beers
+- UI needs to be more helpful distinguishing/explaining Kegs vs Beers
 - Searchable ModelSelect
 - Inline 'Add Brewery' from the Add Beer view
 - Brewery list should be searchable
