@@ -15,7 +15,7 @@ import BrewerySelect from '../breweries/brewery-select';
 
 const defaultValues = {
   name: '',
-  breweryId: null,
+  breweryId: -1,
   variety: '',
   abv: '',
   ibu: '',

@@ -11,7 +11,7 @@ import { fetchBreweries } from '../../actions/breweries';
 
 import ModelSelect from '../generic/model-select';
 
-class BeerSelectContainer extends React.Component {
+class BrewerySelectContainer extends React.Component {
   static getStores() {
     return [brewerySelectStore];
   }
@@ -29,4 +29,4 @@ class BeerSelectContainer extends React.Component {
   }
 }
 
-export default Container.create(BeerSelectContainer, { withProps: true });
+export default Container.create(BrewerySelectContainer, { withProps: true });
