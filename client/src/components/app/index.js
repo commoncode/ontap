@@ -40,6 +40,12 @@ class AppComponent extends React.Component {
     });
   }
 
+  hideMenu() {
+    this.setState({
+      showMenu: false,
+    });
+  }
+
   render() {
     const { props } = this;
     const isAdmin = props.profile && props.profile.data.admin;
@@ -66,7 +72,7 @@ class AppComponent extends React.Component {
             >&#9776;</button>
           </div>
         </header>
-        <nav className={menuClassName} onClick={this.toggleMenu}>
+        <nav className={menuClassName} onClick={this.hideMenu}>
           {(!props.profile.data || !props.profile.data.id)  && (<a href="/login" className="app-nav-login">Login with Google</a>)}
           <a href="/#/">Now On Tap</a>
           <a href="/#/beers">Beers</a>

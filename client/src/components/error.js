@@ -4,8 +4,9 @@
  */
 
 import React from 'react';
+import propTypes from 'prop-types';
 
-export default (props) => {
+const Error = (props) => {
   if (!props) return null;
 
   return (
@@ -14,3 +15,9 @@ export default (props) => {
     </div>
   );
 };
+
+Error.propTypes = {
+  message: propTypes.string,
+};
+
+export default Error;

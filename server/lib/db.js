@@ -64,6 +64,15 @@ db.Beer.belongsTo(db.Brewery, {
   foreignKey: 'breweryId',
 });
 
+// A Card has a User
+db.User.hasMany(db.Card, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE', // delete user => delete cards
+});
+db.Card.belongsTo(db.User, {
+  foreignKey: 'userId',
+});
+
 // A Beer is added by a User
 db.User.hasOne(db.Beer, {
   foreignKey: 'addedBy',
@@ -91,5 +100,25 @@ db.User.hasMany(db.Cheers, {
 db.Cheers.belongsTo(db.User, {
   foreignKey: 'userId',
 });
+
+
+// Touches have Card, Cheers and Keg.
+// Note constraints: false means they're not FKs in the schema,
+// Sequelize just lets us act like they are.
+db.Touch.belongsTo(db.Cheers, {
+  foreignKey: 'cheersId',
+  constraints: false,
+});
+
+db.Touch.belongsTo(db.Keg, {
+  foreignKey: 'kegId',
+  constraints: false,
+});
+
+db.Touch.belongsTo(db.Card, {
+  foreignKey: 'cardId',
+  constraints: false,
+});
+
 
 module.exports = db;

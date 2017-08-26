@@ -71,6 +71,13 @@ export const tapModel = {
   Keg: propTypes.shape(kegModel),
 };
 
+export const cardModel = {
+  id: propTypes.number,
+  uid: propTypes.string,
+  userId: propTypes.number,
+  name: propTypes.string,
+};
+
 // notification
 export const notificationModel = propTypes.shape({
   message: propTypes.string,

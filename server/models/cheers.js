@@ -35,4 +35,10 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Cheers', {
     allowNull: false,
     defaultValue: DataTypes.NOW,
   },
+}, {
+  // Sequelize gets a bit confused without this...
+  name: {
+    singular: 'Cheers',
+    plural: 'Cheers',
+  },
 });

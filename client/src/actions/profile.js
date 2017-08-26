@@ -24,19 +24,20 @@ export function fetchProfile() {
   }));
 }
 
-// fetch the Cheers for our profile.
-export function fetchProfileCheers() {
+// fetch the extra data for the profile view;
+// Cheers, Cards.
+export function fetchProfileFull() {
   dispatcher.dispatch({
-    type: 'REQUEST_FETCH_PROFILE_CHEERS',
+    type: 'REQUEST_FETCH_PROFILE_FULL',
   });
 
-  return fetcher('/api/v1/profile/cheers')
+  return fetcher('/api/v1/profile/full')
   .then(data => dispatcher.dispatch({
-    type: 'RECEIVE_FETCH_PROFILE_CHEERS',
+    type: 'RECEIVE_FETCH_PROFILE_FULL',
     data,
   }))
   .catch(error => dispatcher.dispatch({
-    type: 'RECEIVE_FETCH_PROFILE_CHEERS',
+    type: 'RECEIVE_FETCH_PROFILE_FULL',
     error,
   }));
 }

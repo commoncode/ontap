@@ -39,7 +39,7 @@ class ProfileStore extends ReduceStore {
           error: error || null,
         };
 
-      case 'RECEIVE_FETCH_PROFILE_CHEERS':
+      case 'RECEIVE_FETCH_PROFILE_FULL':
         if (error) {
           return {
             fetching: state.fetching,
@@ -50,9 +50,7 @@ class ProfileStore extends ReduceStore {
 
         return {
           fetching: state.fetching,
-          data: Object.assign({}, state.data, {
-            Cheers: data,
-          }),
+          data,
           error: null,
         };
 
@@ -70,7 +68,20 @@ class ProfileStore extends ReduceStore {
         return {
           fetching: false,
           error: null,
-          data: Object.assign({}, state.data, data),
+          data: {
+            ...state.data,
+            ...data,
+          },
+        };
+
+      case 'RECEIVE_DELETE_CARD':
+        // remove the deleted card
+        return {
+          data: error ? state.data : {
+            ...state.data,
+            Cards: (state.data.Cards || []).filter(card => card.id !== action.id),
+          },
+          error: error || null,
         };
 
       default:

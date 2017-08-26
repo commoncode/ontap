@@ -1,14 +1,27 @@
 # todo
 
+## TapOnTap integration
+
+- Remove the extra button press in the registration flow
+- Delete Cheers
+- Cleanup classname inconsistency in the CardRegister steps components
+
+
+
 
 ## bugs, issues
 
 - there's no 404 page
+- probably need to ping the /whoami endpoint every x minutes to ensure you're still logged in
+  - currently cached in the store forever, even after your session dies.
 
 ## new features, improvements
 
+- Redirect to last URL on login
+- ladda
+  - also a component for the button + confirm UI pattern
 - Link to the Keg Detail from the Keg List view?
-  - UI needs to be more helpful distinguishing/explaining Kegs vs Beers
+- UI needs to be more helpful distinguishing/explaining Kegs vs Beers
 - Searchable ModelSelect
 - Inline 'Add Brewery' from the Add Beer view
 - Brewery list should be searchable

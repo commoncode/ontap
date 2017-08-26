@@ -5,10 +5,12 @@ import moment from 'moment';
 import * as propTypes from '../../proptypes';
 
 
-const UserCheersItem = (props) => {
+export const UserCheersItem = (props) => {
   const { Keg } = props;
   const { Beer } = Keg;
   const { Brewery } = Beer;
+
+  const timestamp = moment(props.timestamp);
 
   return (
     <div className="list-item">
@@ -18,8 +20,7 @@ const UserCheersItem = (props) => {
         <a href={`/#/breweries/${Brewery.id}`}>{Brewery.name}</a>
       </span>
       <span className="column end">
-        {moment(props.timestamp).format('h:mma')}
-        {` on ${moment(props.timestamp).format('MMMM Do, YYYY')}`}
+        {timestamp.fromNow()}
       </span>
     </div>
   );
@@ -35,14 +36,17 @@ const UserCheers = (props) => {
   return (
     <div className="user-cheers">
       {props.Cheers.length ? (
-        <div>
+        <div className="some-cheers">
           <h3 className="list-title">{firstName} has Cheers'd {uniqueCheersCount} beer{uniqueCheersCount !== 1 && 's'} {props.Cheers.length} time{props.Cheers.length !== 1 && 's'}.</h3>
           <div className="cheers-list single-line-list">
             {props.Cheers.map(cheers => <UserCheersItem {...cheers} key={cheers.id} />)}
           </div>
         </div>
       ) : (
-        <p className="no-cheers">{firstName} hasn't Cheers'd any beers. Better pour them a pint.</p>
+        <div className="no-cheers">
+          <h3 className="list-title">{firstName} hasn't Cheers'd any beers.</h3>
+          <p>Maybe you should pour them a pint.</p>
+        </div>
       )}
     </div>
   );

@@ -8,8 +8,9 @@
 
 
 // colour scheme
-$darkBlue: #638BBF;
+$lighterBlue: #b9d9e6;
 $lightBlue: #89BAD9;
+$darkBlue: #638BBF;
 $darkerBlue: #436B9F;
 $offGrey: #EEEEEE;
 $offWhite: #F2F2F2;
@@ -17,6 +18,7 @@ $nearlyWhite: #FAFAFA;
 $brown: #59596E;
 $khaki: #6D7340;
 $highlight: orange;
+$warning: #C00;
 
 @import '~normalize.css/normalize.css';
 
@@ -496,7 +498,7 @@ icon.icon-canbuy {
   border-radius: 2px;
   font-size: 16px;
 
-  .list-item {
+  .list-item, .list-header {
     background: #f2f2f2;
 
     &:nth-child(even){
@@ -521,6 +523,13 @@ icon.icon-canbuy {
         justify-content: flex-end;
       }
     }
+  }
+
+  .list-header {
+    background: $lighterBlue;
+    font-weight: 600;
+    color: $darkerBlue;
+    border-bottom: 1px solid $darkBlue;
   }
 }
 
@@ -652,6 +661,7 @@ icon.icon-canbuy {
   font-weight: 400;
   color: $lightBlue;
   font-size: 1rem;
+  text-align: center;
 
   cursor: pointer;
   padding: 0.5em 1em;
@@ -662,15 +672,19 @@ icon.icon-canbuy {
     text-decoration: inherit;
   }
 
-  //
+  // alternate button
   &.alt {
     background: $lightBlue;
     color: white;
-    border: 1px solid $darkerBlue;
 
     &:hover {
       background: $darkBlue;
     }
+  }
+
+  &.small {
+    padding: 0.25em 0.5em;
+    font-size: inherit;
   }
 
   + .btn {
@@ -679,6 +693,9 @@ icon.icon-canbuy {
 }
 
 
+.ladda-button {
+  @extend .btn;
+}
 
 
 // button groups
@@ -793,7 +810,7 @@ icon.icon-canbuy {
   header {
     display: flex;
     align-items: center;
-    margin: 0 0 2em;
+    margin: 0 0 3em;
 
     .username {
       order: 1;
@@ -827,6 +844,10 @@ icon.icon-canbuy {
 .user-detail {
   .no-cheers {
     font-size: 1rem;
+  }
+
+  .user-cards {
+    margin: 0 0 3em;
   }
 }
 
@@ -1069,6 +1090,10 @@ icon.icon-canbuy {
   }
 }
 
+.error {
+  color: $warning;
+}
+
 
 // tap views
 .tap {
@@ -1106,6 +1131,51 @@ icon.icon-canbuy {
 }
 
 
+.card-register {
+  p {
+    color: $darkBlue;
+    font-size: 1.2rem;
+    margin: 0 0 1em;
+
+    &.important {
+      font-weight: 600;
+      color: $darkerBlue;
+    }
+
+  }
+
+  .error {
+    margin: 1em 0;
+
+    p {
+      font-weight: 400;
+      color: $warning;
+    }
+
+    p + p {
+      margin: 0 0 1em;
+    }
+
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    color: $darkerBlue;
+    margin: 0 0 1em;
+  }
+
+  .no-cheers, .found-cheers {
+    margin: 2em 0 0;
+  }
+
+  .icon.emoji-beers {
+    vertical-align: bottom;
+    margin-left: 8px;
+    width: 44px;
+    height: 44px;
+  }
+
+}
 
 // responsive styles for mobile
 $mobilePadding: 12px;
@@ -1275,7 +1345,10 @@ $mobilePadding: 12px;
       }
     }
 
-
+    .list-header {
+      // hide this?
+      display: none;
+    }
   }
 
   // tighten everything up a bit
@@ -1347,6 +1420,15 @@ $mobilePadding: 12px;
       .ibu {
         display: none;
       }
+    }
+  }
+
+  .card-register {
+    .btn {
+      width: 100%;
+      font-size: 1.2rem;
+      display: block;
+      margin: 0 0 0.5em;
     }
   }
 

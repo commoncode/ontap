@@ -8,24 +8,34 @@ const _ = require('lodash');
 
 const db = require('lib/db');
 const log = require('lib/logger');
+const touchlib = require('lib/touches');
+const tapontap = require('lib/tapontap');
 
 const router = new Router();
 router.use(bodyParser.json());
 
+const { AUTH_TOKEN } = process.env;
+
+// validate that we were sent the correct auth token
+// currently we just load it from an env var
+function validateAuthToken(request) {
+  return request.get('authorization') === `Bearer ${AUTH_TOKEN}`;
+}
 
 // default attributes to send over the wire
 const userAttributesPublic = ['id', 'name', 'avatar', 'admin'];
 const userAttributesAdmin = [...userAttributesPublic, 'email'];
+const profileAttributes = ['id', 'name', 'avatar', 'admin', 'email'];
 const beerAttributesPublic = ['id', 'name', 'breweryId', 'notes', 'abv', 'ibu', 'variety'];
 const breweryAttributesPublic = ['id', 'name', 'web', 'location', 'description', 'canBuy'];
 const breweryAttributesAdmin = [...breweryAttributesPublic, 'adminNotes'];
 const kegAttributesPublic = ['id', 'tapped', 'untapped', 'notes', 'beerId'];
 const tapAttributesPublic = ['id', 'name', 'kegId'];
 const cheersAttributesPublic = ['id', 'kegId', 'userId', 'timestamp'];
+const cardAttributesPublic = ['id', 'uid', 'userId', 'name', 'createdAt'];
 
 
 // include declarations for returning nested models
-
 
 const breweryInclude = {
   model: db.Brewery,
@@ -82,6 +92,12 @@ const tapInclude = {
   attributes: tapAttributesPublic,
 };
 
+// cards
+const cardsInclude = {
+  model: db.Card,
+  attributes: cardAttributesPublic,
+};
+
 
 // log an error and send it to the client.
 // todo - strip info out of the errors to
@@ -91,6 +107,11 @@ function logAndSendError(err, res) {
   return res.status(500).send(err);
 }
 
+
+// ping, does nothing.
+function ping(req, res) {
+  return res.status(200).send({ ping: 'pong' });
+}
 
 // maybe consider moving these to submodules
 // if we end up with too many of them...
@@ -492,22 +513,23 @@ function getProfile(req, res) {
   res.send(req.user || {});
 }
 
-// return Cheers for the current user
-function getProfileCheers(req, res) {
+// return full profile data set;
+// includes Cheers, Cards.
+function getProfileFull(req, res) {
   if (!req.user) {
     return res.sendStatus(401);
   }
 
   const userId = req.user.id;
 
-  return db.Cheers.findAll({
-    attributes: cheersAttributesPublic,
-    include: [kegWithBeerInclude],
-    where: {
-      userId,
-    },
+  return db.User.findById(userId, {
+    attributes: profileAttributes,
+    include: [
+      cheersWithBeerInclude,
+      cardsInclude,
+    ],
   })
-  .then(cheers => res.send(cheers))
+  .then(profile => res.send(profile))
   .catch(error => logAndSendError(error, res));
 }
 
@@ -612,6 +634,133 @@ function createBrewery(req, res) {
   });
 }
 
+// receives an array of Touches from a TapOnTap instance
+function receiveTouches(req, res) {
+  // need a valid auth token to proceed
+  if (!validateAuthToken(req)) {
+    return res.status(401).send();
+  }
+
+  const touches = req.body;
+  log.info(`received ${touches.length} ${touches.length === 1 ? 'touch' : 'touches'} from TapOnTap instance`);
+
+  return touchlib.createTouches(touches)
+  .then(() => res.status(200).send({ success: true }))
+  .catch(error => logAndSendError(error, res));
+}
+
+function getAllTouches(req, res) {
+  db.Touch.findAll()
+  .then(touches => res.send(touches))
+  .catch(error => logAndSendError(error, res));
+}
+
+function getAllCards(req, res) {
+  db.Card.findAll({
+    include: userInclude,
+  })
+  .then(cards => res.send(cards))
+  .catch(error => logAndSendError(error, res));
+}
+
+// fetch the uid of the card currently tapped onto the
+// reader of our TapOnTap instance
+function getCardUid(req, res) {
+  tapontap.getCurrentCard()
+  .then(cardUid => res.send({ cardUid }))
+  .catch((error) => {
+    log.error('getCardUid()', error);
+    switch (error.message) {
+      case 'NETWORK_ERROR':
+        res.status(504);
+        break;
+      case 'BAD_RESPONSE':
+        res.status(502);
+        break;
+      default:
+        res.status(500);
+        break;
+    }
+    res.send({ error: error.message });
+  });
+}
+
+// register a Card to a User
+function registerCard(req, res) {
+  const { uid } = req.body;
+  if (!uid) return res.status(400).send({ error: 'uid required' });
+
+  const name = req.body.name || 'NFC Token';
+  const userId = req.user.id;
+
+  return db.Card.create({
+    uid,
+    userId,
+    name,
+  })
+  .then(card =>
+    // Card's been registered. Try to reconcile any Touches
+    // made with it and return their corresponding Cheers.
+    touchlib.getUnreconciledTouches(uid)
+    .then(touches => touchlib.reconcileTouches(touches))
+    .then((reconciledTouches) => {
+      const cheersIds = reconciledTouches.map(touch => touch.cheersId);
+      return db.Cheers.findAll({
+        where: {
+          id: {
+            $in: cheersIds,
+          },
+        },
+        attributes: cheersAttributesPublic,
+        include: [kegWithBeerInclude],
+      });
+    }).then(cheers => res.status(201).send({
+      card,
+      cheers,
+    }))
+  )
+  .catch((error) => {
+    // explicitly handle a conflicting uid
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      res.status(409).send({ error: 'CARD_EXISTS' });
+    } else {
+      logAndSendError(error, res);
+    }
+  });
+}
+
+// delete a Card
+function deleteCard(req, res) {
+  const { id } = req.params;
+
+  return db.Card.findById(id)
+  .then((card) => {
+    if (!card) {
+      return res.status(404).send();
+    }
+
+    // must own the card or be an admin
+    if (card.userId !== req.user.id && !req.user.admin) {
+      return res.status(403).send();
+    }
+
+    return db.Card.destroy({
+      where: {
+        id,
+      },
+    })
+    .then(() => res.status(204).send());
+  })
+  .catch(error => logAndSendError(error, res));
+}
+
+// proxy a call to tapontap ping endpoint to make sure we've
+// got network connectivity.
+function pingTapOnTap(req, res) {
+  return tapontap.ping()
+  .then(json => res.send(json))
+  .catch(error => logAndSendError(error, res));
+}
 
 // auth middleware.
 
@@ -638,7 +787,7 @@ function simulateCommonCodeInternet(req, res, next) {
 }
 router.use(simulateCommonCodeInternet);
 
-
+router.get('/ping', ping);
 router.get('/ontap', getOnTap);
 router.get('/kegs', getAllKegs);
 router.get('/kegs/new', getNewKegs); // todo - is this a bad url pattern?
@@ -652,17 +801,19 @@ router.get('/beers/:id', getBeerById);
 router.get('/profile', getProfile);
 router.get('/breweries', getAllBreweries);
 router.get('/breweries/:id', getBreweryById);
-
+router.post('/touches', receiveTouches);
 
 // guests can't use endpoints below this middleware
 router.use(usersOnly);
 
 router.post('/kegs/:id/cheers', cheersKeg);
 router.post('/beers', createBeer);
-router.get('/profile/cheers', getProfileCheers);
+router.get('/profile/full', getProfileFull);
 router.put('/profile', updateProfile);
 router.delete('/profile', deleteProfile);
-
+router.get('/cards/register', getCardUid);
+router.post('/cards/register', registerCard);
+router.delete('/cards/:id', deleteCard);
 
 // admins only for all endpoints below this middleware
 router.use(adminsOnly);
@@ -680,5 +831,8 @@ router.delete('/users/:id', deleteUser);
 router.put('/breweries/:id', updateBrewery);
 router.delete('/breweries/:id', deleteBrewery);
 router.post('/breweries', createBrewery);
+router.get('/touches', getAllTouches);
+router.get('/cards', getAllCards);
+router.get('/pingtapontap', pingTapOnTap);
 
 module.exports = router;

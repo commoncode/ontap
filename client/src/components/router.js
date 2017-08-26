@@ -21,6 +21,7 @@ import BeerDetail from './beers/beer-detail';
 import BreweryList from './breweries/brewery-list';
 import BreweryDetail from './breweries/brewery-detail';
 import BreweryAdd from './breweries/brewery-add';
+import CardRegister from './cards/card-register';
 
 
 // define your routes.
@@ -112,7 +113,7 @@ const routes = {
   },
   '/breweries/add': {
     component: BreweryAdd,
-    props: (props, params) => ({
+    props: props => ({
       profile: props.profile.data,
     }),
   },
@@ -126,6 +127,12 @@ const routes = {
   },
   '/breweries': {
     component: BreweryList,
+    props: props => ({
+      profile: props.profile.data,
+    }),
+  },
+  '/tapon': {
+    component: CardRegister,
     props: props => ({
       profile: props.profile.data,
     }),
