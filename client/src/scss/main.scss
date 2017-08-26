@@ -941,6 +941,10 @@ icon.icon-canbuy {
     // display: inline-block;
     width: auto;
     margin: 0 1em 1.5em 0;
+
+    &:checked {
+      background: $darkBlue;
+    }
   }
 
   .edit-form__delete {

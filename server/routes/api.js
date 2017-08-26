@@ -276,8 +276,8 @@ function createBeer(req, res) {
   }))
   .then(beer => res.send(beer))
   .catch((err) => {
-    // sequelize validation error
-    if (err.name && err.name === 'SequelizeValidationError') {
+    // validation or FK constraint errors, 400
+    if (err.name && ['SequelizeValidationError', 'SequelizeForeignKeyConstraintError'].includes(err.name)) {
       return res.status(400).send(err);
     }
 

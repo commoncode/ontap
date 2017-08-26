@@ -8,6 +8,7 @@ require('app-module-path').addPath(__dirname);
 
 
 // deps
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const http = require('http');
@@ -67,13 +68,26 @@ app.use((req, res, next) => {
 });
 
 
-// routes
+// routes...
+
+// client app jump off, index.html
+app.get('/', (req, res) => {
+  res.sendFile('client/dist/index.html', {
+    root: path.join(__dirname, '../'),
+  }, (error) => {
+    if (error) {
+      logger.error(error);
+      res.status(500).send('Can\'t sendFile client/dist/index.html, did you build the client app?');
+    }
+  });
+});
+// all other client app assets
 app.use('/assets', express.static('client/dist'));
-app.use(express.static('client/dist'));
 app.use('/api/v1/', apiRouter);
 app.use(passportRouter);
 // todo - this one's just for the favicon, figure out how to push it into the webpack workflow
 app.use('/public', express.static('public'));
+
 
 // listen up
 const server = http.Server(app); // eslint-disable-line new-cap
